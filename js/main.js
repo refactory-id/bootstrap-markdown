@@ -6,6 +6,10 @@ $(function(){
 				'class':'prettyprint'
 			})
 
+		$.each($('.md-editor'),function(k,v){
+			$(v).data('blur')()
+		})
+
 		$.each(form.serializeArray(),function(k,v){
 			formResult.push(v.name+' => '+v.value)
 		})
@@ -15,4 +19,6 @@ $(function(){
 
 		return false
 	})
+
+	console.log(marked('<p>Foo is bar</p>'));
 })

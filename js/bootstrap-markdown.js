@@ -47,122 +47,7 @@
 
     constructor: Markdown
 
-  , showEditor: function() {
-      var textarea, 
-          ns = this.$ns,
-          container = this.$element,
-          editable = this.$editable,
-          handler = this.$handler,
-          callback = this.$callback,
-          options = this.$options,
-          editor = $( '<div/>', {
-                      'class': 'md-editor',
-                      click: function() {
-                        $( this ).toggleClass( "test" );
-                      }
-                    })
-
-      // Prepare the editor
-      if (this.$editor == null) {
-        // Create the panel
-        var editorHeader = $('<div/>', {
-                            'class': 'md-header'
-                            })
-
-        // Build the main buttons
-        if (options.buttons.length > 0) {
-          editorHeader = this.buildButtons(options.buttons, editorHeader)
-        }
-
-        // Build the additional buttons
-        if (options.additionalButtons.length > 0) {
-          editorHeader = this.buildButtons(options.additionalButtons, editorHeader)
-        }
-
-        editor.append(editorHeader)
-
-        // Wrap the textarea
-        if (container.is('textarea')) {
-          container.before(editor)
-          textarea = container
-          textarea.addClass('md-input')
-          editor.append(textarea)
-        } else {
-          // This is some arbitrary content that could be edited
-          textarea = $('<textarea/>', {
-                       'class': 'md-input',
-                       'val' : container.html()
-                      })
-
-          editor.append(textarea)
-
-          // Save the editable
-          editable.el = container
-          editable.type = container.prop('tagName').toLowerCase()
-          editable.content = container.html()
-
-          $(container[0].attributes).each(function(){
-            editable.attrKeys.push(this.nodeName)
-            editable.attrValues.push(this.nodeValue)
-          })
-
-          // Set editor to blocked the original container
-          container.replaceWith(editor)
-        }
-
-        textarea
-          .on('focus',    $.proxy(this.focus, this))
-          .on('keypress', $.proxy(this.keypress, this))
-          .on('keyup',    $.proxy(this.keyup, this))
-
-        if (this.eventSupported('keydown')) {
-          textarea.on('keydown', $.proxy(this.keydown, this))
-        }
-
-
-        // Create the footer if savable
-        if (options.savable) {
-          var editorFooter = $('<div/>', {
-                           'class': 'md-footer'
-                         }),
-              saveHandler = 'cmdSave'
-
-          // Register handler and callback
-          handler.push(saveHandler)
-          callback.push(options.onSave)
-
-          editorFooter.append('<button class="btn btn-success" data-provider="'
-                              +ns
-                              +'" data-handler="'
-                              +saveHandler
-                              +'"><i class="icon icon-ok"></i> Save</button>')
-
-          editor.append(editorFooter)
-        }
-
-        // Reference
-        this.$editor     = editor
-        this.$textarea   = textarea
-        this.$editable   = editable
-        this.$oldContent = this.getContent()
-
-        // Set editor attributes, data short-hand API and listener
-        this.$editor.attr('id',(new Date).getTime())
-        this.$editor.data('blur', $.proxy(this.blur, this))
-        this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.handle, this))
-
-      } else {
-        this.$editor.show()
-      }
-
-      this.$textarea.focus()
-      this.$editor.addClass('active')
-
-      // Trigger the onShow hook
-      options.onShow(this)
-    }
-
-  , buildButtons: function(buttonsArray, container) {
+  , __buildButtons: function(buttonsArray, container) {
       var i,
           ns = this.$ns,
           handler = this.$handler,
@@ -213,20 +98,221 @@
       return container
     }
 
+  , showEditor: function() {
+      var textarea, 
+          ns = this.$ns,
+          container = this.$element,
+          editable = this.$editable,
+          handler = this.$handler,
+          callback = this.$callback,
+          options = this.$options,
+          editor = $( '<div/>', {
+                      'class': 'md-editor',
+                      click: function() {
+                        $( this ).toggleClass( "test" );
+                      }
+                    })
+
+      // Prepare the editor
+      if (this.$editor == null) {
+        // Create the panel
+        var editorHeader = $('<div/>', {
+                            'class': 'md-header'
+                            })
+
+        // Build the main buttons
+        if (options.buttons.length > 0) {
+          editorHeader = this.__buildButtons(options.buttons, editorHeader)
+        }
+
+        // Build the additional buttons
+        if (options.additionalButtons.length > 0) {
+          editorHeader = this.__buildButtons(options.additionalButtons, editorHeader)
+        }
+
+        editor.append(editorHeader)
+
+        // Wrap the textarea
+        if (container.is('textarea')) {
+          container.before(editor)
+          textarea = container
+          textarea.addClass('md-input')
+          editor.append(textarea)
+        } else {
+          var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
+              currentContent = $.trim(rawContent)
+
+          // This is some arbitrary content that could be edited
+          textarea = $('<textarea/>', {
+                       'class': 'md-input',
+                       'val' : currentContent
+                      })
+
+          editor.append(textarea)
+
+          // Save the editable
+          editable.el = container
+          editable.type = container.prop('tagName').toLowerCase()
+          editable.content = container.html()
+          console.log(typeof toMarkdown == 'function',editable.content)
+
+          $(container[0].attributes).each(function(){
+            editable.attrKeys.push(this.nodeName)
+            editable.attrValues.push(this.nodeValue)
+          })
+
+          // Set editor to blocked the original container
+          container.replaceWith(editor)
+        }
+
+        textarea
+          .on('focus',    $.proxy(this.focus, this))
+          .on('keypress', $.proxy(this.keypress, this))
+          .on('keyup',    $.proxy(this.keyup, this))
+
+        if (this.eventSupported('keydown')) {
+          textarea.on('keydown', $.proxy(this.keydown, this))
+        }
+
+
+        // Create the footer if savable
+        if (options.savable) {
+          var editorFooter = $('<div/>', {
+                           'class': 'md-footer'
+                         }),
+              saveHandler = 'cmdSave'
+
+          // Register handler and callback
+          handler.push(saveHandler)
+          callback.push(options.onSave)
+
+          editorFooter.append('<button class="btn btn-success" data-provider="'
+                              +ns
+                              +'" data-handler="'
+                              +saveHandler
+                              +'"><i class="icon icon-white icon-ok"></i> Save</button>')
+
+          editor.append(editorFooter)
+        }
+
+        // Reference
+        this.$editor     = editor
+        this.$textarea   = textarea
+        this.$editable   = editable
+        this.$oldContent = this.getContent()
+
+        // Set editor attributes, data short-hand API and listener
+        this.$editor.attr('id',(new Date).getTime())
+        this.$editor.data('blur', $.proxy(this.blur, this))
+        this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this))
+
+      } else {
+        this.$editor.show()
+      }
+
+      this.$textarea.focus()
+      this.$editor.addClass('active')
+
+      // Trigger the onShow hook
+      options.onShow(this)
+
+      return this
+    }
+
+  , __handle: function(e) {
+      var target = $(e.currentTarget),
+          handler = this.$handler,
+          callback = this.$callback,
+          handlerName = target.attr('data-handler'),
+          callbackIndex = handler.indexOf(handlerName),
+          callbackHandler = callback[callbackIndex]
+
+      // Trigger the focusin
+      $(e.currentTarget).focus()
+
+      callbackHandler(this)
+
+      // Unless it was the save handler,
+      // focusin the textarea
+      if (handlerName.indexOf('cmdSave') < 0) {
+        this.$textarea.focus()
+      }
+
+      e.preventDefault()
+    }
+
+  , showPreview: function() {
+      // Give flag that tell the editor enter preview mode
+      this.$isPreview = true
+      // Disable all buttons
+      this.disableButtons('all').enableButtons('cmdPreview')
+
+      // Clone the current editor
+      var container = this.$textarea,
+          replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'}),
+          cloneEditor = this.$cloneEditor,
+          content
+
+      // Save the editor
+      cloneEditor.el = container
+      cloneEditor.type = container.prop('tagName').toLowerCase()
+      cloneEditor.content = container.val()
+
+      $(container[0].attributes).each(function(){
+        cloneEditor.attrKeys.push(this.nodeName)
+        cloneEditor.attrValues.push(this.nodeValue)
+      })
+
+      this.$cloneEditor = cloneEditor
+
+      // Set the content
+      content = (typeof markdown == 'object') ? markdown.toHTML(container.val()) : container.val()
+
+      // Build preview element and replace the editor temporarily
+      replacementContainer.html(content)
+      container.replaceWith(replacementContainer)
+
+      return this
+    }
+
+  , hidePreview: function() {
+      // Give flag that tell the editor quit preview mode
+      this.$isPreview = false
+
+      // Build the original element
+      var container = this.$editor.find('div[data-provider="markdown-preview"]'),
+          cloneEditor = this.$cloneEditor,
+          oldElement = $('<'+cloneEditor.type+'/>')
+
+      $(cloneEditor.attrKeys).each(function(k,v) {
+        oldElement.attr(cloneEditor.attrKeys[k],cloneEditor.attrValues[k])
+      })
+
+      // Set the editor content
+      oldElement.val(cloneEditor.content)
+      container.replaceWith(oldElement)
+
+      // Enable all buttons
+      this.enableButtons('all')
+
+      // Back to the editor
+      this.$textarea = oldElement
+
+      return this
+    }
+
   , isDirty: function() {
       return this.$oldContent != this.getContent()
     }
 
   , getContent: function() {
-      var textarea = this.$textarea
-
-      return textarea.val()
+      return (this.$isPreview) ? this.$cloneEditor.content : this.$textarea.val()
     }
 
   , setContent: function(content) {
-      var textarea = this.$textarea
+      this.$textarea.val(content)
 
-      return textarea.val(content)
+      return this
     }
 
   , findSelection: function(chunk) {
@@ -383,28 +469,6 @@
       return this
     }
 
-  , handle: function(e) {
-      var target = $(e.currentTarget),
-          handler = this.$handler,
-          callback = this.$callback,
-          handlerName = target.attr('data-handler'),
-          callbackIndex = handler.indexOf(handlerName),
-          callbackHandler = callback[callbackIndex]
-
-      // Trigger the focusin
-      $(e.currentTarget).focus()
-
-      callbackHandler(this)
-
-      // Unless it was the save handler,
-      // focusin the textarea
-      if (handlerName.indexOf('cmdSave') < 0) {
-        this.$textarea.focus()
-      }
-
-      e.preventDefault()
-    }
-
   , eventSupported: function(eventName) {
       var isSupported = eventName in this.$element
       if (!isSupported) {
@@ -441,7 +505,7 @@
             var that = this
             setTimeout(function(){
               that.setSelection(nextTab.start,nextTab.end)
-            },200)
+            },500)
           } else {
             // Put the cursor to the end
             this.setSelection(this.getContent().length,this.getContent().length)
@@ -479,6 +543,8 @@
           md.blur()
         }
       })
+
+      return this
     }
 
   , blur: function (e) {
@@ -489,28 +555,37 @@
 
       editor.removeClass('active')
 
+      // Force to quit preview mode
+      if (this.$isPreview) {
+        this.hidePreview()
+      }
+
       if (isHideable && typeof editor != "undefined") {
         // Check for editable elements
         if (editable.el != null) {
           // Build the original element
-          var oldElement = $('<'+editable.type+'/>')
+          var oldElement = $('<'+editable.type+'/>'),
+              content = this.getContent(),
+              currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content 
 
           $(editable.attrKeys).each(function(k,v) {
             oldElement.attr(editable.attrKeys[k],editable.attrValues[k])
           })
 
           // Get the editor content
-          oldElement.html(this.getContent())
+          oldElement.html(currentContent)
 
           editor.replaceWith(oldElement)
         } else {
           editor.hide()
           
         }
-
-        // Trigger the onBlur hook
-        options.onBlur(this)
       }
+
+      // Trigger the onBlur hook
+      options.onBlur(this)
+
+      return this
     }
 
   }
@@ -619,9 +694,9 @@
               e.setSelection(selected.start-pointer,selected.end)
               e.replaceSelection(chunk)
               cursor = selected.start-pointer
-            } else if (prevChar = content.substr(selected.start-2,2), !!prevChar && prevChar != '\n') {
-              e.replaceSelection('\n### '+chunk+'\n')
-              cursor = selected.start+5
+            } else if (prevChar = content.substr(selected.start-1,1), !!prevChar && prevChar != '\n') {
+              e.replaceSelection('\n\n### '+chunk+'\n')
+              cursor = selected.start+6
             } else {
               // Empty string before element
               e.replaceSelection('### '+chunk+'\n')
@@ -706,11 +781,17 @@
               chunk = 'list text here'
                 
               e.replaceSelection('- '+chunk)
+
+              // Set the cursor
+              cursor = selected.start+2
             } else {
               if (selected.text.indexOf('\n') < 0) {
                 chunk = selected.text
 
                 e.replaceSelection('- '+chunk)
+
+                // Set the cursor
+                cursor = selected.start+2
               } else {
                 var list = []
 
@@ -721,12 +802,14 @@
                   list[k] = '- '+v
                 })
 
-                e.replaceSelection(list.join('\n'))
+                e.replaceSelection('\n\n'+list.join('\n'))
+
+                // Set the cursor
+                cursor = selected.start+4
               }
             }
 
-            // Set the cursor
-            cursor = selected.start+2
+           
 
             // Set the cursor
             e.setSelection(cursor,cursor+chunk.length)
@@ -739,56 +822,16 @@
           title: 'Preview',
           btnText: 'Preview',
           btnClass: 'btn btn-inverse',
-          icon: 'icon icon-search',
+          icon: 'icon icon-white icon-search',
           callback: function(e){
             // Check the preview mode and toggle based on this flag
-            var isPreview = e.$isPreview
+            var isPreview = e.$isPreview,content
 
             if (isPreview == false) {
               // Give flag that tell the editor enter preview mode
-              e.$isPreview = true
-
-              // Disable all buttons
-              e.disableButtons('all').enableButtons('cmdPreview')
-
-              // Clone the current editor
-              var container = e.$textarea,
-                  replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'})
-
-              e.$cloneEditor.el = container
-              e.$cloneEditor.type = container.prop('tagName').toLowerCase()
-              e.$cloneEditor.content = container.val()
-
-              $(container[0].attributes).each(function(){
-                e.$cloneEditor.attrKeys.push(this.nodeName)
-                e.$cloneEditor.attrValues.push(this.nodeValue)
-              })
-
-              // Build preview element and replace the editor temporarily
-              replacementContainer.html(container.val())
-              container.replaceWith(replacementContainer)
+              e.showPreview()
             } else {
-              // Give flag that tell the editor quit preview mode
-              e.$isPreview = false
-
-              // Build the original element
-              var container = e.$editor.find('div[data-provider="markdown-preview"]'),
-                  oldElement = $('<'+e.$cloneEditor.type+'/>')
-
-              $(e.$cloneEditor.attrKeys).each(function(k,v) {
-                oldElement.attr(e.$cloneEditor.attrKeys[k],e.$cloneEditor.attrValues[k])
-              })
-
-              // Set the editor content
-              oldElement.val(e.$cloneEditor.content)
-              container.replaceWith(oldElement)
-
-              // Enable all buttons
-              e.enableButtons('all')
-
-              // Back to the editor
-              e.$textarea = oldElement
-              e.$textarea.focus()
+              e.hidePreview()
             }
           }
         }]
