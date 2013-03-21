@@ -195,6 +195,18 @@
           editor.append(editorFooter)
         }
 
+        // Set width/height
+        $.each(['height','width'],function(k,attr){
+          if (options[attr] != 'inherit') {
+            if (jQuery.isNumeric(options[attr])) {
+              editor.css(attr,options[attr]+'px')
+            } else {
+              editor.addClass(options[attr])
+            }
+          }
+        })
+
+
         // Reference
         this.$editor     = editor
         this.$textarea   = textarea
