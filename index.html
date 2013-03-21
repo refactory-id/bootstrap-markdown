@@ -40,18 +40,33 @@
         <hr/>
 
         <h4>Markup</h4>
-        <p>Switch regular textarea within your form into Markdown Editor seamlessly</p>
+        <p>Switch regular textarea within your form into Markdown Editor seamlessly by adding <code class="prettyprint">data-provide=&quot;markdown&quot;</code> attribute</p>
+        <div class="well">
+          <h5>Code</h5>
+          <pre class="prettyprint">&lt;form&gt;
+    &lt;input name=&quot;title&quot; type=&quot;text&quot; placeholder=&quot;Title?&quot; /&gt;
+    &lt;textarea name=&quot;content&quot; data-provide=&quot;markdown&quot; rows=&quot;10&quot;&gt;&lt;/textarea&gt;
+    &lt;label class=&quot;checkbox&quot;&gt;
+      &lt;input name=&quot;publish&quot; type=&quot;checkbox&quot;&gt; Publish
+    &lt;/label&gt;
+    &lt;hr/&gt;
+    &lt;button type=&quot;submit&quot; class=&quot;btn&quot;&gt;Submit&lt;/button&gt;
+  &lt;/form&gt; </pre>
+        </div>
 
-        <form>
-          <fieldset>
-            <input type="text" placeholder="Type something…" class="input-large">
-            <textarea data-provide="markdown" rows="10"></textarea>
-            <label class="checkbox">
-              <input type="checkbox"> Publish
-            </label>
-            <button type="submit" class="btn">Submit</button>
-          </fieldset>
-        </form>
+        <div class="well">
+          <h5>Result</h5>
+          <form>
+              <input name="title" type="text" placeholder="Title?"/>
+              <textarea name="content" data-provide="markdown" rows="10"></textarea>
+              <label class="checkbox">
+                <input name="publish" type="checkbox"> Publish
+              </label>
+              <hr/>
+              <button type="submit" class="btn">Submit</button>
+          </form>
+        </div>
+
       </section>
     </div>
 
@@ -64,7 +79,9 @@
     </div>
 
     
+  <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"type="text/javascript"></script> 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="js/bootstrap-markdown.js"></script>
+  <script src="js/main.js"></script>
   </body>
 </html>
