@@ -860,6 +860,7 @@
   * ==================================== */
   var initMarkdown = function(el) {
     var $this = el
+
     if ($this.data('markdown')) {
       $this.data('markdown').showEditor()
       return
@@ -908,8 +909,6 @@
 
   $(document)
     .on('click.markdown.data-api', '[data-provide="markdown-editable"]', function (e) {
-      $(this).data('hideable',true)
-      $(this).data('savable',true)
       initMarkdown($(this))
       e.preventDefault()
     })
