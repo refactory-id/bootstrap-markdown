@@ -148,6 +148,7 @@
 
         // Set editor attributes, data short-hand API and listener
         this.$editor.attr('id',(new Date).getTime())
+        this.$editor.data('blur', $.proxy(this.blur, this))
         this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.handle, this))
 
       } else {
@@ -472,7 +473,7 @@
       editor.addClass('active')
 
       // Blur other markdown(s)
-      $(body).find('.md-editor').each(function(){
+      $(document).find('.md-editor').each(function(){
         var md = $(this).data()
         if ($(this).attr('id') != editor.attr('id')) {
           md.blur()
@@ -847,7 +848,7 @@
 
       if (blurred) {
         // Blur event
-        $(body).find('.md-editor').each(function(){
+        $(document).find('.md-editor').each(function(){
           var parentMd = $(el).parent()
           md = $(this).data()
 
