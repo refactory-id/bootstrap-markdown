@@ -195,6 +195,18 @@
           editor.append(editorFooter)
         }
 
+        // Set width/height
+        $.each(['height','width'],function(k,attr){
+          if (options[attr] != 'inherit') {
+            if (jQuery.isNumeric(options[attr])) {
+              editor.css(attr,options[attr]+'px')
+            } else {
+              editor.addClass(options[attr])
+            }
+          }
+        })
+
+
         // Reference
         this.$editor     = editor
         this.$textarea   = textarea
@@ -860,6 +872,7 @@
   * ==================================== */
   var initMarkdown = function(el) {
     var $this = el
+
     if ($this.data('markdown')) {
       $this.data('markdown').showEditor()
       return
@@ -908,8 +921,6 @@
 
   $(document)
     .on('click.markdown.data-api', '[data-provide="markdown-editable"]', function (e) {
-      $(this).data('hideable',true)
-      $(this).data('savable',true)
       initMarkdown($(this))
       e.preventDefault()
     })
