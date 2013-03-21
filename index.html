@@ -41,6 +41,8 @@
 
         <h4>Markup</h4>
         <p>Switch regular textarea within your form into Markdown Editor seamlessly by adding <code class="prettyprint">data-provide=&quot;markdown&quot;</code> attribute</p>
+
+        <!-- MARKUP-TEXTAREA -->
         <div class="well">
           <h5>Code</h5>
           <pre class="prettyprint">&lt;form&gt;
@@ -58,13 +60,44 @@
           <h5>Result</h5>
           <form>
               <input name="title" type="text" placeholder="Title?"/>
-              <textarea name="content" data-provide="markdown" rows="10"></textarea>
+              <textarea name="content" data-provide="markdown" rows="15">### Hello there 
+How are you?
+
+I have bellow task for you :
+
+Select from this text...
+Click the bold on THIS WORD and make THESE ONE italic
+Link GOOGLE to google.com
+Test to insert image (and try to tab after write the image description)
+Test Preview
+And ending here... Click "List"
+
+Enjoy!</textarea>
               <label class="checkbox">
                 <input name="publish" type="checkbox"> Publish
               </label>
               <hr/>
               <button type="submit" class="btn">Submit</button>
           </form>
+        </div>
+
+        <p>Inline editing with Bootstrap Markdown is done by adding <code class="prettyprint">data-provide=&quot;markdown-editable&quot;</code> attribute</p>
+
+        <!-- MARKUP-EDITABLE -->
+        <div class="well">
+          <h5>Code</h5>
+          <pre class="prettyprint">&lt;div data-provide=&quot;markdown-editable&quot;&gt;
+          &lt;h3&gt;This is some editable heading&lt;/h3&gt;
+          &lt;p&gt;Well, actually all contents within this &quot;markdown-editable&quot; context is really editable. Just click anywhere!&lt;/p&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <div class="well">
+          <h5>Result</h5>
+          <div data-provide="markdown-editable">
+          <h3>This is some editable heading</h3>
+          <p>Well, actually all contents within this "markdown-editable" context is really editable. Just click anywhere!</p>
+          </div>
         </div>
 
       </section>
@@ -81,6 +114,8 @@
     
   <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"type="text/javascript"></script> 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="js/markdown.js"></script>
+  <script src="js/to-markdown.js"></script>
   <script src="js/bootstrap-markdown.js"></script>
   <script src="js/main.js"></script>
   </body>
