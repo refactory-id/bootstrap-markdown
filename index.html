@@ -101,10 +101,44 @@ Enjoy!</textarea>
         </div>
 
         <hr/>
-        
+
         <h1>Usage</h1>
         <p>Beside using above data-attributes, you could call it via code</p>
-        <pre class="prettyprint">$(&quot;#some-textarea&quot;).markdown()</pre>
+        <pre class="prettyprint">$(&quot;#some-textarea&quot;).markdown({savable:false})</pre>
+        <p>Noted that Bootstrap Markdown could be used as a standalone input (without any form). Turning <code>savable</code> parameter to true will do the job. Available options are:</p>
+
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col class="span1">
+            <col class="span7">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Option Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code>savable</code>
+              </td>
+              <td>Indicates that editor will have save button and action. Default to <code>false</code></td>
+            </tr>
+            <tr>
+              <td>
+                <code>hideable</code>
+              </td>
+              <td>If set to <code>true</code> then the editor will be hidden on <code>blur</code> event. Default to <code>false</code></td>
+            </tr>
+            <tr>
+              <td>
+                <code>additionalButtons</code>
+              </td>
+              <td>Additional buttons definitions contains an array of buttons object. Default to <code>[]</code></td>
+            </tr>
+          </tbody>
+        </table>
 
       </section>
     </div>
