@@ -222,8 +222,10 @@
         this.$editor.show()
       }
 
-      this.$textarea.focus()
-      this.$editor.addClass('active')
+      if (options.autofocus) {
+        this.$textarea.focus()
+        this.$editor.addClass('active')
+      }
 
       // Trigger the onShow hook
       options.onShow(this)
@@ -618,6 +620,7 @@
 
   $.fn.markdown.defaults = {
     /* Editor Properties */
+    autofocus: false,
     hideable: false,
     savable:false,
     width: 'inherit',
@@ -931,7 +934,9 @@
       analyzeMarkdown(e)
     })
     .ready(function(){
-      initMarkdown($('textarea[data-provide="markdown"]'))
+      $('textarea[data-provide="markdown"]').each(function(){
+        initMarkdown($(this))
+      })
     })
 
 }(window.jQuery);

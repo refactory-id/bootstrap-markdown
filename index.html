@@ -104,7 +104,7 @@ Enjoy!</textarea>
 
         <h1>Usage</h1>
         <p>Beside using above data-attributes, you could call it via code</p>
-        <pre class="prettyprint">$(&quot;#some-textarea&quot;).markdown({savable:false})</pre>
+        <pre class="prettyprint">$(&quot;#some-textarea&quot;).markdown({autofocus:false,savable:false})</pre>
         <p>Noted that <strong>Bootstrap-Markdown</strong> could be used as a standalone input (without any form). Set <code>savable</code> parameter to <code>true</code> will do the job. Options can be passed via data attributes or via code. Available options are:</p>
 
         <table class="table table-bordered table-striped">
@@ -119,6 +119,12 @@ Enjoy!</textarea>
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td>
+                <code>autofocus</code>
+              </td>
+              <td>Indicates that editor will focused after instantiated. Default to <code>false</code></td>
+            </tr>
             <tr>
               <td>
                 <code>savable</code>
@@ -145,6 +151,22 @@ Enjoy!</textarea>
             </tr>
           </tbody>
         </table>
+
+        <div class="well">
+          <h5>Some examples</h5>
+          <hr/>
+          <p>Custom width using <code>data-width="400"</code> attribute</p>
+          <textarea data-provide="markdown" data-width="400"></textarea><br/>
+          <hr/>
+          <p>Hideable on blur using <code>data-hideable="true"</code> attribute</p>
+          <textarea data-provide="markdown" data-hideable="true"></textarea>
+          <hr/>
+          <p>Savable using <code>data-savable="true"</code> attribute</p>
+          <textarea data-provide="markdown" data-savable="true"></textarea>
+          <hr/>
+        </div>
+        <h4>Events</h4>
+
 
       </section>
     </div>
