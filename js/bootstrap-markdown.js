@@ -97,9 +97,26 @@
 
       return container
     }
+  , __setListener: function() {
+      // Set resizable
+      this.$textarea.css('resize','vertical')
+
+      this.$textarea
+        .on('focus',    $.proxy(this.focus, this))
+        .on('keypress', $.proxy(this.keypress, this))
+        .on('keyup',    $.proxy(this.keyup, this))
+
+      if (this.eventSupported('keydown')) {
+        this.$textarea.on('keydown', $.proxy(this.keydown, this))
+      }
+
+      // Re-attach markdown data
+      this.$textarea.data('markdown',this)
+    }
 
   , showEditor: function() {
-      var textarea, 
+      var instance = this,
+          textarea, 
           ns = this.$ns,
           container = this.$element,
           editable = this.$editable,
@@ -109,7 +126,7 @@
           editor = $( '<div/>', {
                       'class': 'md-editor',
                       click: function() {
-                        $( this ).toggleClass( "test" );
+                        instance.focus()
                       }
                     })
 
@@ -154,7 +171,6 @@
           editable.el = container
           editable.type = container.prop('tagName').toLowerCase()
           editable.content = container.html()
-          console.log(typeof toMarkdown == 'function',editable.content)
 
           $(container[0].attributes).each(function(){
             editable.attrKeys.push(this.nodeName)
@@ -164,16 +180,6 @@
           // Set editor to blocked the original container
           container.replaceWith(editor)
         }
-
-        textarea
-          .on('focus',    $.proxy(this.focus, this))
-          .on('keypress', $.proxy(this.keypress, this))
-          .on('keyup',    $.proxy(this.keyup, this))
-
-        if (this.eventSupported('keydown')) {
-          textarea.on('keydown', $.proxy(this.keydown, this))
-        }
-
 
         // Create the footer if savable
         if (options.savable) {
@@ -213,9 +219,11 @@
         this.$editable   = editable
         this.$oldContent = this.getContent()
 
+        this.__setListener()
+
         // Set editor attributes, data short-hand API and listener
         this.$editor.attr('id',(new Date).getTime())
-        this.$editor.data('blur', $.proxy(this.blur, this))
+        //this.$editor.data('blur', $.proxy(this.blur, this))
         this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this))
 
       } else {
@@ -286,6 +294,9 @@
       replacementContainer.html(content)
       container.replaceWith(replacementContainer)
 
+      // Attach the editor instances
+      replacementContainer.data('markdown',this)
+
       return this
     }
 
@@ -304,6 +315,8 @@
 
       // Set the editor content
       oldElement.val(cloneEditor.content)
+
+      // Set the editor data
       container.replaceWith(oldElement)
 
       // Enable all buttons
@@ -311,6 +324,7 @@
 
       // Back to the editor
       this.$textarea = oldElement
+      this.__setListener()
 
       return this
     }
@@ -552,9 +566,17 @@
 
       // Blur other markdown(s)
       $(document).find('.md-editor').each(function(){
-        var md = $(this).data()
         if ($(this).attr('id') != editor.attr('id')) {
-          md.blur()
+          var attachedMarkdown
+
+          if (attachedMarkdown = $(this).find('textarea').data('markdown'),
+              attachedMarkdown == null) {
+              attachedMarkdown = $(this).find('div[data-provider="markdown-preview"]').data('markdown')
+          }
+
+          if (attachedMarkdown) {
+            attachedMarkdown.blur()
+          }
         }
       })
 
@@ -572,33 +594,35 @@
         this.hidePreview()
       }
 
-      if (isHideable && typeof editor != "undefined" && editor.hasClass('active')) {
-
+      if (editor.hasClass('active') || this.$element.parent().length == 0) {
         editor.removeClass('active')
         
-        // Check for editable elements
-        if (editable.el != null) {
-          // Build the original element
-          var oldElement = $('<'+editable.type+'/>'),
-              content = this.getContent(),
-              currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content 
+        if (isHideable) {
+        
+          // Check for editable elements
+          if (editable.el != null) {
+            // Build the original element
+            var oldElement = $('<'+editable.type+'/>'),
+                content = this.getContent(),
+                currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content 
 
-          $(editable.attrKeys).each(function(k,v) {
-            oldElement.attr(editable.attrKeys[k],editable.attrValues[k])
-          })
+            $(editable.attrKeys).each(function(k,v) {
+              oldElement.attr(editable.attrKeys[k],editable.attrValues[k])
+            })
 
-          // Get the editor content
-          oldElement.html(currentContent)
+            // Get the editor content
+            oldElement.html(currentContent)
 
-          editor.replaceWith(oldElement)
-        } else {
-          editor.hide()
-          
+            editor.replaceWith(oldElement)
+          } else {
+            editor.hide()
+            
+          }
         }
-      }
 
-      // Trigger the onBlur hook
-      options.onBlur(this)
+        // Trigger the onBlur hook
+        options.onBlur(this)
+      }
 
       return this
     }
@@ -887,7 +911,6 @@
   var analyzeMarkdown = function(e) {
     var blurred = false,
         el,
-        md,
         $docEditor = $(e.currentTarget)
 
     // Check whether it was editor childs or not
@@ -911,10 +934,18 @@
         // Blur event
         $(document).find('.md-editor').each(function(){
           var parentMd = $(el).parent()
-          md = $(this).data()
 
           if ($(this).attr('id') != parentMd.attr('id')) {
-            md.blur()
+            var attachedMarkdown
+
+            if (attachedMarkdown = $(this).find('textarea').data('markdown'),
+                attachedMarkdown == null) {
+                attachedMarkdown = $(this).find('div[data-provider="markdown-preview"]').data('markdown')
+            }
+
+            if (attachedMarkdown) {
+              attachedMarkdown.blur()
+            }
           }
         })
       }
