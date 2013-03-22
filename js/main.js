@@ -20,5 +20,27 @@ $(function(){
 		return false
 	})
 
+	$('#editor-triger-init').click(function(){
+		$('#target-editor').markdown({
+			savable:true,
+			onShow: function(e){
+				alert('Showing '
+					+e.$textarea.prop('tagName').toLowerCase()
+					+'#'
+					+e.$textarea.attr('id')
+					+' as Markdown Editor...')
+			},
+			onSave: function(e) {
+				alert('Saving "'+e.getContent()+'"...')
+			},
+			onBlur: function(e) {
+				alert('Blur triggered!')
+			}
+		})
+
+		$(this).hide()
+		return false
+	})
+
 	console.log(marked('<p>Foo is bar</p>'));
 })

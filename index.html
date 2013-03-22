@@ -165,8 +165,36 @@ Enjoy!</textarea>
           <textarea data-provide="markdown" data-savable="true"></textarea>
           <hr/>
         </div>
-        <h4>Events</h4>
 
+        <h3>Events</h3>
+        <p>There are three main events within <strong>Bootstrap-Markdown</strong> lifecycle : <code>onShow</code>, <code>onSave</code> and <code>onBlur</code>. Heres an example to hook into those events via code:</p>
+
+        <div class="well">
+        <h5>Code</h5>
+        <pre class="prettyprint">$(&quot;#target-editor&quot;).markdown({
+  savable:true,
+  onShow: function(e){
+    alert(&quot;Showing &quot;
+      +e.$textarea.prop(&quot;tagName&quot;).toLowerCase()
+      +&quot;#&quot;
+      +e.$textarea.attr(&quot;id&quot;)
+      +&quot; as Markdown Editor...&quot;)
+  },
+  onSave: function(e) {
+    alert(&quot;Saving '&quot;+e.getContent()+&quot;'...&quot;)
+  },
+  onBlur: function(e) {
+    alert(&quot;Blur triggered!&quot;)
+  }
+})</pre>
+        </div>
+
+        <div class="well">
+        <h5>Result</h5>
+          <textarea id="target-editor"></textarea>
+          <br/>
+          <button id="editor-triger-init" class="btn btn-primary">Transform into Bootstrap-Markdown</button>
+        </div>
 
       </section>
     </div>

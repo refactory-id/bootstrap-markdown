@@ -567,14 +567,15 @@
           editor = this.$editor,
           editable = this.$editable
 
-      editor.removeClass('active')
-
       // Force to quit preview mode
       if (this.$isPreview) {
         this.hidePreview()
       }
 
-      if (isHideable && typeof editor != "undefined") {
+      if (isHideable && typeof editor != "undefined" && editor.hasClass('active')) {
+
+        editor.removeClass('active')
+        
         // Check for editable elements
         if (editable.el != null) {
           // Build the original element
