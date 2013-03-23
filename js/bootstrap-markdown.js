@@ -47,6 +47,23 @@
 
     constructor: Markdown
 
+  , __alterButtons: function(name,alter) {
+      var handler = this.$handler, isAll = (name == 'all'),that = this
+
+      $.each(handler,function(k,v) {
+        var halt = true
+        if (isAll) {
+          halt = false
+        } else {
+          halt = v.indexOf(name) < 0
+        }
+
+        if (halt == false) {
+          alter(that.$editor.find('button[data-handler="'+v+'"]'))
+        }
+      })
+    }
+    
   , __buildButtons: function(buttonsArray, container) {
       var i,
           ns = this.$ns,
@@ -112,6 +129,28 @@
 
       // Re-attach markdown data
       this.$textarea.data('markdown',this)
+    }
+
+  , __handle: function(e) {
+      var target = $(e.currentTarget),
+          handler = this.$handler,
+          callback = this.$callback,
+          handlerName = target.attr('data-handler'),
+          callbackIndex = handler.indexOf(handlerName),
+          callbackHandler = callback[callbackIndex]
+
+      // Trigger the focusin
+      $(e.currentTarget).focus()
+
+      callbackHandler(this)
+
+      // Unless it was the save handler,
+      // focusin the textarea
+      if (handlerName.indexOf('cmdSave') < 0) {
+        this.$textarea.focus()
+      }
+
+      e.preventDefault()
     }
 
   , showEditor: function() {
@@ -239,28 +278,6 @@
       options.onShow(this)
 
       return this
-    }
-
-  , __handle: function(e) {
-      var target = $(e.currentTarget),
-          handler = this.$handler,
-          callback = this.$callback,
-          handlerName = target.attr('data-handler'),
-          callbackIndex = handler.indexOf(handlerName),
-          callbackHandler = callback[callbackIndex]
-
-      // Trigger the focusin
-      $(e.currentTarget).focus()
-
-      callbackHandler(this)
-
-      // Unless it was the save handler,
-      // focusin the textarea
-      if (handlerName.indexOf('cmdSave') < 0) {
-        this.$textarea.focus()
-      }
-
-      e.preventDefault()
     }
 
   , showPreview: function() {
@@ -460,29 +477,12 @@
       return
     }
 
-  , alterButtons: function(name,alter) {
-      var handler = this.$handler, isAll = (name == 'all'),that = this
-
-      $.each(handler,function(k,v) {
-        var halt = true
-        if (isAll) {
-          halt = false
-        } else {
-          halt = v.indexOf(name) < 0
-        }
-
-        if (halt == false) {
-          alter(that.$editor.find('button[data-handler="'+v+'"]'))
-        }
-      })
-    }
-
   , enableButtons: function(name) {
       var alter = function (el) {
         el.removeAttr('disabled')
       }
 
-      this.alterButtons(name,alter)
+      this.__alterButtons(name,alter)
 
       return this
     }
@@ -492,7 +492,7 @@
         el.attr('disabled','disabled')
       }
 
-      this.alterButtons(name,alter)
+      this.__alterButtons(name,alter)
 
       return this
     }
