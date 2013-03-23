@@ -115,6 +115,7 @@ Enjoy!</textarea>
           <thead>
             <tr>
               <th>Option Name</th>
+              <th>Type</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -123,31 +124,36 @@ Enjoy!</textarea>
               <td>
                 <code>autofocus</code>
               </td>
+              <td><code>boolean</code></td>
               <td>Indicates that editor will focused after instantiated. Default to <code>false</code></td>
             </tr>
             <tr>
               <td>
                 <code>savable</code>
               </td>
+              <td><code>boolean</code></td>
               <td>Indicates that editor will have save button and action. Default to <code>false</code></td>
             </tr>
             <tr>
               <td>
                 <code>hideable</code>
               </td>
+              <td><code>boolean</code></td>
               <td>If set to <code>true</code> then the editor will be hidden on <code>blur</code> event. Default to <code>false</code></td>
             </tr>
             <tr>
               <td>
                 <code>width</code>
               </td>
+              <td><code>mixed</code></td>
               <td>The edtor width. Default to <code>inherit</code>. You could supply any numerical value (that will be set as css), or supply valid Bootstrap class (something like <code>span2</code>)</td>
             </tr>
             <tr>
               <td>
                 <code>height</code>
               </td>
-              <td>The edtor height. Default to <code>inherit</code>. You could supply any numerical value (that will be set as css), or supply valid Bootstrap class (something like <code>span2</code>)</td>
+              <td><code>mixed</code></td>
+              <td>The edtor height. Default to <code>inherit</code></td>
             </tr>
           </tbody>
         </table>
@@ -196,7 +202,7 @@ Enjoy!</textarea>
           <button id="editor-triger-init" class="btn btn-primary">Transform into Bootstrap-Markdown</button>
         </div>
 
-         <h3>Editor Panel</h3>
+        <h3>Editor Panel</h3>
         <p><strong>Bootstrap-Markdown</strong> panel could be easily extended to suit your own specific needs. You can just set <code>additionalButtons</code> param, with your own buttons group. Heres an example to add button group into editor panel</p>
 
         <div class="well">
@@ -241,6 +247,108 @@ Enjoy!</textarea>
           <textarea id="target-editor-with-custom-buttons"></textarea>
         </div>
 
+        <h3>API</h3>
+        <p>As you may already notice by now, all hook would passed Editor instance (declared as <code>e</code> in all above examples). It means you could easily use its API to interact with the editor for any purposes. Heres the complete list of <strong>Bootstrap-Markdown</strong> APIs.</p>
+
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col class="span1">
+            <col class="span7">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Method Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code>showEditor()</code>
+              </td>
+              <td>Toggle on the editor visibility</td>
+            </tr>
+            <tr>
+              <td>
+                <code>showPreview()</code>
+              </td>
+              <td>Toggle on the preview visibility</td>
+            </tr>
+            <tr>
+              <td>
+                <code>hidePreview()</code>
+              </td>
+              <td>Toggle off the editor visibility</td>
+            </tr>
+            <tr>
+              <td>
+                <code>isDirty()</code>
+              </td>
+              <td>Check the editor content state, return true if the original content was changed</td>
+            </tr>
+            <tr>
+              <td>
+                <code>getContent()</code>
+              </td>
+              <td>Get the editor content</td>
+            </tr>
+            <tr>
+              <td>
+                <code>setContent(<em>string</em> content)</code>
+              </td>
+              <td>Set the editor content</td>
+            </tr>
+            <tr>
+              <td>
+                <code>findSelection(<em>string</em> words)</code>
+              </td>
+              <td>Find some words/sentence within the editor and returned selection object(containing word position and other useful information).</td>
+            </tr>
+            <tr>
+              <td>
+                <code>getSelection()</code>
+              </td>
+              <td>Get the current selected chunk of words within the editor.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>setSelection(<em>int</em> start, <em>int</em> end)</code>
+              </td>
+              <td>Tell the editor to select a span of words from <code>start</code> to <code>end</code>.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>replaceSelection(<em>string</em> content)</code>
+              </td>
+              <td>Replace the current selected chunk of words within the editor with any content.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>getNextTab()</code>
+              </td>
+              <td>Get the next tab memory. Returned selection object(containing word position and other useful information).</td>
+            </tr>
+            <tr>
+              <td>
+                <code>setNextTab(<em>int</em> start, <em>int</em> end)</code>
+              </td>
+              <td>Tell the editor to select a span of words from <code>start</code> to <code>end</code> at next <code>tab</code> keypress event.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>enableButtons(<em>string</em> name)</code>
+              </td>
+              <td>Enabled a button by <code>name</code> that described in <code>buttons</code> or <code>additionalButtons</code> arrays. Passing <code>all</code> will enabled all buttons.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>disableButtons(<em>string</em> name)</code>
+              </td>
+              <td>Disabled a button by <code>name</code> that described in <code>buttons</code> or <code>additionalButtons</code> arrays. Passing <code>all</code> will disabled all buttons.</td>
+            </tr>
+          </tbody>
+        </table>
+
       </section>
     </div>
 
@@ -248,7 +356,6 @@ Enjoy!</textarea>
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright"><strong>Bootstrap-Markdown</strong> maintained by <a href="https://github.com/toopay">toopay</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
