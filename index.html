@@ -166,7 +166,7 @@ Enjoy!</textarea>
           <hr/>
         </div>
 
-        <h3>Events</h3>
+        <h3>Events/Hook</h3>
         <p>There are three main events within <strong>Bootstrap-Markdown</strong> lifecycle : <code>onShow</code>, <code>onSave</code> and <code>onBlur</code>. Heres an example to hook into those events via code:</p>
 
         <div class="well">
@@ -194,6 +194,51 @@ Enjoy!</textarea>
           <textarea id="target-editor"></textarea>
           <br/>
           <button id="editor-triger-init" class="btn btn-primary">Transform into Bootstrap-Markdown</button>
+        </div>
+
+         <h3>Editor Panel</h3>
+        <p><strong>Bootstrap-Markdown</strong> panel could be easily extended to suit your own specific needs. You can just set <code>additionalButtons</code> param, with your own buttons group. Heres an example to add button group into editor panel</p>
+
+        <div class="well">
+        <h5>Code</h5>
+        <pre class="prettyprint">$(&quot;#target-editor-with-custom-buttons&quot;).markdown({
+  additionalButtons: [
+    [{
+          name: &quot;groupCustom&quot;,
+          data: [{
+            name: &quot;cmdBeer&quot;,
+            title: &quot;Beer&quot;,
+            icon: &quot;icon icon-glass&quot;,
+            callback: function(e){
+              // Replace selection with some drinks
+              var chunk, cursor, 
+                  selected = e.getSelection(), content = e.getContent(),
+                  drinks = [&quot;Heinekken&quot;, &quot;Budweiser&quot;, 
+                            &quot;Iron City&quot;, &quot;Amstel Light&quot;, 
+                            &quot;Red Stripe&quot;, &quot;Smithwicks&quot;, 
+                            &quot;Westvleteren&quot;, &quot;Sierra Nevada&quot;, 
+                            &quot;Guinness&quot;, &quot;Corona&quot;, &quot;Calsberg&quot;],
+                  index = Math.floor((Math.random()*10)+1)
+
+
+              // Give random drink
+              chunk = drinks[index]
+
+              // transform selection and set the cursor into chunked text
+              e.replaceSelection(chunk)
+              cursor = selected.start
+
+              // Set the cursor
+              e.setSelection(cursor,cursor+chunk.length)
+            }
+          }]
+    }]
+  ]
+})</pre></div>
+
+        <div class="well">
+        <h5>Result</h5>
+          <textarea id="target-editor-with-custom-buttons"></textarea>
         </div>
 
       </section>
