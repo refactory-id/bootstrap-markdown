@@ -6,10 +6,6 @@ $(function(){
 				'class':'prettyprint'
 			})
 
-		$.each($('.md-editor'),function(k,v){
-			$(v).data('blur')()
-		})
-
 		$.each(form.serializeArray(),function(k,v){
 			formResult.push(v.name+' => '+v.value)
 		})
