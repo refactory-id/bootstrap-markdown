@@ -56,6 +56,23 @@ $(function(){
 					+e.$textarea.attr('id')
 					+' as Markdown Editor...')
 			},
+			onPreview: function(e) {
+				var previewContent
+
+				if (e.isDirty()) {
+					var originalContent = e.getContent()
+
+					previewContent = 'Prepended text here...'
+								 + "\n"
+								 + originalContent
+								 + "\n"
+								 +'Apended text here...'
+				} else {
+					previewContent = 'Default content'
+				}
+
+				return previewContent
+			},
 			onSave: function(e) {
 				alert('Saving "'+e.getContent()+'"...')
 			},

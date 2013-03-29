@@ -173,7 +173,7 @@ Enjoy!</textarea>
         </div>
 
         <h3>Events/Hook</h3>
-        <p>There are three main events within <strong>Bootstrap-Markdown</strong> lifecycle : <code>onShow</code>, <code>onSave</code> and <code>onBlur</code>. Heres an example to hook into those events via code:</p>
+        <p>There are four main events within <strong>Bootstrap-Markdown</strong> lifecycle : <code>onShow</code>, <code>onPreview</code>, <code>onSave</code> and <code>onBlur</code>. Heres an example to hook into those events via code:</p>
 
         <div class="well">
         <h5>Code</h5>
@@ -185,6 +185,23 @@ Enjoy!</textarea>
       +&quot;#&quot;
       +e.$textarea.attr(&quot;id&quot;)
       +&quot; as Markdown Editor...&quot;)
+  },
+  onPreview: function(e) {
+    var previewContent
+
+    if (e.isDirty()) {
+      var originalContent = e.getContent()
+
+      previewContent = &quot;Prepended text here...&quot;
+             + &quot;\n&quot;
+             + originalContent
+             + &quot;\n&quot;
+             +&quot;Apended text here...&quot;
+    } else {
+      previewContent = &quot;Default content&quot;
+    }
+
+    return previewContent
   },
   onSave: function(e) {
     alert(&quot;Saving '&quot;+e.getContent()+&quot;'...&quot;)

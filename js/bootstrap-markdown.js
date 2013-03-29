@@ -281,16 +281,17 @@
     }
 
   , showPreview: function() {
+      var options = this.$options,
+          callbackContent = options.onPreview(this), // Try to get the content from callback
+          container = this.$textarea,
+          replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'}),
+          cloneEditor = this.$cloneEditor,
+          content
+
       // Give flag that tell the editor enter preview mode
       this.$isPreview = true
       // Disable all buttons
       this.disableButtons('all').enableButtons('cmdPreview')
-
-      // Clone the current editor
-      var container = this.$textarea,
-          replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'}),
-          cloneEditor = this.$cloneEditor,
-          content
 
       // Save the editor
       cloneEditor.el = container
@@ -304,8 +305,13 @@
 
       this.$cloneEditor = cloneEditor
 
-      // Set the content
-      content = (typeof markdown == 'object') ? markdown.toHTML(container.val()) : container.val()
+      if (typeof callbackContent == 'string') {
+        // Set the content based by callback content
+        content = callbackContent
+      } else {
+        // Set the content
+        content = (typeof markdown == 'object') ? markdown.toHTML(container.val()) : container.val()
+      }
 
       // Build preview element and replace the editor temporarily
       replacementContainer.html(content)
@@ -881,6 +887,7 @@
 
     /* Events hook */
     onShow: function (e) {},
+    onPreview: function (e) {},
     onSave: function (e) {},
     onBlur: function (e) {}
   }
