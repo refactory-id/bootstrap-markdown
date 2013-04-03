@@ -158,6 +158,8 @@
           textarea, 
           ns = this.$ns,
           container = this.$element,
+          originalHeigth = container.css('height'), 
+          originalWidth = container.css('width'),
           editable = this.$editable,
           handler = this.$handler,
           callback = this.$callback,
@@ -248,7 +250,11 @@
             } else {
               editor.addClass(options[attr])
             }
+          } else {
+            editor.css('height', (parseInt(originalHeigth)+400)+'px')
           }
+
+          editor.find('textarea').css('height', (parseInt(editor.css('height')) - 100)+'px')
         })
 
 
