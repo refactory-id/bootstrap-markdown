@@ -115,8 +115,13 @@
       return container
     }
   , __setListener: function() {
-      // Set resizable
-      this.$textarea.css('resize','vertical')
+      // Set size and resizable Properties
+      var hasRows = typeof this.$textarea.attr('rows') != 'undefined',
+          maxRows = this.$textarea.val().split("\n").length > 5 ? this.$textarea.val().split("\n").length : '5',
+          rowsVal = hasRows ? this.$textarea.attr('rows') : maxRows
+
+      this.$textarea.attr('rows',rowsVal)
+      this.$textarea.css('resize','none')
 
       this.$textarea
         .on('focus',    $.proxy(this.focus, this))
@@ -250,13 +255,8 @@
             } else {
               editor.addClass(options[attr])
             }
-          } else {
-            editor.css('height', (parseInt(originalHeigth)+400)+'px')
           }
-
-          editor.find('textarea').css('height', (parseInt(editor.css('height')) - 100)+'px')
         })
-
 
         // Reference
         this.$editor     = editor
@@ -268,7 +268,6 @@
 
         // Set editor attributes, data short-hand API and listener
         this.$editor.attr('id',(new Date).getTime())
-        //this.$editor.data('blur', $.proxy(this.blur, this))
         this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this))
 
       } else {
