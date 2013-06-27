@@ -1,5 +1,5 @@
 /* ===================================================
- * bootstrap-markdown.js v1.0.0
+ * bootstrap-markdown.js v1.1.0
  * http://github.com/toopay/bootstrap-markdown
  * ===================================================
  * Copyright 2013 Taufan Aditya
@@ -83,9 +83,14 @@
 
           for (z=0;z<buttons.length;z++) {
             var button = buttons[z],
+                buttonToggle = '',
                 buttonHandler = ns+'-'+button.name,
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn'
+
+            if (button.toggle == true) {
+              buttonToggle = ' data-toggle="button"'
+            }
 
             // Attach the button object
             btnGroupContainer.append('<button class="'
@@ -96,7 +101,9 @@
                                     +ns
                                     +'" data-handler="'
                                     +buttonHandler
-                                    +'"><i class="'
+                                    +'"'
+                                    +buttonToggle
+                                    +'><i class="'
                                     +button.icon
                                     +'"></i> '
                                     +btnText
@@ -600,11 +607,6 @@
           editor = this.$editor,
           editable = this.$editable
 
-      // Force to quit preview mode
-      if (this.$isPreview) {
-        this.hidePreview()
-      }
-
       if (editor.hasClass('active') || this.$element.parent().length == 0) {
         editor.removeClass('active')
         
@@ -870,6 +872,7 @@
         name: 'groupUtil',
         data: [{
           name: 'cmdPreview',
+          toggle: true,
           title: 'Preview',
           btnText: 'Preview',
           btnClass: 'btn btn-inverse',
