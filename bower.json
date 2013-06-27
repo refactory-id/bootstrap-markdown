@@ -4,5 +4,8 @@
   "main": ["./js/bootstrap-markdown.js", "./css/bootstrap-markdown.min.css"],
   "dependencies": {
     "bootstrap": "~2.3.0"
+  },
+  "devDependencies": {
+  	"markdown":"~0.4.0",
   }
 }
