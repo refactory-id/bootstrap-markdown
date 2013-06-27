@@ -1,0 +1,8 @@
+{
+  "name": "bootstrap-markdown",
+  "version": "1.0.0",
+  "main": ["./js/bootstrap-markdown.js", "./css/bootstrap-markdown.min.css"],
+  "dependencies": {
+    "jquery": "~2.3.0"
+  }
+}
