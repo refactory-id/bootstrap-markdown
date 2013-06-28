@@ -350,29 +350,17 @@
       // Give flag that tell the editor quit preview mode
       this.$isPreview = false
 
-      // Build the original element
-      var container = this.$editor.find('div[data-provider="markdown-preview"]'),
-          cloneEditor = this.$cloneEditor,
-          oldElement = $('<'+cloneEditor.type+'/>')
+      // Obtain the preview container
+      var container = this.$editor.find('div[data-provider="markdown-preview"]')
 
-      $(cloneEditor.attrKeys).each(function(k,v) {
-        oldElement.attr(cloneEditor.attrKeys[k],cloneEditor.attrValues[k])
-      })
-
-      // Set the editor content
-      oldElement.val(cloneEditor.content)
-
-      // Remove the hidden textarea
-      container.prev().remove()
-
-      // Set the editor data
-      container.replaceWith(oldElement)
+      // Remove the preview container
+      container.remove()
 
       // Enable all buttons
       this.enableButtons('all')
 
       // Back to the editor
-      this.$textarea = oldElement
+      this.$textarea.show()
       this.__setListener()
 
       return this
