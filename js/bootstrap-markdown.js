@@ -1,5 +1,5 @@
 /* ===================================================
- * bootstrap-markdown.js v1.0.0
+ * bootstrap-markdown.js v1.1.1
  * http://github.com/toopay/bootstrap-markdown
  * ===================================================
  * Copyright 2013 Taufan Aditya
@@ -296,6 +296,7 @@
       var options = this.$options,
           callbackContent = options.onPreview(this), // Try to get the content from callback
           container = this.$textarea,
+          afterContainer = container.next(),
           replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'}),
           cloneEditor = this.$cloneEditor,
           content
@@ -325,9 +326,19 @@
         content = (typeof markdown == 'object') ? markdown.toHTML(container.val()) : container.val()
       }
 
-      // Build preview element and replace the editor temporarily
+      // Build preview element
       replacementContainer.html(content)
-      container.replaceWith(replacementContainer)
+
+      if (afterContainer && afterContainer.attr('class') == 'md-footer') {
+        // If there is footer element, insert the preview container before it
+        replacementContainer.insertBefore('.md-footer')
+      } else {
+        // Otherwise, just append it after textarea
+        container.parent().append(replacementContainer)
+      }
+
+      // Hide the last-active textarea
+      container.hide()
 
       // Attach the editor instances
       replacementContainer.data('markdown',this)
@@ -350,6 +361,9 @@
 
       // Set the editor content
       oldElement.val(cloneEditor.content)
+
+      // Remove the hidden textarea
+      container.prev().remove()
 
       // Set the editor data
       container.replaceWith(oldElement)
