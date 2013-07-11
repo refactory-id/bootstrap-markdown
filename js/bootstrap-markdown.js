@@ -84,12 +84,17 @@
           for (z=0;z<buttons.length;z++) {
             var button = buttons[z],
                 buttonToggle = '',
+                buttonHidden = '',
                 buttonHandler = ns+'-'+button.name,
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn'
 
             if (button.toggle == true) {
               buttonToggle = ' data-toggle="button"'
+            }
+
+            if (button.hidden == true) {
+              buttonHidden = ' style="display: none"'
             }
 
             // Attach the button object
@@ -103,6 +108,7 @@
                                     +buttonHandler
                                     +'"'
                                     +buttonToggle
+                                    +buttonHidden
                                     +'><i class="'
                                     +button.icon
                                     +'"></i> '
