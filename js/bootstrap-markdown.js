@@ -310,7 +310,8 @@
       // Give flag that tell the editor enter preview mode
       this.$isPreview = true
       // Disable all buttons
-      this.disableButtons('all').enableButtons('cmdPreview')
+      this.disableButtons('all').enableButtons('cmdWrite')
+      this.$editor.find('button.previewToggle').toggle();
 
       // Save the editor
       cloneEditor.el = container
@@ -375,7 +376,8 @@
       container.replaceWith(oldElement)
 
       // Enable all buttons
-      this.enableButtons('all')
+      this.enableButtons('all').disableButtons('cmdWrite')
+      this.$editor.find('button.previewToggle').toggle();
 
       // Back to the editor
       this.$textarea = oldElement
@@ -895,7 +897,7 @@
           toggle: true,
           title: 'Preview',
           btnText: 'Preview',
-          btnClass: 'btn btn-inverse',
+          btnClass: 'btn btn-inverse previewToggle',
           icon: 'icon icon-white icon-search',
           callback: function(e){
             // Check the preview mode and toggle based on this flag
@@ -904,9 +906,29 @@
             if (isPreview == false) {
               // Give flag that tell the editor enter preview mode
               e.showPreview()
-            } else {
+            }
+
+          }
+        }]
+      },{
+        name: 'groupUtil',
+        data: [{
+          name: 'cmdWrite',
+          toggle: true,
+          hidden: true,
+          title: 'Write',
+          btnText: 'Write',
+          btnClass: 'btn btn-inverse previewToggle',
+          icon: 'icon icon-white icon-pencil',
+          callback: function(e){
+            // Check the preview mode and toggle based on this flag
+            var isPreview = e.$isPreview,content
+
+            if (isPreview == true) {
+              // Give flag that tell the editor enter edit mode
               e.hidePreview()
             }
+
           }
         }]
       }]
