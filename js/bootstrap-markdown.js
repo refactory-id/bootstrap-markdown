@@ -83,12 +83,17 @@
           for (z=0;z<buttons.length;z++) {
             var button = buttons[z],
                 buttonToggle = '',
+                buttonHidden = '',
                 buttonHandler = ns+'-'+button.name,
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn'
 
             if (button.toggle == true) {
               buttonToggle = ' data-toggle="button"'
+            }
+
+            if (button.hidden == true) {
+              buttonHidden = ' style="display: none"'
             }
 
             // Attach the button object
@@ -102,6 +107,7 @@
                                     +buttonHandler
                                     +'"'
                                     +buttonToggle
+                                    +buttonHidden
                                     +'><i class="'
                                     +button.icon
                                     +'"></i> '
@@ -302,7 +308,8 @@
       // Give flag that tell the editor enter preview mode
       this.$isPreview = true
       // Disable all buttons
-      this.disableButtons('all').enableButtons('cmdPreview')
+      this.disableButtons('all').enableButtons('cmdWrite')
+      this.$editor.find('button.previewToggle').toggle();
 
       if (typeof callbackContent == 'string') {
         // Set the content based by callback content
@@ -343,7 +350,8 @@
       container.remove()
 
       // Enable all buttons
-      this.enableButtons('all')
+      this.enableButtons('all').disableButtons('cmdWrite')
+      this.$editor.find('button.previewToggle').toggle();
 
       // Back to the editor
       this.$textarea.show()
@@ -863,7 +871,7 @@
           toggle: true,
           title: 'Preview',
           btnText: 'Preview',
-          btnClass: 'btn btn-inverse',
+          btnClass: 'btn btn-inverse previewToggle',
           icon: 'icon icon-white icon-search',
           callback: function(e){
             // Check the preview mode and toggle based on this flag
@@ -872,9 +880,29 @@
             if (isPreview == false) {
               // Give flag that tell the editor enter preview mode
               e.showPreview()
-            } else {
+            }
+
+          }
+        }]
+      },{
+        name: 'groupUtil',
+        data: [{
+          name: 'cmdWrite',
+          toggle: true,
+          hidden: true,
+          title: 'Write',
+          btnText: 'Write',
+          btnClass: 'btn btn-inverse previewToggle',
+          icon: 'icon icon-white icon-pencil',
+          callback: function(e){
+            // Check the preview mode and toggle based on this flag
+            var isPreview = e.$isPreview,content
+
+            if (isPreview == true) {
+              // Give flag that tell the editor enter edit mode
               e.hidePreview()
             }
+
           }
         }]
       }]
