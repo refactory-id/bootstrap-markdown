@@ -1,5 +1,5 @@
 /* ===================================================
- * bootstrap-markdown.js v1.1.1
+ * bootstrap-markdown.js v1.1.2
  * http://github.com/toopay/bootstrap-markdown
  * ===================================================
  * Copyright 2013 Taufan Aditya
@@ -30,7 +30,6 @@
     this.$ns          = 'bootstrap-markdown'
     this.$element     = $(element)
     this.$editable    = {el:null, type:null,attrKeys:[], attrValues:[], content:null}
-    this.$cloneEditor = {el:null, type:null,attrKeys:[], attrValues:[], content:null}
     this.$options     = $.extend(true, {}, $.fn.markdown.defaults, options)
     this.$oldContent  = null
     this.$isPreview   = false
@@ -298,25 +297,12 @@
           container = this.$textarea,
           afterContainer = container.next(),
           replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'}),
-          cloneEditor = this.$cloneEditor,
           content
 
       // Give flag that tell the editor enter preview mode
       this.$isPreview = true
       // Disable all buttons
       this.disableButtons('all').enableButtons('cmdPreview')
-
-      // Save the editor
-      cloneEditor.el = container
-      cloneEditor.type = container.prop('tagName').toLowerCase()
-      cloneEditor.content = container.val()
-
-      $(container[0].attributes).each(function(){
-        cloneEditor.attrKeys.push(this.nodeName)
-        cloneEditor.attrValues.push(this.nodeValue)
-      })
-
-      this.$cloneEditor = cloneEditor
 
       if (typeof callbackContent == 'string') {
         // Set the content based by callback content
@@ -331,7 +317,7 @@
 
       if (afterContainer && afterContainer.attr('class') == 'md-footer') {
         // If there is footer element, insert the preview container before it
-        replacementContainer.insertBefore('.md-footer')
+        replacementContainer.insertBefore(afterContainer)
       } else {
         // Otherwise, just append it after textarea
         container.parent().append(replacementContainer)
@@ -371,7 +357,7 @@
     }
 
   , getContent: function() {
-      return (this.$isPreview) ? this.$cloneEditor.content : this.$textarea.val()
+      return this.$textarea.val()
     }
 
   , setContent: function(content) {
