@@ -84,6 +84,4 @@ $(function(){
 		$(this).hide()
 		return false
 	})
-
-	console.log(marked('<p>Foo is bar</p>'));
 })
