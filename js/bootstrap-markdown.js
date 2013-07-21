@@ -85,7 +85,8 @@
                 buttonToggle = '',
                 buttonHandler = ns+'-'+button.name,
                 btnText = button.btnText ? button.btnText : '',
-                btnClass = button.btnClass ? button.btnClass : 'btn'
+                btnClass = button.btnClass ? button.btnClass : 'btn',
+                tabIndex = button.tabIndex ? button.tabIndex : '-1'
 
             if (button.toggle == true) {
               buttonToggle = ' data-toggle="button"'
@@ -96,6 +97,8 @@
                                     +btnClass
                                     +' btn-small" title="'
                                     +button.title
+                                    +'" tabindex="'
+                                    +tabIndex
                                     +'" data-provider="'
                                     +ns
                                     +'" data-handler="'
