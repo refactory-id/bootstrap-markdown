@@ -95,7 +95,7 @@
             // Attach the button object
             btnGroupContainer.append('<button class="'
                                     +btnClass
-                                    +' btn-small" title="'
+                                    +' btn-sm btn-default" title="'
                                     +button.title
                                     +'" tabindex="'
                                     +tabIndex
