@@ -879,7 +879,7 @@
           toggle: true,
           title: 'Preview',
           btnText: 'Preview',
-          btnClass: 'btn-sm btn-default',
+          btnClass: 'btn btn-primary btn-sm',
           icon: 'glyphicon glyphicon-search',
           callback: function(e){
             // Check the preview mode and toggle based on this flag
