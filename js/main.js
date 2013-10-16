@@ -23,7 +23,7 @@ $(function(){
 		        data: [{
 		          name: 'cmdBeer',
 		          title: 'Beer',
-		          icon: 'icon icon-glass',
+		          icon: 'glyphicon glyphicon-glass',
 		          callback: function(e){
 		            // Replace selection with some drinks
 		            var chunk, cursor, selected = e.getSelection(), content = e.getContent(),
