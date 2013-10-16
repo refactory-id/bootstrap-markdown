@@ -189,7 +189,7 @@
       if (this.$editor == null) {
         // Create the panel
         var editorHeader = $('<div/>', {
-                            'class': 'md-header'
+                            'class': 'md-header btn-toolbar'
                             })
 
         // Build the main buttons
