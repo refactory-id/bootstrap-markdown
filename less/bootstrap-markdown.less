@@ -11,18 +11,28 @@
 .md-editor {
   display: block;
   border: 1px solid @table-border-color;
+  border-radius: @panel-border-radius;
 
   > .md-header, .md-footer {
     display: block;
     padding: 6px 4px;
     background: @panel-default-heading-bg;
+    border-radius: @panel-border-radius;
+  }
+
+  > .md-header {
+    border-bottom: 1px solid @panel-inner-border;
+  }
+
+  > .md-footer {
+    border-top: 1px solid @panel-inner-border;
   }
 
   > .md-preview {
-    background: @panel-bg;
-    border-top: 1px dashed @table-border-color;
-    border-bottom: 1px dashed @table-border-color;
+    padding: 3px;
+    background: @input-bg;
     min-height: 10px;
+    overflow: auto;
   }
 
   > textarea {
@@ -32,18 +42,12 @@
     outline: thin dotted  \9; /* IE6-9 */
     margin: 0;
     display: block;
-    padding: 0;
+    padding: 3px;
     width: 100%;
     border: 0;
-    border-top: 1px dashed @table-border-color;
-    border-bottom: 1px dashed @table-border-color;
-    border-radius: 0;
+    border-radius: @panel-border-radius;
     box-shadow: none;
-    background: @input-bg-disabled;
-    &:focus {
-      box-shadow: none;
-      background: @input-bg;
-    }
+    background: @input-bg;
   }
 
   // Hover state
