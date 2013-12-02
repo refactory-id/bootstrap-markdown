@@ -733,7 +733,7 @@
         },{
           name: 'cmdHeading',
           title: 'Heading',
-          icon: 'glyphicon glyphicon-font',
+          icon: 'glyphicon glyphicon-header',
           callback: function(e){
             // Append/remove ### surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar
@@ -742,7 +742,7 @@
               // Give extra word
               chunk = 'heading text'
             } else {
-              chunk = selected.text
+              chunk = selected.text + '\n';
             }
 
             // transform selection and set the cursor into chunked text
@@ -751,12 +751,12 @@
               e.setSelection(selected.start-pointer,selected.end)
               e.replaceSelection(chunk)
               cursor = selected.start-pointer
-            } else if (prevChar = content.substr(selected.start-1,1), !!prevChar && prevChar != '\n') {
-              e.replaceSelection('\n\n### '+chunk+'\n')
+            } else if (selected.start > 0 && (prevChar = content.substr(selected.start-1,1), !!prevChar && prevChar != '\n')) {
+              e.replaceSelection('\n\n### '+chunk)
               cursor = selected.start+6
             } else {
               // Empty string before element
-              e.replaceSelection('### '+chunk+'\n')
+              e.replaceSelection('### '+chunk)
               cursor = selected.start+4
             }
 
@@ -783,7 +783,7 @@
 
             link = prompt('Insert Hyperlink','http://')
 
-            if (link != null) {
+            if (link != null && link != '' && link != 'http://') {
               // transform selection and set the cursor into chunked text
               e.replaceSelection('['+chunk+']('+link+')')
               cursor = selected.start+1
