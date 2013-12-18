@@ -175,7 +175,7 @@ Enjoy!</textarea>
         </div>
 
         <h3>Events/Hook</h3>
-        <p>There are four main events within <strong>Bootstrap-Markdown</strong> lifecycle : <code>onShow</code>, <code>onPreview</code>, <code>onSave</code> and <code>onBlur</code>. Heres an example to hook into those events via code:</p>
+        <p>There are five main events within <strong>Bootstrap-Markdown</strong> lifecycle : <code>onShow</code>, <code>onPreview</code>, <code>onSave</code>, <code>onFocus</code> and <code>onBlur</code>. Heres an example to hook into those events via code:</p>
 
         <div class="well">
         <h5>Code</h5>
@@ -207,6 +207,9 @@ Enjoy!</textarea>
   },
   onSave: function(e) {
     alert(&quot;Saving '&quot;+e.getContent()+&quot;'...&quot;)
+  },
+  onFocus: function(e) {
+    alert(&quot;Focus triggered!&quot;)
   },
   onBlur: function(e) {
     alert(&quot;Blur triggered!&quot;)
