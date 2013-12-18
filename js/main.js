@@ -76,8 +76,20 @@ $(function(){
 			onSave: function(e) {
 				alert('Saving "'+e.getContent()+'"...')
 			},
+			onFocus: function(e) {
+				// Since focusin event will fired until the focusout
+				// sometime we may want to only do something
+				// when focus occurs in the first time only
+				if (!$(e.$element).data('focused')) {
+					alert('Focus triggered!')
+					$(e.$element).data('focused', true)
+				}
+			},
 			onBlur: function(e) {
 				alert('Blur triggered!')
+
+				// Remove focus flag
+				$(e.$element).data('focused', null)
 			}
 		})
 
