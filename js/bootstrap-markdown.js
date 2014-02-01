@@ -312,7 +312,14 @@
         content = callbackContent
       } else {
         // Set the content
-        content = (typeof markdown == 'object') ? markdown.toHTML(container.val()) : container.val()
+        var val = container.val();
+        if(typeof markdown == 'object') {
+          content = markdown.toHTML(val);
+        }else if(typeof marked == 'function') {
+          content = marked(val);
+        } else {
+          content = val;
+        }
       }
 
       // Build preview element
