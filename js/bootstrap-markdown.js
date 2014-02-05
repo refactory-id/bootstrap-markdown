@@ -84,6 +84,7 @@
             var button = buttons[z],
                 buttonToggle = '',
                 buttonHandler = ns+'-'+button.name,
+                buttonIcon = button.icon instanceof Object ? button.icon[this.$options.iconLibrary] : button.icon,
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn',
                 tabIndex = button.tabIndex ? button.tabIndex : '-1'
@@ -106,7 +107,7 @@
                                     +'"'
                                     +buttonToggle
                                     +'><span class="'
-                                    +button.icon
+                                    +buttonIcon
                                     +'"></span> '
                                     +btnText
                                     +'</button>')
@@ -678,7 +679,7 @@
         data: [{
           name: 'cmdBold',
           title: 'Bold',
-          icon: 'glyphicon glyphicon-bold',
+          icon: { glyph: 'glyphicon glyphicon-bold', fa: 'fa fa-bold' },
           callback: function(e){
             // Give/remove ** surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -707,7 +708,7 @@
         },{
           name: 'cmdItalic',
           title: 'Italic',
-          icon: 'glyphicon glyphicon-italic',
+          icon: { glyph: 'glyphicon glyphicon-italic', fa: 'fa fa-italic' },
           callback: function(e){
             // Give/remove * surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -736,7 +737,7 @@
         },{
           name: 'cmdHeading',
           title: 'Heading',
-          icon: 'glyphicon glyphicon-header',
+          icon: { glyph: 'glyphicon glyphicon-header', fa: 'fa fa-font' },
           callback: function(e){
             // Append/remove ### surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar
@@ -772,7 +773,7 @@
         data: [{
           name: 'cmdUrl',
           title: 'URL/Link',
-          icon: 'glyphicon glyphicon-globe',
+          icon: { glyph: 'glyphicon glyphicon-globe', fa: 'fa fa-globe' },
           callback: function(e){
             // Give [] surround the selection and prepend the link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -798,7 +799,7 @@
         },{
           name: 'cmdImage',
           title: 'Image',
-          icon: 'glyphicon glyphicon-picture',
+          icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o' },
           callback: function(e){
             // Give ![] surround the selection and prepend the image link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -830,7 +831,7 @@
         data: [{
           name: 'cmdList',
           title: 'List',
-          icon: 'glyphicon glyphicon-list',
+          icon: { glyph: 'glyphicon glyphicon-list', fa: 'fa fa-list' },
           callback: function(e){
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -883,7 +884,7 @@
           title: 'Preview',
           btnText: 'Preview',
           btnClass: 'btn btn-primary btn-sm',
-          icon: 'glyphicon glyphicon-search',
+          icon: { glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search' },
           callback: function(e){
             // Check the preview mode and toggle based on this flag
             var isPreview = e.$isPreview,content
