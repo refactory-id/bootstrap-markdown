@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/stylesheet.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-markdown.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="shortcut icon" href="img/favicon.png">
 
     <title>Bootstrap Markdown</title>
@@ -157,6 +158,13 @@ Enjoy!</textarea>
               <td><code>mixed</code></td>
               <td>The edtor height. Default to <code>inherit</code></td>
             </tr>
+            <tr>
+              <td>
+                <code>iconlibrary</code>
+              </td>
+              <td><code>string</code></td>
+              <td>The icon library to use. Glyphicons (<code>glyph</code>) and Font Awesome (<code>fa</code>) are built in. Default to <code>glyph</code></td>
+            </tr>
           </tbody>
         </table>
 
@@ -171,6 +179,13 @@ Enjoy!</textarea>
           <hr/>
           <p>Savable using <code>data-savable="true"</code> attribute</p>
           <textarea data-provide="markdown" data-savable="true"></textarea>
+          <hr/>
+
+          <p>Use to Font Awesome icons instead of Glyphicons</p>
+          <h5>Code</h5>
+          <pre class="prettyprint">$("#target-fa-editor").markdown({iconlibrary: "fa"})</pre>
+          <h5>Result</h5>
+          <textarea id="target-fa-editor"></textarea>
           <hr/>
         </div>
 
