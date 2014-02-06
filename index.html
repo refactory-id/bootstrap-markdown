@@ -237,15 +237,15 @@ Enjoy!</textarea>
             name: &quot;cmdBeer&quot;,
             toggle: true, // this param only take effect if you load bootstrap.js
             title: &quot;Beer&quot;,
-            icon: &quot;icon icon-glass&quot;,
+            icon: &quot;glyphicon glyphicon-glass&quot;,
             callback: function(e){
               // Replace selection with some drinks
-              var chunk, cursor, 
+              var chunk, cursor,
                   selected = e.getSelection(), content = e.getContent(),
-                  drinks = [&quot;Heinekken&quot;, &quot;Budweiser&quot;, 
-                            &quot;Iron City&quot;, &quot;Amstel Light&quot;, 
-                            &quot;Red Stripe&quot;, &quot;Smithwicks&quot;, 
-                            &quot;Westvleteren&quot;, &quot;Sierra Nevada&quot;, 
+                  drinks = [&quot;Heinekken&quot;, &quot;Budweiser&quot;,
+                            &quot;Iron City&quot;, &quot;Amstel Light&quot;,
+                            &quot;Red Stripe&quot;, &quot;Smithwicks&quot;,
+                            &quot;Westvleteren&quot;, &quot;Sierra Nevada&quot;,
                             &quot;Guinness&quot;, &quot;Corona&quot;, &quot;Calsberg&quot;],
                   index = Math.floor((Math.random()*10)+1)
 
