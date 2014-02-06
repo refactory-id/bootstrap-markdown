@@ -84,7 +84,7 @@
             var button = buttons[z],
                 buttonToggle = '',
                 buttonHandler = ns+'-'+button.name,
-                buttonIcon = button.icon instanceof Object ? button.icon[this.$options.iconLibrary] : button.icon,
+                buttonIcon = button.icon instanceof Object ? button.icon[this.$options.iconlibrary] : button.icon,
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn',
                 tabIndex = button.tabIndex ? button.tabIndex : '-1'
@@ -671,7 +671,7 @@
     savable:false,
     width: 'inherit',
     height: 'inherit',
-    iconLibrary: 'glyph',
+    iconlibrary: 'glyph',
 
     /* Buttons Properties */
     buttons: [
