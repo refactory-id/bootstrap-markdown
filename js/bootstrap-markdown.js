@@ -62,7 +62,7 @@
         }
       })
     }
-    
+
   , __buildButtons: function(buttonsArray, container) {
       var i,
           ns = this.$ns,
@@ -84,6 +84,7 @@
             var button = buttons[z],
                 buttonToggle = '',
                 buttonHandler = ns+'-'+button.name,
+                buttonIcon = button.icon instanceof Object ? button.icon[this.$options.iconlibrary] : button.icon,
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn',
                 tabIndex = button.tabIndex ? button.tabIndex : '-1'
@@ -106,7 +107,7 @@
                                     +'"'
                                     +buttonToggle
                                     +'><span class="'
-                                    +button.icon
+                                    +buttonIcon
                                     +'"></span> '
                                     +btnText
                                     +'</button>')
@@ -169,10 +170,10 @@
 
   , showEditor: function() {
       var instance = this,
-          textarea, 
+          textarea,
           ns = this.$ns,
           container = this.$element,
-          originalHeigth = container.css('height'), 
+          originalHeigth = container.css('height'),
           originalWidth = container.css('width'),
           editable = this.$editable,
           handler = this.$handler,
@@ -398,7 +399,7 @@
           }) ||
 
           /* browser not supported */
-          function() { 
+          function() {
             return null
           }
 
@@ -415,11 +416,11 @@
           ('selectionStart' in e && function() {
               e.selectionStart = start
               e.selectionEnd = end
-              return 
+              return
           }) ||
 
           /* browser not supported */
-          function() { 
+          function() {
             return null
           }
 
@@ -464,7 +465,7 @@
         }
 
         return nextTab
-      } 
+      }
     }
 
   , setNextTab: function(start,end) {
@@ -548,7 +549,7 @@
           } else {
             // The next tab memory contains nothing...
             // check the cursor position to determine tab action
-            var cursor = this.getSelection() 
+            var cursor = this.getSelection()
 
             if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
               // The cursor already reach the end of the content
@@ -557,7 +558,7 @@
             } else {
               // Put the cursor to the end
               this.setSelection(this.getContent().length,this.getContent().length)
-              
+
               blocked = true
             }
           }
@@ -602,7 +603,7 @@
         }
       })
 
-	  // Trigger the onFocus hook
+    // Trigger the onFocus hook
       options.onFocus(this);
 
       return this
@@ -616,15 +617,15 @@
 
       if (editor.hasClass('active') || this.$element.parent().length == 0) {
         editor.removeClass('active')
-        
+
         if (isHideable) {
-        
+
           // Check for editable elements
           if (editable.el != null) {
             // Build the original element
             var oldElement = $('<'+editable.type+'/>'),
                 content = this.getContent(),
-                currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content 
+                currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content
 
             $(editable.attrKeys).each(function(k,v) {
               oldElement.attr(editable.attrKeys[k],editable.attrValues[k])
@@ -636,7 +637,7 @@
             editor.replaceWith(oldElement)
           } else {
             editor.hide()
-            
+
           }
         }
 
@@ -670,6 +671,7 @@
     savable:false,
     width: 'inherit',
     height: 'inherit',
+    iconlibrary: 'glyph',
 
     /* Buttons Properties */
     buttons: [
@@ -678,7 +680,7 @@
         data: [{
           name: 'cmdBold',
           title: 'Bold',
-          icon: 'glyphicon glyphicon-bold',
+          icon: { glyph: 'glyphicon glyphicon-bold', fa: 'fa fa-bold' },
           callback: function(e){
             // Give/remove ** surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -691,7 +693,7 @@
             }
 
             // transform selection and set the cursor into chunked text
-            if (content.substr(selected.start-2,2) == '**' 
+            if (content.substr(selected.start-2,2) == '**'
                 && content.substr(selected.end,2) == '**' ) {
               e.setSelection(selected.start-2,selected.end+2)
               e.replaceSelection(chunk)
@@ -707,7 +709,7 @@
         },{
           name: 'cmdItalic',
           title: 'Italic',
-          icon: 'glyphicon glyphicon-italic',
+          icon: { glyph: 'glyphicon glyphicon-italic', fa: 'fa fa-italic' },
           callback: function(e){
             // Give/remove * surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -720,7 +722,7 @@
             }
 
             // transform selection and set the cursor into chunked text
-            if (content.substr(selected.start-1,1) == '*' 
+            if (content.substr(selected.start-1,1) == '*'
                 && content.substr(selected.end,1) == '*' ) {
               e.setSelection(selected.start-1,selected.end+1)
               e.replaceSelection(chunk)
@@ -736,7 +738,7 @@
         },{
           name: 'cmdHeading',
           title: 'Heading',
-          icon: 'glyphicon glyphicon-header',
+          icon: { glyph: 'glyphicon glyphicon-header', fa: 'fa fa-font' },
           callback: function(e){
             // Append/remove ### surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar
@@ -749,7 +751,7 @@
             }
 
             // transform selection and set the cursor into chunked text
-            if ((pointer = 4, content.substr(selected.start-pointer,pointer) == '### ') 
+            if ((pointer = 4, content.substr(selected.start-pointer,pointer) == '### ')
                 || (pointer = 3, content.substr(selected.start-pointer,pointer) == '###')) {
               e.setSelection(selected.start-pointer,selected.end)
               e.replaceSelection(chunk)
@@ -772,7 +774,7 @@
         data: [{
           name: 'cmdUrl',
           title: 'URL/Link',
-          icon: 'glyphicon glyphicon-globe',
+          icon: { glyph: 'glyphicon glyphicon-globe', fa: 'fa fa-globe' },
           callback: function(e){
             // Give [] surround the selection and prepend the link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -798,7 +800,7 @@
         },{
           name: 'cmdImage',
           title: 'Image',
-          icon: 'glyphicon glyphicon-picture',
+          icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o' },
           callback: function(e){
             // Give ![] surround the selection and prepend the image link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -830,7 +832,7 @@
         data: [{
           name: 'cmdList',
           title: 'List',
-          icon: 'glyphicon glyphicon-list',
+          icon: { glyph: 'glyphicon glyphicon-list', fa: 'fa fa-list' },
           callback: function(e){
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -839,7 +841,7 @@
             if (selected.length == 0) {
               // Give extra word
               chunk = 'list text here'
-                
+
               e.replaceSelection('- '+chunk)
 
               // Set the cursor
@@ -869,7 +871,7 @@
               }
             }
 
-           
+
 
             // Set the cursor
             e.setSelection(cursor,cursor+chunk.length)
@@ -883,7 +885,7 @@
           title: 'Preview',
           btnText: 'Preview',
           btnClass: 'btn btn-primary btn-sm',
-          icon: 'glyphicon glyphicon-search',
+          icon: { glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search' },
           callback: function(e){
             // Check the preview mode and toggle based on this flag
             var isPreview = e.$isPreview,content
@@ -928,6 +930,7 @@
       $this.data('markdown').showEditor()
       return
     }
+
     $this.markdown($this.data())
   }
 
@@ -944,7 +947,7 @@
               || $(el).parent().parent().parent().attr('class').indexOf('md-editor') < 0) {
           if ( typeof $(el).parent().parent().attr('class') == "undefined"
               || $(el).parent().parent().attr('class').indexOf('md-editor') < 0) {
-          
+
                 blurred = true
           }
         } else {
