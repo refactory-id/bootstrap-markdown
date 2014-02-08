@@ -62,7 +62,7 @@
         }
       })
     }
-    
+
   , __buildButtons: function(buttonsArray, container) {
       var i,
           ns = this.$ns,
@@ -93,7 +93,7 @@
             }
 
             // Attach the button object
-            btnGroupContainer.append('<button class="'
+            btnGroupContainer.append('<button type="button" class="'
                                     +btnClass
                                     +' btn-default btn-sm" title="'
                                     +button.title
@@ -169,10 +169,10 @@
 
   , showEditor: function() {
       var instance = this,
-          textarea, 
+          textarea,
           ns = this.$ns,
           container = this.$element,
-          originalHeigth = container.css('height'), 
+          originalHeigth = container.css('height'),
           originalWidth = container.css('width'),
           editable = this.$editable,
           handler = this.$handler,
@@ -398,7 +398,7 @@
           }) ||
 
           /* browser not supported */
-          function() { 
+          function() {
             return null
           }
 
@@ -415,11 +415,11 @@
           ('selectionStart' in e && function() {
               e.selectionStart = start
               e.selectionEnd = end
-              return 
+              return
           }) ||
 
           /* browser not supported */
-          function() { 
+          function() {
             return null
           }
 
@@ -464,7 +464,7 @@
         }
 
         return nextTab
-      } 
+      }
     }
 
   , setNextTab: function(start,end) {
@@ -548,7 +548,7 @@
           } else {
             // The next tab memory contains nothing...
             // check the cursor position to determine tab action
-            var cursor = this.getSelection() 
+            var cursor = this.getSelection()
 
             if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
               // The cursor already reach the end of the content
@@ -557,7 +557,7 @@
             } else {
               // Put the cursor to the end
               this.setSelection(this.getContent().length,this.getContent().length)
-              
+
               blocked = true
             }
           }
@@ -616,15 +616,15 @@
 
       if (editor.hasClass('active') || this.$element.parent().length == 0) {
         editor.removeClass('active')
-        
+
         if (isHideable) {
-        
+
           // Check for editable elements
           if (editable.el != null) {
             // Build the original element
             var oldElement = $('<'+editable.type+'/>'),
                 content = this.getContent(),
-                currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content 
+                currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content
 
             $(editable.attrKeys).each(function(k,v) {
               oldElement.attr(editable.attrKeys[k],editable.attrValues[k])
@@ -636,7 +636,7 @@
             editor.replaceWith(oldElement)
           } else {
             editor.hide()
-            
+
           }
         }
 
@@ -691,7 +691,7 @@
             }
 
             // transform selection and set the cursor into chunked text
-            if (content.substr(selected.start-2,2) == '**' 
+            if (content.substr(selected.start-2,2) == '**'
                 && content.substr(selected.end,2) == '**' ) {
               e.setSelection(selected.start-2,selected.end+2)
               e.replaceSelection(chunk)
@@ -720,7 +720,7 @@
             }
 
             // transform selection and set the cursor into chunked text
-            if (content.substr(selected.start-1,1) == '*' 
+            if (content.substr(selected.start-1,1) == '*'
                 && content.substr(selected.end,1) == '*' ) {
               e.setSelection(selected.start-1,selected.end+1)
               e.replaceSelection(chunk)
@@ -749,7 +749,7 @@
             }
 
             // transform selection and set the cursor into chunked text
-            if ((pointer = 4, content.substr(selected.start-pointer,pointer) == '### ') 
+            if ((pointer = 4, content.substr(selected.start-pointer,pointer) == '### ')
                 || (pointer = 3, content.substr(selected.start-pointer,pointer) == '###')) {
               e.setSelection(selected.start-pointer,selected.end)
               e.replaceSelection(chunk)
@@ -839,7 +839,7 @@
             if (selected.length == 0) {
               // Give extra word
               chunk = 'list text here'
-                
+
               e.replaceSelection('- '+chunk)
 
               // Set the cursor
@@ -869,7 +869,7 @@
               }
             }
 
-           
+
 
             // Set the cursor
             e.setSelection(cursor,cursor+chunk.length)
@@ -944,7 +944,7 @@
               || $(el).parent().parent().parent().attr('class').indexOf('md-editor') < 0) {
           if ( typeof $(el).parent().parent().attr('class') == "undefined"
               || $(el).parent().parent().attr('class').indexOf('md-editor') < 0) {
-          
+
                 blurred = true
           }
         } else {
