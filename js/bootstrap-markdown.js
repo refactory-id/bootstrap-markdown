@@ -94,7 +94,7 @@
             }
 
             // Attach the button object
-            btnGroupContainer.append('<button class="'
+            btnGroupContainer.append('<button type="button" class="'
                                     +btnClass
                                     +' btn-default btn-sm" title="'
                                     +button.title
