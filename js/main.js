@@ -46,6 +46,8 @@ $(function(){
 		]
 	})
 
+	$('#target-fa-editor').markdown({iconlibrary: 'fa'})
+
 	$('#editor-triger-init').click(function(){
 		$('#target-editor').markdown({
 			savable:true,
