@@ -163,7 +163,7 @@ Enjoy!</textarea>
                 <code>iconlibrary</code>
               </td>
               <td><code>string</code></td>
-              <td>The icon library to use. Glyphicons (<code>glyph</code>) and Font Awesome (<code>fa</code>) are built in. Default to <code>glyph</code></td>
+              <td>The icon library to use. Glyphicons (<code>glyph</code>) and Font Awesome (<code>fa</code>) are supported. In order to use Font Awesome properly, you'll need to <a href="http://fontawesome.io/get-started/">include Font Awesome stylesheet</a> yourself. Default to <code>glyph</code></td>
             </tr>
           </tbody>
         </table>
@@ -181,11 +181,8 @@ Enjoy!</textarea>
           <textarea data-provide="markdown" data-savable="true"></textarea>
           <hr/>
 
-          <p>Use to Font Awesome icons instead of Glyphicons (requires <a href="http://fontawesome.io/get-started/">Font Awesome stylesheet</a>)</p>
-          <h5>Code</h5>
-          <pre class="prettyprint">$("#target-fa-editor").markdown({iconlibrary: "fa"})</pre>
-          <h5>Result</h5>
-          <textarea id="target-fa-editor"></textarea>
+          <p>Select Font Awesome icons instead of Glyphicons (requires <a href="http://fontawesome.io/get-started/">Font Awesome stylesheet</a>) using <code>data-iconlibrary</code></p>
+          <textarea data-provide="markdown" data-iconlibrary="fa"></textarea>
           <hr/>
         </div>
 
