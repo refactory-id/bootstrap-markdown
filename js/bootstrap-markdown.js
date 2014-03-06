@@ -193,14 +193,58 @@
                             'class': 'md-header btn-toolbar'
                             })
 
-        // Build the main buttons
+        // Merge the main & additional buttons together
+        var allButtons = []
         if (options.buttons.length > 0) {
-          editorHeader = this.__buildButtons(options.buttons, editorHeader)
+          allButtons = allButtons.concat(options.buttons[0])
+        }
+        if (options.additionalButtons.length > 0) {
+          allButtons = allButtons.concat(options.additionalButtons[0])
         }
 
-        // Build the additional buttons
-        if (options.additionalButtons.length > 0) {
-          editorHeader = this.__buildButtons(options.additionalButtons, editorHeader)
+        if (options.rearrangeButtons.length > 0) {
+
+          // Build the rearranged buttons
+          for (var i = 0, iLength = options.rearrangeButtons.length; i < iLength; i++) {
+            var flattenButtons
+
+            if (typeof options.rearrangeButtons[i] === 'string') {
+              for (var j = 0, jLength = allButtons.length; j < jLength; j++) {
+                if (options.rearrangeButtons[i] === allButtons[j].name) {
+                  editorHeader = this.__buildButtons([[allButtons[j]]], editorHeader)
+                  break
+                }
+              }
+            }
+
+            if (typeof options.rearrangeButtons[i] === 'object') {
+              if (!flattenButtons) {
+                flattenButtons = [].concat.apply([], allButtons.map(function (obj) {return obj.data}))
+              }
+
+              var obj = options.rearrangeButtons[i],
+                  btnGroup = {
+                    name: Object.keys(obj)[0],
+                    data: []
+                  },
+                  btnNamesArr = options.rearrangeButtons[i][btnGroup.name]
+
+              for (var k = 0, kLength = btnNamesArr.length; k < kLength; k++) {
+                for (var l = 0, lLength = flattenButtons.length; l < lLength; l++) {
+                  if (flattenButtons[l].name === btnNamesArr[k]) {
+                    btnGroup.data = btnGroup.data.concat(flattenButtons[l])
+                    break
+                  }
+                }
+              }
+
+              editorHeader = this.__buildButtons([[btnGroup]], editorHeader)
+            }
+          }
+        } else {
+
+          // Build the buttons in the default order
+          editorHeader = this.__buildButtons([allButtons], editorHeader)
         }
 
         editor.append(editorHeader)
@@ -908,6 +952,7 @@
       }]
     ],
     additionalButtons:[], // Place to hook more buttons by code
+    rearrangeButtons:[],  // Option to rearrange all the buttons and group buttons
 
     /* Events hook */
     onShow: function (e) {},
