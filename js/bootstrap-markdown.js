@@ -212,7 +212,7 @@
           textarea.addClass('md-input')
           editor.append(textarea)
         } else {
-          var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
+          var rawContent = options.htmlToMarkdown(container.html()),
               currentContent = $.trim(rawContent)
 
           // This is some arbitrary content that could be edited
@@ -313,14 +313,7 @@
         content = callbackContent
       } else {
         // Set the content
-        var val = container.val();
-        if(typeof markdown == 'object') {
-          content = markdown.toHTML(val);
-        }else if(typeof marked == 'function') {
-          content = marked(val);
-        } else {
-          content = val;
-        }
+        content = options.markdownToHtml(container.val())
       }
 
       // Build preview element
@@ -632,7 +625,7 @@
             // Build the original element
             var oldElement = $('<'+editable.type+'/>'),
                 content = this.getContent(),
-                currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content
+                currentContent = options.markdownToHtml(content)
 
             $(editable.attrKeys).each(function(k,v) {
               oldElement.attr(editable.attrKeys[k],editable.attrValues[k])
@@ -908,6 +901,20 @@
       }]
     ],
     additionalButtons:[], // Place to hook more buttons by code
+
+    // Markdown Adapter
+    htmlToMarkdown: function(html) {
+      return typeof toMarkdown === 'function' ? toMarkdown(html) : html
+    },
+    markdownToHtml: function(md) {
+      if (typeof markdown === 'object') {
+        return markdown.toHTML(md)
+      } else if (typeof marked === 'function') {
+        return marked(md)
+      } else {
+        return md
+      }
+    },
 
     /* Events hook */
     onShow: function (e) {},
