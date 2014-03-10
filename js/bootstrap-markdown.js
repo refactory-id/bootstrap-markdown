@@ -35,6 +35,7 @@
     this.$isPreview   = false
     this.$editor      = null
     this.$textarea    = null
+    this.$modal       = null
     this.$handler     = []
     this.$callback    = []
     this.$nextTab     = []
@@ -166,6 +167,74 @@
       }
 
       e.preventDefault()
+    }
+
+  , __showModalPopup: function(data, callback) {
+      // Insert the modal in the DOM
+      if (this.$modal === null) {
+        this.$modal = $('<div class="modal fade" tabindex="-1" role="dialog">'
+                        + '<div class="modal-dialog">'
+                          + '<div class="modal-content">'
+                            + '<div class="modal-header">'
+                              + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'
+                              + '<h4 class="modal-title">'
+                              + '</h4>'
+                            + '</div>'
+                            + '<div class="modal-body">'
+                              + '<div class="form-group">'
+                                + '<label for="markdown-editor-modal-input" class="control-label"></label>'
+                                + '<input type="text" class="form-control" id="markdown-editor-modal-input">'
+                              + '</div>'
+                            + '</div>'
+                            + '<div class="modal-footer">'
+                              + '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>'
+                              + '<button type="button" class="btn btn-primary">Ok</button>'
+                            + '</div>'
+                          + '</div>'
+                        + '</div>'
+                      + '</div>')
+        this.$modal.insertAfter(this.$element)
+      }
+
+      var instance = this,
+          $input = $('#markdown-editor-modal-input'),
+          $ok = instance.$modal.find('.modal-footer button:not([data-dismiss=modal])')
+
+      // Update the content
+      instance.$modal.find('.modal-title').text(data.title)
+      instance.$modal.find('.control-label').text(data.label)
+      $input.attr('placeholder', data.placeholder)
+      $input.val('')
+
+      // Remove attached events when the modal is closing
+      instance.$modal.on('hide.bs.modal', function() {
+        $ok.off('click.bootstrapEditor')
+        $(document).off('keydown.bootstrapEditor')
+      })
+
+      // Put the focus on the textarea when the modal is closed
+      instance.$modal.on('hidden.bs.modal', function() {
+        instance.$textarea.focus()
+      })
+
+      // Submit the modal
+      $ok.on('click.bootstrapEditor', function(e) {
+        e.preventDefault()
+        $ok.off('click.bootstrapEditor')
+        instance.$modal.modal('hide')
+        callback($input.val())
+      })
+
+      // Also submit the modal on press Enter
+      $(document).on('keydown.bootstrapEditor', function(e) {
+        if (e.which === 13) {
+          e.preventDefault()
+          $(this).off('keydown.bootstrapEditor')
+          $ok.click()
+        }
+      })
+
+      instance.$modal.modal('show')
     }
 
   , showEditor: function() {
@@ -675,7 +744,8 @@
     /* Editor Properties */
     autofocus: false,
     hideable: false,
-    savable:false,
+    savable: false,
+    useModal: false,
     width: 'inherit',
     height: 'inherit',
     iconlibrary: 'glyph',
@@ -784,7 +854,25 @@
           icon: { glyph: 'glyphicon glyphicon-globe', fa: 'fa fa-globe' },
           callback: function(e){
             // Give [] surround the selection and prepend the link
-            var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
+            var chunk,
+                cursor,
+                selected = e.getSelection(),
+                text = {
+                  title: 'Insert Hyperlink',
+                  label: 'URL/Link',
+                  placeholder: 'http://'
+                }
+
+            var processLink = function(link) {
+              if (link != null && link != '' && link != 'http://') {
+                // transform selection and set the cursor into chunked text
+                e.replaceSelection('['+chunk+']('+link+')')
+                cursor = selected.start+1
+
+                // Set the cursor
+                e.setSelection(cursor,cursor+chunk.length)
+              }
+            }
 
             if (selected.length == 0) {
               // Give extra word
@@ -793,15 +881,10 @@
               chunk = selected.text
             }
 
-            link = prompt('Insert Hyperlink','http://')
-
-            if (link != null && link != '' && link != 'http://') {
-              // transform selection and set the cursor into chunked text
-              e.replaceSelection('['+chunk+']('+link+')')
-              cursor = selected.start+1
-
-              // Set the cursor
-              e.setSelection(cursor,cursor+chunk.length)
+            if (e.$options.useModal && typeof $.fn.modal === 'function') {
+              e.__showModalPopup(text, function(link) {processLink(link)})
+            } else {
+              processLink(prompt(text.title,text.placeholder))
             }
           }
         },{
@@ -810,7 +893,28 @@
           icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o' },
           callback: function(e){
             // Give ![] surround the selection and prepend the image link
-            var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
+            var chunk,
+                cursor,
+                selected = e.getSelection(),
+                text = {
+                  title: 'Insert Image Hyperlink',
+                  label: 'URL/Link',
+                  placeholder: 'http://'
+                }
+
+            var processLink = function(link) {
+              if (link != null) {
+                // transform selection and set the cursor into chunked text
+                e.replaceSelection('!['+chunk+']('+link+' "enter image title here")')
+                cursor = selected.start+2
+
+                // Set the next tab
+                e.setNextTab('enter image title here')
+
+                // Set the cursor
+                e.setSelection(cursor,cursor+chunk.length)
+              }
+            }
 
             if (selected.length == 0) {
               // Give extra word
@@ -819,18 +923,10 @@
               chunk = selected.text
             }
 
-            link = prompt('Insert Image Hyperlink','http://')
-
-            if (link != null) {
-              // transform selection and set the cursor into chunked text
-              e.replaceSelection('!['+chunk+']('+link+' "enter image title here")')
-              cursor = selected.start+2
-
-              // Set the next tab
-              e.setNextTab('enter image title here')
-
-              // Set the cursor
-              e.setSelection(cursor,cursor+chunk.length)
+            if (e.$options.useModal && typeof $.fn.modal === 'function') {
+              e.__showModalPopup(text, function(link) {processLink(link)})
+            } else {
+              processLink(prompt(text.title,text.placeholder))
             }
           }
         }]
