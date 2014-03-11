@@ -864,7 +864,7 @@
                 }
 
             var processLink = function(link) {
-              if (link != null && link != '' && link != 'http://') {
+              if (link && link !== text.placeholder) {
                 // transform selection and set the cursor into chunked text
                 e.replaceSelection('['+chunk+']('+link+')')
                 cursor = selected.start+1
