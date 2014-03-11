@@ -131,7 +131,9 @@
           rowsVal = hasRows ? this.$textarea.attr('rows') : maxRows
 
       this.$textarea.attr('rows',rowsVal)
-      this.$textarea.css('resize','none')
+      if (this.$options.resize) {
+        this.$textarea.css('resize',this.$options.resize)
+      }
 
       this.$textarea
         .on('focus',    $.proxy(this.focus, this))
@@ -678,6 +680,7 @@
     savable:false,
     width: 'inherit',
     height: 'inherit',
+    resize: 'none',
     iconlibrary: 'glyph',
 
     /* Buttons Properties */
