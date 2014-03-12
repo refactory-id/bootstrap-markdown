@@ -131,7 +131,9 @@
           rowsVal = hasRows ? this.$textarea.attr('rows') : maxRows
 
       this.$textarea.attr('rows',rowsVal)
-      this.$textarea.css('resize','none')
+      if (this.$options.resize) {
+        this.$textarea.css('resize',this.$options.resize)
+      }
 
       this.$textarea
         .on('focus',    $.proxy(this.focus, this))
@@ -257,16 +259,27 @@
           editor.append(editorFooter)
         }
 
-        // Set width/height
-        $.each(['height','width'],function(k,attr){
-          if (options[attr] != 'inherit') {
-            if (jQuery.isNumeric(options[attr])) {
-              editor.css(attr,options[attr]+'px')
-            } else {
-              editor.addClass(options[attr])
-            }
+        // Set width
+        if (options.width && options.width !== 'inherit') {
+          if (jQuery.isNumeric(options.width)) {
+            editor.css('display', 'table')
+            textarea.css('width', options.width + 'px')
+          } else {
+            editor.addClass(options.width)
           }
-        })
+        }
+
+        // Set height
+        if (options.height && options.height !== 'inherit') {
+          if (jQuery.isNumeric(options.height)) {
+            var height = options.height
+            if (editorHeader) height = Math.max(0, height - editorHeader.outerHeight())
+            if (editorFooter) height = Math.max(0, height - editorFooter.outerHeight())
+            textarea.css('height', height + 'px')
+          } else {
+            editor.addClass(options.height)
+          }
+        }
 
         // Reference
         this.$editor     = editor
@@ -333,6 +346,12 @@
         // Otherwise, just append it after textarea
         container.parent().append(replacementContainer)
       }
+
+      // Set the preview element dimensions
+      replacementContainer.css({
+        width: container.outerWidth() + 'px',
+        height: container.outerHeight() + 'px'
+      })
 
       // Hide the last-active textarea
       container.hide()
@@ -678,6 +697,7 @@
     savable:false,
     width: 'inherit',
     height: 'inherit',
+    resize: 'none',
     iconlibrary: 'glyph',
 
     /* Buttons Properties */
