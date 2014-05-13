@@ -97,7 +97,7 @@
             btnGroupContainer.append('<button type="button" class="'
                                     +btnClass
                                     +' btn-default btn-sm" title="'
-                                    +button.title
+                                    +this.__localize(button.title)
                                     +'" tabindex="'
                                     +tabIndex
                                     +'" data-provider="'
@@ -109,7 +109,7 @@
                                     +'><span class="'
                                     +buttonIcon
                                     +'"></span> '
-                                    +btnText
+                                    +this.__localize(btnText)
                                     +'</button>')
 
             // Register handler and callback
@@ -168,6 +168,19 @@
       }
 
       e.preventDefault()
+    }
+
+  , __localize: function(string) {
+      var messages = $.fn.markdown.messages,
+          language = this.$options.language
+      if (
+        typeof messages !== 'undefined' &&
+        typeof messages[language] !== 'undefined' &&
+        typeof messages[language][string] !== 'undefined'
+      ) {
+        return messages[language][string];
+      }
+      return string;
     }
 
   , showEditor: function() {
@@ -267,7 +280,9 @@
                               +ns
                               +'" data-handler="'
                               +saveHandler
-                              +'"><i class="icon icon-white icon-ok"></i> Save</button>')
+                              +'"><i class="icon icon-white icon-ok"></i> '
+                              +this.__localize('Save')
+                              +'Save</button>')
 
           editor.append(editorFooter)
         }
@@ -703,6 +718,8 @@
     })
   }
 
+  $.fn.markdown.messages = {}
+
   $.fn.markdown.defaults = {
     /* Editor Properties */
     autofocus: false,
@@ -712,6 +729,7 @@
     height: 'inherit',
     resize: 'none',
     iconlibrary: 'glyph',
+    language: 'en',
 
     /* Buttons Properties */
     buttons: [
@@ -727,7 +745,7 @@
 
             if (selected.length == 0) {
               // Give extra word
-              chunk = 'strong text'
+              chunk = e.__localize('strong text')
             } else {
               chunk = selected.text
             }
@@ -756,7 +774,7 @@
 
             if (selected.length == 0) {
               // Give extra word
-              chunk = 'emphasized text'
+              chunk = e.__localize('emphasized text')
             } else {
               chunk = selected.text
             }
@@ -785,7 +803,7 @@
 
             if (selected.length == 0) {
               // Give extra word
-              chunk = 'heading text'
+              chunk = e.__localize('heading text')
             } else {
               chunk = selected.text + '\n';
             }
@@ -821,12 +839,12 @@
 
             if (selected.length == 0) {
               // Give extra word
-              chunk = 'enter link description here'
+              chunk = e.__localize('enter link description here')
             } else {
               chunk = selected.text
             }
 
-            link = prompt('Insert Hyperlink','http://')
+            link = prompt(e.__localize('Insert Hyperlink'),'http://')
 
             if (link != null && link != '' && link != 'http://') {
               // transform selection and set the cursor into chunked text
@@ -847,20 +865,20 @@
 
             if (selected.length == 0) {
               // Give extra word
-              chunk = 'enter image description here'
+              chunk = e.__localize('enter image description here')
             } else {
               chunk = selected.text
             }
 
-            link = prompt('Insert Image Hyperlink','http://')
+            link = prompt(e.__localize('Insert Image Hyperlink'),'http://')
 
             if (link != null) {
               // transform selection and set the cursor into chunked text
-              e.replaceSelection('!['+chunk+']('+link+' "enter image title here")')
+              e.replaceSelection('!['+chunk+']('+link+' "'+e.__localize('enter image title here')+'")')
               cursor = selected.start+2
 
               // Set the next tab
-              e.setNextTab('enter image title here')
+              e.setNextTab(e.__localize('enter image title here'))
 
               // Set the cursor
               e.setSelection(cursor,cursor+chunk.length)
@@ -880,7 +898,7 @@
             // transform selection and set the cursor into chunked text
             if (selected.length == 0) {
               // Give extra word
-              chunk = 'list text here'
+              chunk = e.__localize('list text here')
 
               e.replaceSelection('- '+chunk)
 
