@@ -720,7 +720,7 @@
         data: [{
           name: 'cmdBold',
           title: 'Bold',
-          icon: { glyph: 'glyphicon glyphicon-bold', fa: 'fa fa-bold' },
+          icon: { glyph: 'glyphicon glyphicon-bold', fa: 'fa fa-bold', 'fa-3': 'icon-bold' },
           callback: function(e){
             // Give/remove ** surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -749,7 +749,7 @@
         },{
           name: 'cmdItalic',
           title: 'Italic',
-          icon: { glyph: 'glyphicon glyphicon-italic', fa: 'fa fa-italic' },
+          icon: { glyph: 'glyphicon glyphicon-italic', fa: 'fa fa-italic', 'fa-3': 'icon-italic' },
           callback: function(e){
             // Give/remove * surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -778,7 +778,7 @@
         },{
           name: 'cmdHeading',
           title: 'Heading',
-          icon: { glyph: 'glyphicon glyphicon-header', fa: 'fa fa-font' },
+          icon: { glyph: 'glyphicon glyphicon-header', fa: 'fa fa-font', 'fa-3': 'icon-font' },
           callback: function(e){
             // Append/remove ### surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar
@@ -814,7 +814,7 @@
         data: [{
           name: 'cmdUrl',
           title: 'URL/Link',
-          icon: { glyph: 'glyphicon glyphicon-globe', fa: 'fa fa-globe' },
+          icon: { glyph: 'glyphicon glyphicon-globe', fa: 'fa fa-globe', 'fa-3': 'icon-globe' },
           callback: function(e){
             // Give [] surround the selection and prepend the link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -840,7 +840,7 @@
         },{
           name: 'cmdImage',
           title: 'Image',
-          icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o' },
+          icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture' },
           callback: function(e){
             // Give ![] surround the selection and prepend the image link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -872,7 +872,7 @@
         data: [{
           name: 'cmdList',
           title: 'List',
-          icon: { glyph: 'glyphicon glyphicon-list', fa: 'fa fa-list' },
+          icon: { glyph: 'glyphicon glyphicon-list', fa: 'fa fa-list', 'fa-3': 'icon-list-ul' },
           callback: function(e){
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -925,7 +925,7 @@
           title: 'Preview',
           btnText: 'Preview',
           btnClass: 'btn btn-primary btn-sm',
-          icon: { glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search' },
+          icon: { glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search', 'fa-3': 'icon-search' },
           callback: function(e){
             // Check the preview mode and toggle based on this flag
             var isPreview = e.$isPreview,content
