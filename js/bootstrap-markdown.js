@@ -139,6 +139,7 @@
         .on('focus',    $.proxy(this.focus, this))
         .on('keypress', $.proxy(this.keypress, this))
         .on('keyup',    $.proxy(this.keyup, this))
+        .on('change',   $.proxy(this.change, this))
 
       if (this.eventSupported('keydown')) {
         this.$textarea.on('keydown', $.proxy(this.keydown, this))
@@ -160,6 +161,9 @@
       $(e.currentTarget).focus()
 
       callbackHandler(this)
+
+      // Trigger onChange for each button handle
+      this.change(this);
 
       // Unless it was the save handler,
       // focusin the textarea
@@ -344,9 +348,30 @@
       return this
     }
 
+  , parseContent: function() {
+      var content,
+        callbackContent = this.$options.onPreview(this) // Try to get the content from callback
+      
+      if (typeof callbackContent == 'string') {
+        // Set the content based by callback content
+        content = callbackContent
+      } else {
+        // Set the content
+        var val = this.$textarea.val();
+        if(typeof markdown == 'object') {
+          content = markdown.toHTML(val);
+        }else if(typeof marked == 'function') {
+          content = marked(val);
+        } else {
+          content = val;
+        }
+      }
+
+      return content;
+    }
+
   , showPreview: function() {
       var options = this.$options,
-          callbackContent = options.onPreview(this), // Try to get the content from callback
           container = this.$textarea,
           afterContainer = container.next(),
           replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'}),
@@ -357,20 +382,7 @@
       // Disable all buttons
       this.disableButtons('all').enableButtons('cmdPreview')
 
-      if (typeof callbackContent == 'string') {
-        // Set the content based by callback content
-        content = callbackContent
-      } else {
-        // Set the content
-        var val = container.val();
-        if(typeof markdown == 'object') {
-          content = markdown.toHTML(val);
-        }else if(typeof marked == 'function') {
-          content = marked(val);
-        } else {
-          content = val;
-        }
-      }
+      content = this.parseContent();
 
       // Build preview element
       replacementContainer.html(content)
@@ -550,23 +562,77 @@
     }
 
   , enableButtons: function(name) {
-      var alter = function (el) {
-        el.removeAttr('disabled')
+      var buttons = []
+
+      if (typeof name == 'string') {
+        buttons.push(name);
+      } else {
+        buttons = name;
       }
 
-      this.__alterButtons(name,alter)
+      for (var i in buttons) {
+        this.__alterButtons(buttons[i], function (el) {
+          el.removeAttr('disabled')
+        });
+      }
 
-      return this
+      return this;
     }
 
   , disableButtons: function(name) {
-      var alter = function (el) {
-        el.attr('disabled','disabled')
+      var buttons = []
+
+      if (typeof name == 'string') {
+        buttons.push(name);
+      } else {
+        buttons = name;
       }
 
-      this.__alterButtons(name,alter)
+      for (var i in buttons) {
+        this.__alterButtons(buttons[i], function (el) {
+          el.attr('disabled','disabled')
+        });
+      }
 
-      return this
+      return this;
+    }
+
+  , hideButtons: function(name) {
+      var buttons = []
+
+      if (typeof name == 'string') {
+        buttons.push(name);
+      } else {
+        buttons = name;
+      }
+
+      for (var i in buttons) {
+        this.__alterButtons(buttons[i], function (el) {
+          if (!el.hasClass('hidden'))
+            el.addClass('hidden');
+        });
+      }
+
+      return this;
+
+    }
+  , showButtons: function(name) {
+      var buttons = []
+
+      if (typeof name == 'string') {
+        buttons.push(name);
+      } else {
+        buttons = name;
+      }
+
+      for (var i in buttons) {
+        this.__alterButtons(buttons[i], function (el) {
+          el.removeClass('hidden');
+        });
+      }
+
+      return this;
+
     }
 
   , eventSupported: function(eventName) {
@@ -578,7 +644,7 @@
       return isSupported
     }
 
-  , keydown: function (e) {
+  /*, keydown: function (e) {
       this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27])
       this.keyup(e)
     }
@@ -586,7 +652,7 @@
   , keypress: function (e) {
       if (this.suppressKeyPressRepeat) return
       this.keyup(e)
-    }
+    }*/
 
   , keyup: function (e) {
       var blocked = false
@@ -640,8 +706,12 @@
         e.stopPropagation()
         e.preventDefault()
       }
-  }
-
+      this.$options.onChange(this);
+    }
+  , change: function(e) {
+      this.$options.onChange(this);
+      return this;
+    }
   , focus: function (e) {
       var options = this.$options,
           isHideable = options.hideable,
@@ -976,6 +1046,7 @@
     onSave: function (e) {},
     onBlur: function (e) {},
     onFocus: function (e) {},
+    onChange: function(e) {}
   }
 
   $.fn.markdown.Constructor = Markdown
