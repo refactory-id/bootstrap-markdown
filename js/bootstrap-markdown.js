@@ -282,7 +282,7 @@
                               +saveHandler
                               +'"><i class="icon icon-white icon-ok"></i> '
                               +this.__localize('Save')
-                              +'Save</button>')
+                              +'</button>')
 
           editor.append(editorFooter)
         }
