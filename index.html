@@ -282,6 +282,41 @@ Enjoy!</textarea>
           <textarea id="target-editor-with-custom-buttons"></textarea>
         </div>
 
+        <h3>Localization</h3>
+        <p><strong>Bootstrap-Markdown</strong> <code>language</code> option provides a convenient way of retrieving strings in various languages, allowing you to easily support multiple languages within your application.</p>
+
+        <p>First, you need to include the language message, for example you can have bellow lines :</p>
+        <pre class="prettyprint">
+;(function($){
+  $.fn.markdown.messages['fr'] = {
+    'Bold': "Gras",
+    'Italic': "Italique",
+    'Heading': "Titre",
+    'URL/Link': "Insérer un lien HTTP",
+    'Image': "Insérer une image",
+    'List': "Liste à puces",
+    'Preview': "Prévisualiser",
+    'strong text': "texte important",
+    'emphasized text': "texte souligné",
+    'heading text': "texte d'entête",
+    'enter link description here': "entrez la description du lien ici",
+    'Insert Hyperlink': "Insérez le lien hypertexte",
+    'enter image description here': "entrez la description de l'image ici",
+    'Insert Image Hyperlink': "Insérez le lien hypertexte de l'image",
+    'enter image title here': "entrez le titre de l'image ici",
+    'list text here': "texte à puce ici"
+  };
+}(jQuery))</pre>
+        <p>Afterward, just set the <code>language</code> to use defined locale code</p>
+        <div class="well">
+        <h5>Code</h5>
+        <pre class="prettyprint">$(&quot;#target-editor-with-custom-language&quot;).markdown({language:'fr'})</pre></div>
+
+        <div class="well">
+        <h5>Result</h5>
+          <textarea id="target-editor-with-custom-language"></textarea>
+        </div>
+
         <h3>API</h3>
         <p>As you may already notice by now, all hook would passed Editor instance (declared as <code>e</code> in all above examples). It means you could easily use its API to interact with the editor for any purposes. Heres the complete list of <strong>Bootstrap-Markdown</strong> APIs.</p>
 
@@ -406,6 +441,7 @@ Enjoy!</textarea>
   <script src="js/markdown.js"></script>
   <script src="js/to-markdown.js"></script>
   <script src="js/bootstrap-markdown.js"></script>
+  <script src="locale/bootstrap-markdown.fr.js"></script>
   <script src="js/main.js"></script>
   </body>
 </html>

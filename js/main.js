@@ -46,6 +46,8 @@ $(function(){
 		]
 	})
 
+	$('#target-editor-with-custom-language').markdown({language:'fr'})
+
 	$('#target-fa-editor').markdown({iconlibrary: 'fa'})
 
 	$('#editor-triger-init').click(function(){
