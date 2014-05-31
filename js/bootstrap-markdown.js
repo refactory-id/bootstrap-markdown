@@ -330,6 +330,10 @@
         this.$editor.addClass('active')
       }
 
+      if (options.initialstate === 'preview') {
+        this.showPreview();
+      }
+
       // Trigger the onShow hook
       options.onShow(this)
 
@@ -730,6 +734,7 @@
     resize: 'none',
     iconlibrary: 'glyph',
     language: 'en',
+    initialstate: 'editor',
 
     /* Buttons Properties */
     buttons: [
