@@ -321,6 +321,10 @@
         this.$editor.attr('id',(new Date).getTime())
         this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this))
 
+        if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+          this.disableButtons('all');
+        }
+
       } else {
         this.$editor.show()
       }
