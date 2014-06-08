@@ -30,7 +30,7 @@
     this.$ns          = 'bootstrap-markdown'
     this.$element     = $(element)
     this.$editable    = {el:null, type:null,attrKeys:[], attrValues:[], content:null}
-    this.$options     = $.extend(true, {}, $.fn.markdown.defaults, options)
+    this.$options     = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data(), this.$element.data('options'))
     this.$oldContent  = null
     this.$isPreview   = false
     this.$editor      = null
@@ -87,7 +87,9 @@
                 buttonIcon = button.icon instanceof Object ? button.icon[this.$options.iconlibrary] : button.icon,
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn',
-                tabIndex = button.tabIndex ? button.tabIndex : '-1'
+                tabIndex = button.tabIndex ? button.tabIndex : '-1',
+                hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
+                hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' ('+hotkey+')' : ''
 
             if (button.toggle == true) {
               buttonToggle = ' data-toggle="button"'
@@ -98,12 +100,15 @@
                                     +btnClass
                                     +' btn-default btn-sm" title="'
                                     +this.__localize(button.title)
+                                    +hotkeyCaption
                                     +'" tabindex="'
                                     +tabIndex
                                     +'" data-provider="'
                                     +ns
                                     +'" data-handler="'
                                     +buttonHandler
+                                    +'" data-hotkey="'
+                                    +hotkey
                                     +'"'
                                     +buttonToggle
                                     +'><span class="'
@@ -269,12 +274,15 @@
           container.replaceWith(editor)
         }
 
-        // Create the footer if savable
-        if (options.savable) {
-          var editorFooter = $('<div/>', {
+        var editorFooter = $('<div/>', {
                            'class': 'md-footer'
                          }),
-              saveHandler = 'cmdSave'
+            createFooter = false,
+            footer = ''
+        // Create the footer if savable
+        if (options.savable) {
+          createFooter = true;
+          var saveHandler = 'cmdSave'
 
           // Register handler and callback
           handler.push(saveHandler)
@@ -288,8 +296,17 @@
                               +this.__localize('Save')
                               +'</button>')
 
-          editor.append(editorFooter)
+
         }
+
+        footer = typeof options.footer === 'function' ? options.footer(this) : options.footer
+
+        if ($.trim(footer) !== '') {
+          createFooter = true;
+          editorFooter.append(footer);
+        }
+
+        if (createFooter) editor.append(editorFooter)
 
         // Set width
         if (options.width && options.width !== 'inherit') {
@@ -329,6 +346,19 @@
           this.disableButtons('all');
         }
 
+        if (this.eventSupported('keydown') && typeof jQuery.hotkeys === 'object') {
+          editorHeader.find('[data-provider="bootstrap-markdown"]').each(function() {
+            var $button = $(this),
+              hotkey = $button.attr('data-hotkey')
+            if (hotkey.toLowerCase() !== '') {
+              textarea.bind('keydown', hotkey, function() {
+                $button.trigger('click')
+                return false;
+              })
+            }
+          })
+        }
+
       } else {
         this.$editor.show()
       }
@@ -341,6 +371,12 @@
       if (options.initialstate === 'preview') {
         this.showPreview();
       }
+
+      // hide hidden buttons from options
+      this.hideButtons(options.hiddenButtons)
+
+      // disable disabled buttons from options
+      this.disableButtons(options.disabledButtons)
 
       // Trigger the onShow hook
       options.onShow(this)
@@ -382,7 +418,7 @@
       // Disable all buttons
       this.disableButtons('all').enableButtons('cmdPreview')
 
-      content = this.parseContent();
+      content = this.parseContent()
 
       // Build preview element
       replacementContainer.html(content)
@@ -561,75 +597,67 @@
       return
     }
 
-  , enableButtons: function(name) {
+  , __parseButtonNameParam: function(nameParam) {
       var buttons = []
 
-      if (typeof name == 'string') {
-        buttons.push(name);
+      if (typeof nameParam == 'string') {
+        buttons.push(nameParam)
       } else {
-        buttons = name;
+        buttons = nameParam
       }
 
-      for (var i in buttons) {
-        this.__alterButtons(buttons[i], function (el) {
+      return buttons
+    }
+
+  , enableButtons: function(name) {
+      var buttons = this.__parseButtonNameParam(name),
+        that = this
+
+      $.each(buttons, function(i, v) {
+        that.__alterButtons(buttons[i], function (el) {
           el.removeAttr('disabled')
         });
-      }
+      })
 
       return this;
     }
 
   , disableButtons: function(name) {
-      var buttons = []
+      var buttons = this.__parseButtonNameParam(name),
+        that = this
 
-      if (typeof name == 'string') {
-        buttons.push(name);
-      } else {
-        buttons = name;
-      }
-
-      for (var i in buttons) {
-        this.__alterButtons(buttons[i], function (el) {
+      $.each(buttons, function(i, v) {
+        that.__alterButtons(buttons[i], function (el) {
           el.attr('disabled','disabled')
         });
-      }
+      })
 
       return this;
     }
 
   , hideButtons: function(name) {
-      var buttons = []
+      var buttons = this.__parseButtonNameParam(name),
+        that = this
 
-      if (typeof name == 'string') {
-        buttons.push(name);
-      } else {
-        buttons = name;
-      }
-
-      for (var i in buttons) {
-        this.__alterButtons(buttons[i], function (el) {
-          if (!el.hasClass('hidden'))
-            el.addClass('hidden');
+      $.each(buttons, function(i, v) {
+        that.__alterButtons(buttons[i], function (el) {
+          el.addClass('hidden');
         });
-      }
+      })
 
       return this;
 
     }
+
   , showButtons: function(name) {
-      var buttons = []
+      var buttons = this.__parseButtonNameParam(name),
+        that = this
 
-      if (typeof name == 'string') {
-        buttons.push(name);
-      } else {
-        buttons = name;
-      }
-
-      for (var i in buttons) {
-        this.__alterButtons(buttons[i], function (el) {
+      $.each(buttons, function(i, v) {
+        that.__alterButtons(buttons[i], function (el) {
           el.removeClass('hidden');
         });
-      }
+      })
 
       return this;
 
@@ -643,16 +671,6 @@
       }
       return isSupported
     }
-
-  /*, keydown: function (e) {
-      this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27])
-      this.keyup(e)
-    }
-
-  , keypress: function (e) {
-      if (this.suppressKeyPressRepeat) return
-      this.keyup(e)
-    }*/
 
   , keyup: function (e) {
       var blocked = false
@@ -706,12 +724,15 @@
         e.stopPropagation()
         e.preventDefault()
       }
-      this.$options.onChange(this);
+
+      this.$options.onChange(this)
     }
+
   , change: function(e) {
       this.$options.onChange(this);
       return this;
     }
+
   , focus: function (e) {
       var options = this.$options,
           isHideable = options.hideable,
@@ -735,7 +756,7 @@
         }
       })
 
-    // Trigger the onFocus hook
+      // Trigger the onFocus hook
       options.onFocus(this);
 
       return this
@@ -816,6 +837,7 @@
         name: 'groupFont',
         data: [{
           name: 'cmdBold',
+          hotkey: 'Ctrl+B',
           title: 'Bold',
           icon: { glyph: 'glyphicon glyphicon-bold', fa: 'fa fa-bold', 'fa-3': 'icon-bold' },
           callback: function(e){
@@ -846,6 +868,7 @@
         },{
           name: 'cmdItalic',
           title: 'Italic',
+          hotkey: 'Ctrl+I',
           icon: { glyph: 'glyphicon glyphicon-italic', fa: 'fa fa-italic', 'fa-3': 'icon-italic' },
           callback: function(e){
             // Give/remove * surround the selection
@@ -875,6 +898,7 @@
         },{
           name: 'cmdHeading',
           title: 'Heading',
+          hotkey: 'Ctrl+H',
           icon: { glyph: 'glyphicon glyphicon-header', fa: 'fa fa-font', 'fa-3': 'icon-font' },
           callback: function(e){
             // Append/remove ### surround the selection
@@ -911,7 +935,8 @@
         data: [{
           name: 'cmdUrl',
           title: 'URL/Link',
-          icon: { glyph: 'glyphicon glyphicon-globe', fa: 'fa fa-globe', 'fa-3': 'icon-globe' },
+          hotkey: 'Ctrl+L',
+          icon: { glyph: 'glyphicon glyphicon-link', fa: 'fa fa-link', 'fa-3': 'icon-link' },
           callback: function(e){
             // Give [] surround the selection and prepend the link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -937,6 +962,7 @@
         },{
           name: 'cmdImage',
           title: 'Image',
+          hotkey: 'Ctrl+G',
           icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture' },
           callback: function(e){
             // Give ![] surround the selection and prepend the image link
@@ -968,7 +994,8 @@
         name: 'groupMisc',
         data: [{
           name: 'cmdList',
-          title: 'List',
+          hotkey: 'Ctrl+U',
+          title: 'Unordered List',
           icon: { glyph: 'glyphicon glyphicon-list', fa: 'fa fa-list', 'fa-3': 'icon-list-ul' },
           callback: function(e){
             // Prepend/Give - surround the selection
@@ -980,9 +1007,9 @@
               chunk = e.__localize('list text here')
 
               e.replaceSelection('- '+chunk)
-
               // Set the cursor
               cursor = selected.start+2
+
             } else {
               if (selected.text.indexOf('\n') < 0) {
                 chunk = selected.text
@@ -1008,7 +1035,130 @@
               }
             }
 
+            // Set the cursor
+            e.setSelection(cursor,cursor+chunk.length)
+          }
+        },
+        {
+          name: 'cmdListO',
+          hotkey: 'Ctrl+O',
+          title: 'Ordered List',
+          icon: { glyph: 'glyphicon glyphicon-th-list', fa: 'fa fa-list-ol', 'fa-3': 'icon-list-ol' },
+          callback: function(e) {
 
+            // Prepend/Give - surround the selection
+            var chunk, cursor, selected = e.getSelection(), content = e.getContent()
+
+            // transform selection and set the cursor into chunked text
+            if (selected.length == 0) {
+              // Give extra word
+              chunk = e.__localize('list text here')
+              e.replaceSelection('1. '+chunk)
+              // Set the cursor
+              cursor = selected.start+3
+
+            } else {
+              if (selected.text.indexOf('\n') < 0) {
+                chunk = selected.text
+
+                e.replaceSelection('1. '+chunk)
+
+                // Set the cursor
+                cursor = selected.start+3
+              } else {
+                var list = []
+
+                list = selected.text.split('\n')
+                chunk = list[0]
+
+                $.each(list,function(k,v) {
+                  list[k] = '1. '+v
+                })
+
+                e.replaceSelection('\n\n'+list.join('\n'))
+
+                // Set the cursor
+                cursor = selected.start+5
+              }
+            }
+
+            // Set the cursor
+            e.setSelection(cursor,cursor+chunk.length)
+          }
+        },
+        {
+          name: 'cmdCode',
+          hotkey: 'Ctrl+K',
+          title: 'Code',
+          icon: { glyph: 'glyphicon glyphicon-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code' },
+          callback: function(e) {
+
+            // Give/remove ** surround the selection
+            var chunk, cursor, selected = e.getSelection(), content = e.getContent()
+
+            if (selected.length == 0) {
+              // Give extra word
+              chunk = e.__localize('code text here')
+            } else {
+              chunk = selected.text
+            }
+
+            // transform selection and set the cursor into chunked text
+            if (content.substr(selected.start-1,1) == '`'
+                && content.substr(selected.end,1) == '`' ) {
+              e.setSelection(selected.start-1,selected.end+1)
+              e.replaceSelection(chunk)
+              cursor = selected.start-1
+            } else {
+              e.replaceSelection('`'+chunk+'`')
+              cursor = selected.start+1
+            }
+
+            // Set the cursor
+            e.setSelection(cursor,cursor+chunk.length)
+          }
+        },
+        {
+          name: 'cmdQuote',
+          hotkey: 'Ctrl+Q',
+          title: 'Quote',
+          icon: { glyph: 'glyphicon glyphicon-comment', fa: 'fa fa-quote-left', 'fa-3': 'icon-quote-left' },
+          callback: function(e) {
+            // Prepend/Give - surround the selection
+            var chunk, cursor, selected = e.getSelection(), content = e.getContent()
+
+            // transform selection and set the cursor into chunked text
+            if (selected.length == 0) {
+              // Give extra word
+              chunk = e.__localize('quote here')
+              e.replaceSelection('> '+chunk)
+              // Set the cursor
+              cursor = selected.start+2
+
+            } else {
+              if (selected.text.indexOf('\n') < 0) {
+                chunk = selected.text
+
+                e.replaceSelection('> '+chunk)
+
+                // Set the cursor
+                cursor = selected.start+2
+              } else {
+                var list = []
+
+                list = selected.text.split('\n')
+                chunk = list[0]
+
+                $.each(list,function(k,v) {
+                  list[k] = '> '+v
+                })
+
+                e.replaceSelection('\n\n'+list.join('\n'))
+
+                // Set the cursor
+                cursor = selected.start+4
+              }
+            }
 
             // Set the cursor
             e.setSelection(cursor,cursor+chunk.length)
@@ -1019,6 +1169,7 @@
         data: [{
           name: 'cmdPreview',
           toggle: true,
+          hotkey: 'Ctrl+P',
           title: 'Preview',
           btnText: 'Preview',
           btnClass: 'btn btn-primary btn-sm',
@@ -1039,6 +1190,9 @@
     ],
     additionalButtons:[], // Place to hook more buttons by code
     reorderButtonGroups:[],
+    hiddenButtons:[], // Default hidden buttons
+    disabledButtons:[], // Default disabled buttons
+    footer: '',
 
     /* Events hook */
     onShow: function (e) {},
@@ -1070,7 +1224,7 @@
       return
     }
 
-    $this.markdown($this.data())
+    $this.markdown()
   }
 
   var analyzeMarkdown = function(e) {
