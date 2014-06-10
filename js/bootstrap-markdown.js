@@ -325,6 +325,10 @@
           this.disableButtons('all');
         }
 
+        if (options.initialstate === 'preview') {
+          this.showPreview();
+        }
+
       } else {
         this.$editor.show()
       }
@@ -332,10 +336,6 @@
       if (options.autofocus) {
         this.$textarea.focus()
         this.$editor.addClass('active')
-      }
-
-      if (options.initialstate === 'preview') {
-        this.showPreview();
       }
 
       // Trigger the onShow hook
