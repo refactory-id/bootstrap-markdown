@@ -395,6 +395,10 @@
       // Attach the editor instances
       replacementContainer.data('markdown',this)
 
+      if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+        this.disableButtons('all');
+      }
+
       return this
     }
 
