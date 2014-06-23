@@ -296,7 +296,11 @@
                               +this.__localize('Save')
                               +'</button>')
 
+<<<<<<< HEAD
 
+=======
+          
+>>>>>>> origin/master
         }
 
         footer = typeof options.footer === 'function' ? options.footer(this) : options.footer
@@ -387,7 +391,11 @@
   , parseContent: function() {
       var content,
         callbackContent = this.$options.onPreview(this) // Try to get the content from callback
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> origin/master
       if (typeof callbackContent == 'string') {
         // Set the content based by callback content
         content = callbackContent
@@ -1009,7 +1017,11 @@
               e.replaceSelection('- '+chunk)
               // Set the cursor
               cursor = selected.start+2
+<<<<<<< HEAD
 
+=======
+              
+>>>>>>> origin/master
             } else {
               if (selected.text.indexOf('\n') < 0) {
                 chunk = selected.text
@@ -1045,6 +1057,7 @@
           title: 'Ordered List',
           icon: { glyph: 'glyphicon glyphicon-th-list', fa: 'fa fa-list-ol', 'fa-3': 'icon-list-ol' },
           callback: function(e) {
+<<<<<<< HEAD
 
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -1093,6 +1106,56 @@
           icon: { glyph: 'glyphicon glyphicon-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code' },
           callback: function(e) {
 
+=======
+
+            // Prepend/Give - surround the selection
+            var chunk, cursor, selected = e.getSelection(), content = e.getContent()
+
+            // transform selection and set the cursor into chunked text
+            if (selected.length == 0) {
+              // Give extra word
+              chunk = e.__localize('list text here')
+              e.replaceSelection('1. '+chunk)
+              // Set the cursor
+              cursor = selected.start+3
+              
+            } else {
+              if (selected.text.indexOf('\n') < 0) {
+                chunk = selected.text
+
+                e.replaceSelection('1. '+chunk)
+
+                // Set the cursor
+                cursor = selected.start+3
+              } else {
+                var list = []
+
+                list = selected.text.split('\n')
+                chunk = list[0]
+
+                $.each(list,function(k,v) {
+                  list[k] = '1. '+v
+                })
+
+                e.replaceSelection('\n\n'+list.join('\n'))
+
+                // Set the cursor
+                cursor = selected.start+5
+              }
+            }
+
+            // Set the cursor
+            e.setSelection(cursor,cursor+chunk.length)
+          }
+        },
+        {
+          name: 'cmdCode',
+          hotkey: 'Ctrl+K',
+          title: 'Code',
+          icon: { glyph: 'glyphicon glyphicon-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code' },
+          callback: function(e) {
+
+>>>>>>> origin/master
             // Give/remove ** surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
 
@@ -1134,7 +1197,11 @@
               e.replaceSelection('> '+chunk)
               // Set the cursor
               cursor = selected.start+2
+<<<<<<< HEAD
 
+=======
+              
+>>>>>>> origin/master
             } else {
               if (selected.text.indexOf('\n') < 0) {
                 chunk = selected.text
