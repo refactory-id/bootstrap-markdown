@@ -282,7 +282,7 @@
                               +saveHandler
                               +'"><i class="icon icon-white icon-ok"></i> '
                               +this.__localize('Save')
-                              +'Save</button>')
+                              +'</button>')
 
           editor.append(editorFooter)
         }
@@ -320,6 +320,15 @@
         // Set editor attributes, data short-hand API and listener
         this.$editor.attr('id',(new Date).getTime())
         this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this))
+
+        if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+          this.$editor.addClass('md-editor-disabled');
+          this.disableButtons('all');
+        }
+
+        if (options.initialstate === 'preview') {
+          this.showPreview();
+        }
 
       } else {
         this.$editor.show()
@@ -386,6 +395,11 @@
 
       // Attach the editor instances
       replacementContainer.data('markdown',this)
+
+      if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+        this.$editor.addClass('md-editor-disabled');
+        this.disableButtons('all');
+      }
 
       return this
     }
@@ -730,6 +744,7 @@
     resize: 'none',
     iconlibrary: 'glyph',
     language: 'en',
+    initialstate: 'editor',
 
     /* Buttons Properties */
     buttons: [
