@@ -179,6 +179,31 @@ Enjoy!</textarea>
               <td><code>string</code></td>
               <td>Localization setting. Default to <code>en</code></td>
             </tr>
+
+            <tr>
+              <td>
+                <code>footer</code>
+              </td>
+              <td><code>mixed</code></td>
+              <td>Footer dom. Can be string or callback. Default is empty string</td>
+            </tr>
+
+            <tr>
+              <td>
+                <code>hiddenButtons</code>
+              </td>
+              <td><code>mixed</code></td>
+              <td>Array or string of button names to be hidden. Default is empty string</td>
+            </tr>
+
+            <tr>
+              <td>
+                <code>disabledButtons</code>
+              </td>
+              <td><code>mixed</code></td>
+              <td>Array or string of button names to be disabled. Default is empty string</td>
+            </tr>
+
           </tbody>
         </table>
 
@@ -201,7 +226,7 @@ Enjoy!</textarea>
         </div>
 
         <h3>Events/Hook</h3>
-        <p>There are five main events within <strong>Bootstrap-Markdown</strong> lifecycle : <code>onShow</code>, <code>onPreview</code>, <code>onSave</code>, <code>onFocus</code> and <code>onBlur</code>. Heres an example to hook into those events via code:</p>
+        <p>There are six main events within <strong>Bootstrap-Markdown</strong> lifecycle : <code>onShow</code>, <code>onPreview</code>, <code>onChange</code>, <code>onSave</code>, <code>onFocus</code> and <code>onBlur</code>. Heres an example to hook into those events via code:</p>
 
         <div class="well">
         <h5>Code</h5>
@@ -233,6 +258,9 @@ Enjoy!</textarea>
   },
   onSave: function(e) {
     alert(&quot;Saving '&quot;+e.getContent()+&quot;'...&quot;)
+  },
+  onChange: function(e){
+    console.log(&quot;Changed!&quot;)
   },
   onFocus: function(e) {
     alert(&quot;Focus triggered!&quot;)
@@ -294,6 +322,13 @@ Enjoy!</textarea>
         <div class="well">
         <h5>Result</h5>
           <textarea id="target-editor-with-custom-buttons"></textarea>
+        </div>
+
+        <p>With robust options and hooks available, you can also tweak the editor to fully suit with your needs. Here is an example to create a twitter input, markdown way...</p>
+
+        <div class="well">
+        <h5>Result</h5>
+          <textarea id="target-editor-twitter"></textarea>
         </div>
 
         <h3>Localization</h3>
@@ -378,6 +413,12 @@ Enjoy!</textarea>
             </tr>
             <tr>
               <td>
+                <code>parseContent()</code>
+              </td>
+              <td>Get the parsed editor content</td>
+            </tr>
+            <tr>
+              <td>
                 <code>setContent(<em>string</em> content)</code>
               </td>
               <td>Set the editor content</td>
@@ -430,6 +471,19 @@ Enjoy!</textarea>
               </td>
               <td>Disabled a button by <code>name</code> that described in <code>buttons</code> or <code>additionalButtons</code> arrays. Passing <code>all</code> will disabled all buttons.</td>
             </tr>
+            <tr>
+              <td>
+                <code>showButtons(<em>string</em> name)</code>
+              </td>
+              <td>Show a button by <code>name</code> that described in <code>buttons</code> or <code>additionalButtons</code> arrays.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>hideButtons(<em>string</em> name)</code>
+              </td>
+              <td>Hide a button by <code>name</code> that described in <code>buttons</code> or <code>additionalButtons</code> arrays.</td>
+            </tr>
+
           </tbody>
         </table>
 
@@ -437,6 +491,7 @@ Enjoy!</textarea>
           <strong>NOTE</strong>
           <p>Altought the primary purpose of this plugin is to provide Markdown editor, the design is allowing the plugin to be used as a general purpose editor.</p>
           <p>The preview functionalities and html to markdown conversion are provided by 3rd party codes : <a href="https://github.com/evilstreak/markdown-js" target="_blank">markdown-js</a>, <a href="https://github.com/chjj/marked" target="_blank">marked</a> (default failover if <i>markdown-js</i> lib not available) and <a href="https://github.com/domchristie/to-markdown" target="_blank">to-markdown</a>. Without them, this plugin would still work and convert the content as-is, so you could easily modify those functionalities yourself via available hooks.</p>
+          <p>Optionally, you could also support hotkeys by simply including <a href="https://github.com/jeresig/jquery.hotkeys" target="_blank">jquery.hotkeys.js</a> (default buttons has already default hotkeys).</p>
         </div>
       </section>
     </div>
@@ -456,6 +511,7 @@ Enjoy!</textarea>
   <script src="js/to-markdown.js"></script>
   <script src="js/bootstrap-markdown.js"></script>
   <script src="locale/bootstrap-markdown.fr.js"></script>
+  <script src="https://rawgit.com/jeresig/jquery.hotkeys/master/jquery.hotkeys.js"></script>
   <script src="js/main.js"></script>
   </body>
 </html>
