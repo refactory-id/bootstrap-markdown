@@ -675,7 +675,7 @@
   , keydown: function (e) {
       var options = this.$options
 
-      this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27])
+      this.suppressKeyPressRepeat = $.inArray(e.keyCode, [40,38,9,13,27])
       this.keyup(e)
 
       // Trigger the onKeydown hook
