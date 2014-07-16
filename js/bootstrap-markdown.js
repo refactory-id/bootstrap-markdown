@@ -403,7 +403,7 @@
         }
       }
 
-      modifiedContent = this.$options.afterContentParsed(content)
+      var modifiedContent = this.$options.afterContentParsed(content)
 
       if (typeof modifiedContent == 'string') {
         content = modifiedContent;
