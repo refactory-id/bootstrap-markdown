@@ -2,8 +2,8 @@
  * French translation for bootstrap-markdown
  * Benoît Bourgeois <bierdok@gmail.com>
  */
-;(function($){
-  $.fn.markdown.messages['fr'] = {
+(function ($) {
+  $.fn.markdown.messages.fr = {
     'Bold': "Gras",
     'Italic': "Italique",
     'Heading': "Titre",
@@ -21,4 +21,4 @@
     'enter image title here': "entrez le titre de l'image ici",
     'list text here': "texte à puce ici"
   };
-}(jQuery))
+}(jQuery));
