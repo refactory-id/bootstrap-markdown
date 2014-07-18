@@ -101,7 +101,7 @@
             }
 
             // Attach the button object
-            btnGroupContainer.append('<button type="button" class="' + btnClass + ' btn-default btn-sm" title="' + this.__localize(button.title) + hotkeyCaption + '" tabindex="' + tabIndex + '" data-provider="' + ns + '" data-handler="' + buttonHandler + '" data-hotkey="' + hotkey + '"' + buttonToggle + '><span class="' + buttonIcon + '"></span> ' + this.__localize(btnText) + '</button>');
+            btnGroupContainer.append('<span data-fx="tooltip" title="' + this.__localize(button.title) + hotkeyCaption + '">' + '<button type="button" class="' + btnClass + ' btn-default btn-sm" tabindex="' + tabIndex + '" data-provider="' + ns + '" data-handler="' + buttonHandler + '" data-hotkey="' + hotkey + '"' + buttonToggle + '><span class="' + buttonIcon + '"></span> ' + this.__localize(btnText) + '</button>' + '</span>');
 
             // Register handler and callback
             handler.push(buttonHandler);
