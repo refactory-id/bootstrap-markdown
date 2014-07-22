@@ -4,8 +4,8 @@
  */
 ;(function($){
   $.fn.markdown.messages['ua'] = {
-    'Bold': "Жирный",
-    'Italic': "Курсив",
+    'Bold': "Жирний",
+    'Italic': "Курсів",
     'Heading': "Заголовок",
     'URL/Link': "Вставте посилання",
     'Image': "Зображення",
