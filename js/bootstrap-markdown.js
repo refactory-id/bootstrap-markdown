@@ -296,7 +296,7 @@
                               +this.__localize('Save')
                               +'</button>')
 
-          
+
         }
 
         footer = typeof options.footer === 'function' ? options.footer(this) : options.footer
@@ -387,7 +387,7 @@
   , parseContent: function() {
       var content,
         callbackContent = this.$options.onPreview(this) // Try to get the content from callback
-      
+
       if (typeof callbackContent == 'string') {
         // Set the content based by callback content
         content = callbackContent
@@ -436,6 +436,10 @@
         width: container.outerWidth() + 'px',
         height: container.outerHeight() + 'px'
       })
+
+      if (this.$options.resize) {
+        replacementContainer.css('resize',this.$options.resize)
+      }
 
       // Hide the last-active textarea
       container.hide()
@@ -1009,7 +1013,7 @@
               e.replaceSelection('- '+chunk)
               // Set the cursor
               cursor = selected.start+2
-              
+
             } else {
               if (selected.text.indexOf('\n') < 0) {
                 chunk = selected.text
@@ -1056,7 +1060,7 @@
               e.replaceSelection('1. '+chunk)
               // Set the cursor
               cursor = selected.start+3
-              
+
             } else {
               if (selected.text.indexOf('\n') < 0) {
                 chunk = selected.text
@@ -1134,7 +1138,7 @@
               e.replaceSelection('> '+chunk)
               // Set the cursor
               cursor = selected.start+2
-              
+
             } else {
               if (selected.text.indexOf('\n') < 0) {
                 chunk = selected.text
