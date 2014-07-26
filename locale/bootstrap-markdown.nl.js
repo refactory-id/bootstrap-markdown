@@ -2,8 +2,8 @@
  * Dutch translation for bootstrap-markdown
  * Jeroen Thora <jeroenthora@gmail.com>
  */
-;(function($){
-  $.fn.markdown.messages['nl'] = {
+(function ($) {
+  $.fn.markdown.messages.nl = {
     'Bold': "Vet",
     'Italic': "Cursief",
     'Heading': "Titel",
@@ -21,4 +21,4 @@
     'enter image title here': "Voer de afbeelding titel in",
     'list text here': "lijst item"
   };
-}(jQuery))
+}(jQuery));
