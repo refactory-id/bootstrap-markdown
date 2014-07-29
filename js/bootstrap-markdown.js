@@ -591,7 +591,7 @@
         this.$nextTab.push(function(){
           return that.findSelection(start)
         })
-      } else if (typeof start == 'numeric' && typeof end == 'numeric') {
+      } else if (typeof start == 'number' && typeof end == 'number') {
         var oldSelection = this.getSelection()
 
         this.setSelection(start,end)
