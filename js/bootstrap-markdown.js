@@ -458,8 +458,6 @@
 
       // Enable all buttons
       this.enableButtons('all')
-      // Disable configured disabled buttons
-      this.disableButtons(this.$options.disabledButtons)
 
       // Back to the editor
       this.$textarea.show()
