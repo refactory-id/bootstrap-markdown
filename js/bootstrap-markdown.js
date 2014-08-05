@@ -1,5 +1,5 @@
 /* ===================================================
- * bootstrap-markdown.js v2.5.0
+ * bootstrap-markdown.js v2.5.1
  * http://github.com/toopay/bootstrap-markdown
  * ===================================================
  * Copyright 2013-2014 Taufan Aditya
@@ -401,6 +401,12 @@
         } else {
           content = val;
         }
+      }
+
+      var modifiedContent = this.$options.afterContentParsed(content)
+
+      if (typeof modifiedContent == 'string') {
+        content = modifiedContent;
       }
 
       return content;
@@ -1204,7 +1210,9 @@
     onSave: function (e) {},
     onBlur: function (e) {},
     onFocus: function (e) {},
-    onChange: function(e) {}
+    onChange: function(e) {},
+    
+    afterContentParsed: function(content) {}
   }
 
   $.fn.markdown.Constructor = Markdown
