@@ -1,5 +1,5 @@
 /* ===================================================
- * bootstrap-markdown.js v2.5.0
+ * bootstrap-markdown.js v2.6.0
  * http://github.com/toopay/bootstrap-markdown
  * ===================================================
  * Copyright 2013-2014 Taufan Aditya
