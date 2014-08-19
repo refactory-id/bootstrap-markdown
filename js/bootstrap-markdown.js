@@ -1,8 +1,8 @@
 /* ===================================================
- * bootstrap-markdown.js v2.5.0
+ * bootstrap-markdown.js v2.6.0
  * http://github.com/toopay/bootstrap-markdown
  * ===================================================
- * Copyright 2013 Taufan Aditya
+ * Copyright 2013-2014 Taufan Aditya
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -462,6 +462,8 @@
 
       // Enable all buttons
       this.enableButtons('all')
+      // Disable configured disabled buttons
+      this.disableButtons(this.$options.disabledButtons)
 
       // Back to the editor
       this.$textarea.show()
@@ -589,7 +591,7 @@
         this.$nextTab.push(function(){
           return that.findSelection(start)
         })
-      } else if (typeof start == 'numeric' && typeof end == 'numeric') {
+      } else if (typeof start == 'number' && typeof end == 'number') {
         var oldSelection = this.getSelection()
 
         this.setSelection(start,end)
