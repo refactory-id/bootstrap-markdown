@@ -343,6 +343,7 @@
         this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this))
 
         if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+          this.$editor.addClass('md-editor-disabled');
           this.disableButtons('all');
         }
 
@@ -359,6 +360,10 @@
           })
         }
 
+        if (options.initialstate === 'preview') {
+          this.showPreview();
+        }
+
       } else {
         this.$editor.show()
       }
@@ -366,10 +371,6 @@
       if (options.autofocus) {
         this.$textarea.focus()
         this.$editor.addClass('active')
-      }
-
-      if (options.initialstate === 'preview') {
-        this.showPreview();
       }
 
       // hide hidden buttons from options
@@ -446,6 +447,11 @@
 
       // Attach the editor instances
       replacementContainer.data('markdown',this)
+
+      if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+        this.$editor.addClass('md-editor-disabled');
+        this.disableButtons('all');
+      }
 
       return this
     }
