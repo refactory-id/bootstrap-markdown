@@ -63,6 +63,22 @@
       })
     }
 
+  , fullscreen: function(mode) {
+    var that = this,
+        $editor = this.$editor,
+        $textarea = this.$textarea
+
+    if (mode === true) {
+      $editor.addClass('md-fullscreen-mode');
+      $('body').addClass('md-nooverflow')
+    } else {
+      $editor.removeClass('md-fullscreen-mode')
+      $('body').removeClass('md-nooverflow')
+    }
+
+    $textarea.focus()
+  }
+
   , __buildButtons: function(buttonsArray, container) {
       var i,
           ns = this.$ns,
@@ -240,6 +256,10 @@
           editorHeader = this.__buildButtons([allBtnGroups], editorHeader)
         }
 
+        editorHeader.append('<div class="md-controls"><a class="md-control md-control-fullscreen" href="#"><span class="glyphicon glyphicon-fullscreen"></span></a></div>').on('click', '.md-control-fullscreen', function() {
+            instance.fullscreen(true)
+        })
+
         editor.append(editorHeader)
 
         // Wrap the textarea
@@ -368,8 +388,26 @@
         this.$editor.addClass('active')
       }
 
+      this.$editor.append('\
+        <div class="md-fullscreen-controls">\
+          <a href="#" class="switch-theme" title="Switch themes"><span class="glyphicon glyphicon-adjust"></span></a>\
+          <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="glyphicon glyphicon-remove"></span></a>\
+        </div>')
+
+      this.$editor.on('click', '.exit-fullscreen', function(e) {
+        e.preventDefault()
+        instance.fullscreen(false)
+      })
+
+      this.$editor.on('click', '.switch-theme', function(e) {
+        e.preventDefault()
+        instance.$editor.toggleClass('theme-dark')
+      })
+
       if (options.initialstate === 'preview') {
         this.showPreview();
+      } else if (options.initialstate === 'fullscreen') {
+        this.fullscreen(options.fullscreen)
       }
 
       // hide hidden buttons from options
