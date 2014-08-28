@@ -61,7 +61,7 @@
 
   }
 
-  > .md-controls .md-control {
+  .md-controls .md-control {
     padding: 5px;
     position: absolute;
     right: 5px;
@@ -73,6 +73,7 @@
     color: #333;
   }
 
+  // fullscreen mode styles
   &.md-fullscreen-mode {
     width: 100%;
     height: 100%;
@@ -83,121 +84,118 @@
     padding: 60px 30px 15px;
     background: #fff;
     border: 0 !important;
-  }
 
-  &.md-fullscreen-mode.theme-dark {
-    background: #1d1f21;
-  }
+    &.theme-dark {
+      background: #1d1f21;
 
-  &.md-fullscreen-mode .md-footer {
-    display: none;
-  }
-
-  &.md-fullscreen-mode.theme-dark .md-fullscreen-controls a {
-    color: #a4b1b1;
-    &:hover {
-      color: #dbe0e0;
-      text-shadow: 0 0 10px #000;
-    }
-  }
-
-  &.md-fullscreen-mode .md-input,
-  &.md-fullscreen-mode .md-preview {
-    margin: 0 auto !important;
-    height: 100% !important;
-    font-size: 20px !important;
-    padding: 20px !important;
-    color: #999;
-    line-height: 1.6em !important;
-    resize: none !important;
-    box-shadow: none !important;
-  }
-
-  &.md-fullscreen-mode.theme-dark .md-input {
-      &.md-preview,
-      &:hover,
-      &:active,
-      &:focus,
-      {
-        color: #dbe0e0;
-        background: #1d1f21;
+      .md-fullscreen-controls a {
+        color: #a4b1b1;
+        &:hover {
+          color: #dbe0e0;
+          text-shadow: 0 0 10px #000;
+        }
       }
-  }
 
-  &.md-fullscreen-mode .md-preview {
-    color: #333;
-    overflow: auto;
-  }
+      .md-input {
+          &.md-preview,
+          &:hover,
+          &:active,
+          &:focus {
+            color: #dbe0e0;
+            background: #1d1f21;
+          }
+      }
 
-  &.md-fullscreen-mode .md-input {
-    &:hover,
-    &:focus {
-      color: #333;
+      .btn:hover {
+        color: #dbe0e0;
+        text-shadow: 0 0 10px #000;
+      }
     }
-  }
 
-  &.md-fullscreen-mode .md-header {
-    background: none;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    top: 20px;
-  }
+    .md-footer {
+      display: none;
+    }
 
-  &.md-fullscreen-mode .btn-group {
-    float: none;
-  }
+    .md-input,
+    .md-preview {
+      margin: 0 auto !important;
+      height: 100% !important;
+      font-size: 20px !important;
+      padding: 20px !important;
+      color: #999;
+      line-height: 1.6em !important;
+      resize: none !important;
+      box-shadow: none !important;
+    }
 
-  &.md-fullscreen-mode .btn {
-    border: 0;
-    background: none;
-    color: #b3b3b3;
-  }
+    .md-preview {
+      color: #333;
+      overflow: auto;
+    }
 
-  &.md-fullscreen-mode .btn:hover {
-    color: #333;
-  }
+    .md-input {
+      &:hover,
+      &:focus {
+        color: #333;
+      }
+    }
 
-  &.md-fullscreen-mode.theme-dark .btn:hover {
-    color: #dbe0e0;
-    text-shadow: 0 0 10px #000;
-  }
+    .md-header {
+      background: none;
+      text-align: center;
+      position: fixed;
+      width: 100%;
+      top: 20px;
+    }
 
-  &.md-fullscreen-mode .btn.active,
-  &.md-fullscreen-mode .btn:active {
-    box-shadow: none;
+    .btn-group {
+      float: none;
+    }
+
+    .btn {
+      border: 0;
+      background: none;
+      color: #b3b3b3;
+      &:hover {
+        color: #333;
+      }
+
+      &.active,
+      &:active {
+        box-shadow: none;
+      }
+    }
+
+    .md-fullscreen-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      text-align: right;
+      z-index: 1002;
+      display: block;
+      a {
+        color: #b3b3b3;
+        clear: right;
+        margin: 10px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+
+        &:hover {
+          color: #333;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .md-editor {
+      height: 100% !important;
+      position: relative;
+    }
   }
 
   .md-fullscreen-controls {
     display: none;
-  }
-
-  &.md-fullscreen-mode .md-fullscreen-controls {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    text-align: right;
-    z-index: 1002;
-    display: block;
-
-    & a {
-      color: #b3b3b3;
-      clear: right;
-      margin: 10px;
-      width: 30px;
-      height: 30px;
-      text-align: center;
-
-      &:hover {
-        color: #333;
-        text-decoration: none;
-      }
-    }
-  }
-
-  &.md-fullscreen-mode .md-editor {
-    height: 100% !important;
-    position: relative;
   }
 }
 
