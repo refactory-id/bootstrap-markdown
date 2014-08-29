@@ -136,12 +136,12 @@
   background: none;
   color: #b3b3b3;
 }
-.md-editor.md-fullscreen-mode .btn:hover {
-  color: #333;
-}
+.md-editor.md-fullscreen-mode .btn:hover,
+.md-editor.md-fullscreen-mode .btn:focus,
 .md-editor.md-fullscreen-mode .btn.active,
 .md-editor.md-fullscreen-mode .btn:active {
   box-shadow: none;
+  color: #333;
 }
 .md-editor.md-fullscreen-mode .md-fullscreen-controls {
   position: absolute;
