@@ -51,7 +51,7 @@
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
-.md-editor > .md-controls .md-control {
+.md-editor .md-controls .md-control {
   padding: 5px;
   position: absolute;
   right: 5px;
@@ -69,14 +69,11 @@
   left: 0;
   z-index: 99999;
   padding: 60px 30px 15px;
-  background: #fff;
+  background: #fff !important;
   border: 0 !important;
 }
 .md-editor.md-fullscreen-mode.theme-dark {
   background: #1d1f21;
-}
-.md-editor.md-fullscreen-mode .md-footer {
-  display: none;
 }
 .md-editor.md-fullscreen-mode.theme-dark .md-fullscreen-controls a {
   color: #a4b1b1;
@@ -84,6 +81,20 @@
 .md-editor.md-fullscreen-mode.theme-dark .md-fullscreen-controls a:hover {
   color: #dbe0e0;
   text-shadow: 0 0 10px #000;
+}
+.md-editor.md-fullscreen-mode.theme-dark .md-input.md-preview,
+.md-editor.md-fullscreen-mode.theme-dark .md-input:hover,
+.md-editor.md-fullscreen-mode.theme-dark .md-input:active,
+.md-editor.md-fullscreen-mode.theme-dark .md-input:focus {
+  color: #dbe0e0;
+  background: #1d1f21;
+}
+.md-editor.md-fullscreen-mode.theme-dark .btn:hover {
+  color: #dbe0e0;
+  text-shadow: 0 0 10px #000;
+}
+.md-editor.md-fullscreen-mode .md-footer {
+  display: none;
 }
 .md-editor.md-fullscreen-mode .md-input,
 .md-editor.md-fullscreen-mode .md-preview {
@@ -95,13 +106,6 @@
   line-height: 1.6em !important;
   resize: none !important;
   box-shadow: none !important;
-}
-.md-editor.md-fullscreen-mode.theme-dark .md-input.md-preview,
-.md-editor.md-fullscreen-mode.theme-dark .md-input:hover,
-.md-editor.md-fullscreen-mode.theme-dark .md-input:active,
-.md-editor.md-fullscreen-mode.theme-dark .md-input:focus {
-  color: #dbe0e0;
-  background: #1d1f21;
 }
 .md-editor.md-fullscreen-mode .md-preview {
   color: #333;
@@ -129,16 +133,9 @@
 .md-editor.md-fullscreen-mode .btn:hover {
   color: #333;
 }
-.md-editor.md-fullscreen-mode.theme-dark .btn:hover {
-  color: #dbe0e0;
-  text-shadow: 0 0 10px #000;
-}
 .md-editor.md-fullscreen-mode .btn.active,
 .md-editor.md-fullscreen-mode .btn:active {
   box-shadow: none;
-}
-.md-editor .md-fullscreen-controls {
-  display: none;
 }
 .md-editor.md-fullscreen-mode .md-fullscreen-controls {
   position: absolute;
@@ -163,6 +160,9 @@
 .md-editor.md-fullscreen-mode .md-editor {
   height: 100% !important;
   position: relative;
+}
+.md-editor .md-fullscreen-controls {
+  display: none;
 }
 .md-nooverflow {
   overflow: hidden;
