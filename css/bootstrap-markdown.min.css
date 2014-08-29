@@ -84,7 +84,8 @@
   color: #dbe0e0;
   text-shadow: 0 0 10px #000;
 }
-.md-editor.md-fullscreen-mode.theme-dark .md-input.md-preview,
+.md-editor.md-fullscreen-mode.theme-dark .md-preview,
+.md-editor.md-fullscreen-mode.theme-dark .md-input,
 .md-editor.md-fullscreen-mode.theme-dark .md-input:hover,
 .md-editor.md-fullscreen-mode.theme-dark .md-input:active,
 .md-editor.md-fullscreen-mode.theme-dark .md-input:focus {
