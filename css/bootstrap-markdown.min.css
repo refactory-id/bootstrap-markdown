@@ -110,6 +110,7 @@
   resize: none !important;
   box-shadow: none !important;
   background: #fff !important;
+  border: 0 !important;
 }
 .md-editor.md-fullscreen-mode .md-preview {
   color: #333;
