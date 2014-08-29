@@ -51,14 +51,16 @@
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
+.md-editor .md-controls {
+  float: right;
+  padding: 3px;
+}
 .md-editor .md-controls .md-control {
-  padding: 5px;
-  position: absolute;
   right: 5px;
   color: #bebebe;
-  float: right;
+  padding: 3px 3px 3px 10px;
 }
-.md-editor > .md-controls .md-control:hover {
+.md-editor .md-controls .md-control:hover {
   color: #333;
 }
 .md-editor.md-fullscreen-mode {

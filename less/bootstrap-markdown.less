@@ -57,20 +57,18 @@
     .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
   }
 
-  > .md-controls {
-
-  }
-
-  .md-controls .md-control {
-    padding: 5px;
-    position: absolute;
-    right: 5px;
-    color: #bebebe;
+  .md-controls {
     float: right;
-  }
-
-  > .md-controls .md-control:hover {
-    color: #333;
+    padding: 3px;
+    
+    .md-control {
+      right: 5px;
+      color: #bebebe;
+      padding: 3px 3px 3px 10px;
+      &:hover {
+        color: #333;
+      }
+    }
   }
 
   // fullscreen mode styles
