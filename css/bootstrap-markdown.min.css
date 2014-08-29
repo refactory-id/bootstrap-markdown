@@ -92,7 +92,10 @@
   color: #dbe0e0;
   background: #1d1f21 !important;
 }
-.md-editor.md-fullscreen-mode.theme-dark .btn:hover {
+.md-editor.md-fullscreen-mode.theme-dark .btn:hover,
+.md-editor.md-fullscreen-mode.theme-dark .btn:focus,
+.md-editor.md-fullscreen-mode.theme-dark .btn.active,
+.md-editor.md-fullscreen-mode.theme-dark .btn:active {
   color: #dbe0e0;
   text-shadow: 0 0 10px #000;
 }

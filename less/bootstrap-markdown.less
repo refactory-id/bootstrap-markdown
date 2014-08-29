@@ -104,9 +104,14 @@
         
       }
 
-      .btn:hover {
-        color: #dbe0e0;
-        text-shadow: 0 0 10px #000;
+      .btn {
+        &:hover,
+        &:focus,
+        &.active,
+        &:active {
+          color: #dbe0e0;
+          text-shadow: 0 0 10px #000;
+        }
       }
     }
 
