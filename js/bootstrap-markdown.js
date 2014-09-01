@@ -27,17 +27,18 @@
 
   var Markdown = function (element, options) {
     // Class Properties
-    this.$ns          = 'bootstrap-markdown'
-    this.$element     = $(element)
-    this.$editable    = {el:null, type:null,attrKeys:[], attrValues:[], content:null}
-    this.$options     = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data(), this.$element.data('options'))
-    this.$oldContent  = null
-    this.$isPreview   = false
-    this.$editor      = null
-    this.$textarea    = null
-    this.$handler     = []
-    this.$callback    = []
-    this.$nextTab     = []
+    this.$ns           = 'bootstrap-markdown'
+    this.$element      = $(element)
+    this.$editable     = {el:null, type:null,attrKeys:[], attrValues:[], content:null}
+    this.$options      = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data(), this.$element.data('options'))
+    this.$oldContent   = null
+    this.$isPreview    = false
+    this.$isFullscreen = false
+    this.$editor       = null
+    this.$textarea     = null
+    this.$handler      = []
+    this.$callback     = []
+    this.$nextTab      = []
 
     this.showEditor()
   }
@@ -62,22 +63,6 @@
         }
       })
     }
-
-  , fullscreen: function(mode) {
-    var that = this,
-        $editor = this.$editor,
-        $textarea = this.$textarea
-
-    if (mode === true) {
-      $editor.addClass('md-fullscreen-mode '+(this.$options.fullscreen.theme ? 'theme-'+this.$options.fullscreen.theme : ''));
-      $('body').addClass('md-nooverflow')
-    } else {
-      $editor.removeClass('md-fullscreen-mode')
-      $('body').removeClass('md-nooverflow')
-    }
-
-    $textarea.focus()
-  }
 
   , __buildButtons: function(buttonsArray, container) {
       var i,
@@ -212,6 +197,24 @@
     return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
   }
 
+  , setFullscreen: function(mode) {
+    var $editor = this.$editor,
+        $textarea = this.$textarea
+
+    if (mode === true) {
+      $editor.addClass('md-fullscreen-mode '+(this.$options.fullscreen.theme ? 'theme-'+this.$options.fullscreen.theme : ''));
+      $('body').addClass('md-nooverflow')
+      this.$options.onFullscreen(this)
+    } else {
+      $editor.removeClass('md-fullscreen-mode')
+      $('body').removeClass('md-nooverflow')
+    }
+
+    $textarea.focus()
+    
+    this.$isFullscreen = mode;
+  }
+
   , showEditor: function() {
       var instance = this,
           textarea,
@@ -263,7 +266,7 @@
         if (options.fullscreen.enable) {
           editorHeader.append('<div class="md-controls"><a class="md-control md-control-fullscreen" href="#"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOn)+'"></span></a></div>').on('click', '.md-control-fullscreen', function(e) {
               e.preventDefault();
-              instance.fullscreen(true)
+              instance.setFullscreen(true)
           })
         }
 
@@ -390,7 +393,7 @@
         if (options.initialstate === 'preview') {
           this.showPreview();
         } else if (options.initialstate === 'fullscreen' && options.fullscreen.enable) {
-          this.fullscreen(true)
+          this.setFullscreen(true)
         }
 
       } else {
@@ -411,7 +414,7 @@
 
         this.$editor.on('click', '.exit-fullscreen', function(e) {
           e.preventDefault()
-          instance.fullscreen(false)
+          instance.setFullscreen(false)
         })
 
         this.$editor.on('click', '.switch-theme', function(e) {
@@ -1280,7 +1283,8 @@
     onSave: function (e) {},
     onBlur: function (e) {},
     onFocus: function (e) {},
-    onChange: function(e) {}
+    onChange: function(e) {},
+    onFullscreen: function(e) {}
   }
 
   $.fn.markdown.Constructor = Markdown
