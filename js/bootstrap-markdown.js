@@ -63,7 +63,7 @@
       })
     }
 
-    , fullscreen: function(mode) {
+  , fullscreen: function(mode) {
     var that = this,
         $editor = this.$editor,
         $textarea = this.$textarea
@@ -100,7 +100,7 @@
             var button = buttons[z],
                 buttonToggle = '',
                 buttonHandler = ns+'-'+button.name,
-                buttonIcon = button.icon instanceof Object ? button.icon[this.$options.iconlibrary] : button.icon,
+                buttonIcon = this.__getIcon(button.icon),
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn',
                 tabIndex = button.tabIndex ? button.tabIndex : '-1',
@@ -208,6 +208,10 @@
       return string;
     }
 
+  , __getIcon: function(src) {
+    return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
+  }
+
   , showEditor: function() {
       var instance = this,
           textarea,
@@ -256,9 +260,11 @@
           editorHeader = this.__buildButtons([allBtnGroups], editorHeader)
         }
 
-        editorHeader.append('<div class="md-controls"><a class="md-control md-control-fullscreen" href="#"><span class="glyphicon glyphicon-fullscreen"></span></a></div>').on('click', '.md-control-fullscreen', function() {
-            instance.fullscreen(true)
-        })
+        if (options.fullscreen.enable == true && options.fullscreen !== false) {
+          editorHeader.append('<div class="md-controls"><a class="md-control md-control-fullscreen" href="#"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOn)+'"></span></a></div>').on('click', '.md-control-fullscreen', function() {
+              instance.fullscreen(true)
+          })
+        }
 
         editor.append(editorHeader)
 
@@ -382,7 +388,7 @@
 
         if (options.initialstate === 'preview') {
           this.showPreview();
-        } else if (options.initialstate === 'fullscreen') {
+        } else if (options.initialstate === 'fullscreen' && options.fullscreen.enable) {
           this.fullscreen(true)
         }
 
@@ -395,21 +401,23 @@
         this.$editor.addClass('active')
       }
 
-      this.$editor.append('\
-        <div class="md-fullscreen-controls">\
-          <a href="#" class="switch-theme" title="Switch themes"><span class="glyphicon glyphicon-adjust"></span></a>\
-          <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="glyphicon glyphicon-remove"></span></a>\
-        </div>')
+      if (options.fullscreen.enable && options.fullscreen !== false) {
+        this.$editor.append('\
+          <div class="md-fullscreen-controls">\
+            <a href="#" class="switch-theme" title="Switch themes"><span class="'+this.__getIcon(options.fullscreen.icons.switchTheme)+'"></span></a>\
+            <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOff)+'"></span></a>\
+          </div>')
 
-      this.$editor.on('click', '.exit-fullscreen', function(e) {
-        e.preventDefault()
-        instance.fullscreen(false)
-      })
+        this.$editor.on('click', '.exit-fullscreen', function(e) {
+          e.preventDefault()
+          instance.fullscreen(false)
+        })
 
-      this.$editor.on('click', '.switch-theme', function(e) {
-        e.preventDefault()
-        instance.$editor.toggleClass('theme-dark')
-      })
+        this.$editor.on('click', '.switch-theme', function(e) {
+          e.preventDefault()
+          instance.$editor.toggleClass('theme-dark')
+        })
+      }
 
       // hide hidden buttons from options
       this.hideButtons(options.hiddenButtons)
@@ -1243,6 +1251,27 @@
     hiddenButtons:[], // Default hidden buttons
     disabledButtons:[], // Default disabled buttons
     footer: '',
+    fullscreen: {
+      enable: true,
+      icons: {
+        fullscreenOn: {
+          fa: 'fa fa-expand',
+          glyph: 'glyphicon glyphicon-fullscreen',
+          'fa-3': 'icon-resize-full'
+        },
+        fullscreenOff: {
+          fa: 'fa fa-compress',
+          glyph: 'glyphicon glyphicon-fullscreen',
+          'fa-3': 'icon-resize-small'
+        },
+        switchTheme: {
+          fa: 'fa fa-adjust',
+          glyph: 'glyphicon glyphicon-adjust',
+          'fa-3': 'icon-adjust'
+        }
+      },
+      theme: 'light'
+    },
 
     /* Events hook */
     onShow: function (e) {},
