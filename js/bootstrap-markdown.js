@@ -69,7 +69,7 @@
         $textarea = this.$textarea
 
     if (mode === true) {
-      $editor.addClass('md-fullscreen-mode');
+      $editor.addClass('md-fullscreen-mode '+(this.$options.fullscreen.theme ? 'theme-'+this.$options.fullscreen.theme : ''));
       $('body').addClass('md-nooverflow')
     } else {
       $editor.removeClass('md-fullscreen-mode')
@@ -260,7 +260,7 @@
           editorHeader = this.__buildButtons([allBtnGroups], editorHeader)
         }
 
-        if (options.fullscreen.enable == true && options.fullscreen !== false) {
+        if (options.fullscreen.enable) {
           editorHeader.append('<div class="md-controls"><a class="md-control md-control-fullscreen" href="#"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOn)+'"></span></a></div>').on('click', '.md-control-fullscreen', function() {
               instance.fullscreen(true)
           })
@@ -1270,7 +1270,7 @@
           'fa-3': 'icon-adjust'
         }
       },
-      theme: 'light'
+      theme: ''
     },
 
     /* Events hook */
