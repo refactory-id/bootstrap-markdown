@@ -383,11 +383,6 @@
         this.$editor.show()
       }
 
-      if (options.autofocus) {
-        this.$textarea.focus()
-        this.$editor.addClass('active')
-      }
-
       this.$editor.append('\
         <div class="md-fullscreen-controls">\
           <a href="#" class="switch-theme" title="Switch themes"><span class="glyphicon glyphicon-adjust"></span></a>\
@@ -408,6 +403,11 @@
         this.showPreview();
       } else if (options.initialstate === 'fullscreen') {
         this.fullscreen(options.fullscreen)
+      }
+
+      if (options.autofocus) {
+        this.$textarea.focus()
+        this.$editor.addClass('active')
       }
 
       // hide hidden buttons from options
