@@ -202,7 +202,7 @@
         $textarea = this.$textarea
 
     if (mode === true) {
-      $editor.addClass('md-fullscreen-mode');
+      $editor.addClass('md-fullscreen-mode')
       $('body').addClass('md-nooverflow')
       this.$options.onFullscreen(this)
     } else {
@@ -210,9 +210,8 @@
       $('body').removeClass('md-nooverflow')
     }
 
-    $textarea.focus()
-    
     this.$isFullscreen = mode;
+    $textarea.focus()
   }
 
   , showEditor: function() {
@@ -775,6 +774,7 @@
 
         case 13: // enter
         case 27: // escape
+          if (this.$isFullscreen) this.setFullscreen(false)
           blocked = false
           break
 
