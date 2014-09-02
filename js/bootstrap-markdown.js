@@ -202,7 +202,7 @@
         $textarea = this.$textarea
 
     if (mode === true) {
-      $editor.addClass('md-fullscreen-mode '+(this.$options.fullscreen.theme ? 'theme-'+this.$options.fullscreen.theme : ''));
+      $editor.addClass('md-fullscreen-mode');
       $('body').addClass('md-nooverflow')
       this.$options.onFullscreen(this)
     } else {
@@ -1273,8 +1273,7 @@
           glyph: 'glyphicon glyphicon-adjust',
           'fa-3': 'icon-adjust'
         }
-      },
-      theme: ''
+      }
     },
 
     /* Events hook */
