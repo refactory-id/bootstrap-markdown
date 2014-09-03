@@ -773,6 +773,8 @@
           break
 
         case 13: // enter
+          blocked = false
+          break
         case 27: // escape
           if (this.$isFullscreen) this.setFullscreen(false)
           blocked = false
