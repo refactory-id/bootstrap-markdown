@@ -83,7 +83,7 @@
 
           for (z=0;z<buttons.length;z++) {
             var button = buttons[z],
-                buttonToggle = '',
+                $button, $icon,
                 buttonHandler = ns+'-'+button.name,
                 buttonIcon = this.__getIcon(button.icon),
                 btnText = button.btnText ? button.btnText : '',
@@ -92,43 +92,40 @@
                 hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
                 hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' ('+hotkey+')' : ''
 
-            if (button.toggle == true) {
-              buttonToggle = ' data-toggle="button"'
-            }
-
             // Attach the button object
-            btnGroupContainer.append('<button type="button" class="'
-                                    +btnClass
-                                    +' btn-default btn-sm" title="'
-                                    +this.__localize(button.title)
-                                    +hotkeyCaption
-                                    +'" tabindex="'
-                                    +tabIndex
-                                    +'" data-provider="'
-                                    +ns
-                                    +'" data-handler="'
-                                    +buttonHandler
-                                    +'" data-hotkey="'
-                                    +hotkey
-                                    +'"'
-                                    +buttonToggle
-                                    +'><span class="'
-                                    +buttonIcon
-                                    +'"></span> '
-                                    +this.__localize(btnText)
-                                    +'</button>')
+            $button = $('<button></button>');
+            $button.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
+            if(btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)){
+                $button.removeClass('btn-default');
+            }
+            $button.attr({
+                'type': 'button',
+                'title': this.__localize(button.title) + hotkeyCaption,
+                'tabindex': tabIndex,
+                'data-provider': ns,
+                'data-handler': buttonHandler,
+                'data-hotkey': hotkey
+            });
+            if (button.toggle == true){
+              $button.attr('data-toggle', 'button');
+            }
+            $icon = $('<span/>');
+            $icon.addClass(buttonIcon);
+            $icon.prependTo($button);
+
+            btnGroupContainer.append($button);
 
             // Register handler and callback
-            handler.push(buttonHandler)
-            callback.push(button.callback)
+            handler.push(buttonHandler);
+            callback.push(button.callback);
           }
 
           // Attach the button group into container dom
-          container.append(btnGroupContainer)
+          container.append(btnGroupContainer);
         }
       }
 
-      return container
+      return container;
     }
   , __setListener: function() {
       // Set size and resizable Properties
