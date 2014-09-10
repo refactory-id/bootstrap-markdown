@@ -405,18 +405,12 @@
       if (options.fullscreen.enable && options.fullscreen !== false) {
         this.$editor.append('\
           <div class="md-fullscreen-controls">\
-            <a href="#" class="switch-theme" title="Switch themes"><span class="'+this.__getIcon(options.fullscreen.icons.switchTheme)+'"></span></a>\
             <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOff)+'"></span></a>\
           </div>')
 
         this.$editor.on('click', '.exit-fullscreen', function(e) {
           e.preventDefault()
           instance.setFullscreen(false)
-        })
-
-        this.$editor.on('click', '.switch-theme', function(e) {
-          e.preventDefault()
-          instance.$editor.toggleClass('theme-dark')
         })
       }
 
@@ -1271,11 +1265,6 @@
           fa: 'fa fa-compress',
           glyph: 'glyphicon glyphicon-fullscreen',
           'fa-3': 'icon-resize-small'
-        },
-        switchTheme: {
-          fa: 'fa fa-adjust',
-          glyph: 'glyphicon glyphicon-adjust',
-          'fa-3': 'icon-adjust'
         }
       }
     },
