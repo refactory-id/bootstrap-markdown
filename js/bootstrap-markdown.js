@@ -83,7 +83,7 @@
 
           for (z=0;z<buttons.length;z++) {
             var button = buttons[z],
-                buttonToggle = '',
+                buttonContainer, buttonIconContainer,
                 buttonHandler = ns+'-'+button.name,
                 buttonIcon = this.__getIcon(button.icon),
                 btnText = button.btnText ? button.btnText : '',
@@ -92,43 +92,41 @@
                 hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
                 hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' ('+hotkey+')' : ''
 
-            if (button.toggle == true) {
-              buttonToggle = ' data-toggle="button"'
+            // Construct the button object
+            buttonContainer = $('<button></button>');
+            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
+            if(btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)){
+                buttonContainer.removeClass('btn-default');
             }
+            buttonContainer.attr({
+                'type': 'button',
+                'title': this.__localize(button.title) + hotkeyCaption,
+                'tabindex': tabIndex,
+                'data-provider': ns,
+                'data-handler': buttonHandler,
+                'data-hotkey': hotkey
+            });
+            if (button.toggle == true){
+              buttonContainer.attr('data-toggle', 'button');
+            }
+            buttonIconContainer = $('<span/>');
+            buttonIconContainer.addClass(buttonIcon);
+            buttonIconContainer.prependTo(buttonContainer);
 
             // Attach the button object
-            btnGroupContainer.append('<button type="button" class="'
-                                    +btnClass
-                                    +' btn-default btn-sm" title="'
-                                    +this.__localize(button.title)
-                                    +hotkeyCaption
-                                    +'" tabindex="'
-                                    +tabIndex
-                                    +'" data-provider="'
-                                    +ns
-                                    +'" data-handler="'
-                                    +buttonHandler
-                                    +'" data-hotkey="'
-                                    +hotkey
-                                    +'"'
-                                    +buttonToggle
-                                    +'><span class="'
-                                    +buttonIcon
-                                    +'"></span> '
-                                    +this.__localize(btnText)
-                                    +'</button>')
+            btnGroupContainer.append(buttonContainer);
 
             // Register handler and callback
-            handler.push(buttonHandler)
-            callback.push(button.callback)
+            handler.push(buttonHandler);
+            callback.push(button.callback);
           }
 
           // Attach the button group into container dom
-          container.append(btnGroupContainer)
+          container.append(btnGroupContainer);
         }
       }
 
-      return container
+      return container;
     }
   , __setListener: function() {
       // Set size and resizable Properties
