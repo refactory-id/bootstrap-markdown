@@ -944,13 +944,13 @@
             }
 
             // transform selection and set the cursor into chunked text
-            if (content.substr(selected.start-1,1) == '*'
-                && content.substr(selected.end,1) == '*' ) {
+            if (content.substr(selected.start-1,1) == '_'
+                && content.substr(selected.end,1) == '_' ) {
               e.setSelection(selected.start-1,selected.end+1)
               e.replaceSelection(chunk)
               cursor = selected.start-1
             } else {
-              e.replaceSelection('*'+chunk+'*')
+              e.replaceSelection('_'+chunk+'_')
               cursor = selected.start+1
             }
 
@@ -1012,9 +1012,11 @@
 
             link = prompt(e.__localize('Insert Hyperlink'),'http://')
 
-            if (link != null && link != '' && link != 'http://') {
+            if (link != null && link != '' && link != 'http://' && link.substr(0,4) == 'http') {
+              var sanitizedLink = $('<div>'+link+'</div>').text()
+
               // transform selection and set the cursor into chunked text
-              e.replaceSelection('['+chunk+']('+link+')')
+              e.replaceSelection('['+chunk+']('+sanitizedLink+')')
               cursor = selected.start+1
 
               // Set the cursor
@@ -1039,9 +1041,11 @@
 
             link = prompt(e.__localize('Insert Image Hyperlink'),'http://')
 
-            if (link != null) {
+            if (link != null && link != '' && link != 'http://' && link.substr(0,4) == 'http') {
+              var sanitizedLink = $('<div>'+link+'</div>').text()
+              
               // transform selection and set the cursor into chunked text
-              e.replaceSelection('!['+chunk+']('+link+' "'+e.__localize('enter image title here')+'")')
+              e.replaceSelection('!['+chunk+']('+sanitizedLink+' "'+e.__localize('enter image title here')+'")')
               cursor = selected.start+2
 
               // Set the next tab
