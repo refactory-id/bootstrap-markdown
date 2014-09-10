@@ -83,7 +83,7 @@
 
           for (z=0;z<buttons.length;z++) {
             var button = buttons[z],
-                $button, $icon,
+                buttonContainer, buttonIconContainer,
                 buttonHandler = ns+'-'+button.name,
                 buttonIcon = this.__getIcon(button.icon),
                 btnText = button.btnText ? button.btnText : '',
@@ -92,13 +92,13 @@
                 hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
                 hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' ('+hotkey+')' : ''
 
-            // Attach the button object
-            $button = $('<button></button>');
-            $button.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
+            // Construct the button object
+            buttonContainer = $('<button></button>');
+            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
             if(btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)){
-                $button.removeClass('btn-default');
+                buttonContainer.removeClass('btn-default');
             }
-            $button.attr({
+            buttonContainer.attr({
                 'type': 'button',
                 'title': this.__localize(button.title) + hotkeyCaption,
                 'tabindex': tabIndex,
@@ -107,13 +107,14 @@
                 'data-hotkey': hotkey
             });
             if (button.toggle == true){
-              $button.attr('data-toggle', 'button');
+              buttonContainer.attr('data-toggle', 'button');
             }
-            $icon = $('<span/>');
-            $icon.addClass(buttonIcon);
-            $icon.prependTo($button);
+            buttonIconContainer = $('<span/>');
+            buttonIconContainer.addClass(buttonIcon);
+            buttonIconContainer.prependTo(buttonContainer);
 
-            btnGroupContainer.append($button);
+            // Attach the button object
+            btnGroupContainer.append(buttonContainer);
 
             // Register handler and callback
             handler.push(buttonHandler);
