@@ -27,17 +27,18 @@
 
   var Markdown = function (element, options) {
     // Class Properties
-    this.$ns          = 'bootstrap-markdown'
-    this.$element     = $(element)
-    this.$editable    = {el:null, type:null,attrKeys:[], attrValues:[], content:null}
-    this.$options     = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data(), this.$element.data('options'))
-    this.$oldContent  = null
-    this.$isPreview   = false
-    this.$editor      = null
-    this.$textarea    = null
-    this.$handler     = []
-    this.$callback    = []
-    this.$nextTab     = []
+    this.$ns           = 'bootstrap-markdown'
+    this.$element      = $(element)
+    this.$editable     = {el:null, type:null,attrKeys:[], attrValues:[], content:null}
+    this.$options      = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data(), this.$element.data('options'))
+    this.$oldContent   = null
+    this.$isPreview    = false
+    this.$isFullscreen = false
+    this.$editor       = null
+    this.$textarea     = null
+    this.$handler      = []
+    this.$callback     = []
+    this.$nextTab      = []
 
     this.showEditor()
   }
@@ -82,52 +83,50 @@
 
           for (z=0;z<buttons.length;z++) {
             var button = buttons[z],
-                buttonToggle = '',
+                buttonContainer, buttonIconContainer,
                 buttonHandler = ns+'-'+button.name,
-                buttonIcon = button.icon instanceof Object ? button.icon[this.$options.iconlibrary] : button.icon,
+                buttonIcon = this.__getIcon(button.icon),
                 btnText = button.btnText ? button.btnText : '',
                 btnClass = button.btnClass ? button.btnClass : 'btn',
                 tabIndex = button.tabIndex ? button.tabIndex : '-1',
                 hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
                 hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' ('+hotkey+')' : ''
 
-            if (button.toggle == true) {
-              buttonToggle = ' data-toggle="button"'
+            // Construct the button object
+            buttonContainer = $('<button></button>');
+            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
+            if(btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)){
+                buttonContainer.removeClass('btn-default');
             }
+            buttonContainer.attr({
+                'type': 'button',
+                'title': this.__localize(button.title) + hotkeyCaption,
+                'tabindex': tabIndex,
+                'data-provider': ns,
+                'data-handler': buttonHandler,
+                'data-hotkey': hotkey
+            });
+            if (button.toggle == true){
+              buttonContainer.attr('data-toggle', 'button');
+            }
+            buttonIconContainer = $('<span/>');
+            buttonIconContainer.addClass(buttonIcon);
+            buttonIconContainer.prependTo(buttonContainer);
 
             // Attach the button object
-            btnGroupContainer.append('<button type="button" class="'
-                                    +btnClass
-                                    +' btn-default btn-sm" title="'
-                                    +this.__localize(button.title)
-                                    +hotkeyCaption
-                                    +'" tabindex="'
-                                    +tabIndex
-                                    +'" data-provider="'
-                                    +ns
-                                    +'" data-handler="'
-                                    +buttonHandler
-                                    +'" data-hotkey="'
-                                    +hotkey
-                                    +'"'
-                                    +buttonToggle
-                                    +'><span class="'
-                                    +buttonIcon
-                                    +'"></span> '
-                                    +this.__localize(btnText)
-                                    +'</button>')
+            btnGroupContainer.append(buttonContainer);
 
             // Register handler and callback
-            handler.push(buttonHandler)
-            callback.push(button.callback)
+            handler.push(buttonHandler);
+            callback.push(button.callback);
           }
 
           // Attach the button group into container dom
-          container.append(btnGroupContainer)
+          container.append(btnGroupContainer);
         }
       }
 
-      return container
+      return container;
     }
   , __setListener: function() {
       // Set size and resizable Properties
@@ -192,6 +191,27 @@
       return string;
     }
 
+  , __getIcon: function(src) {
+    return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
+  }
+
+  , setFullscreen: function(mode) {
+    var $editor = this.$editor,
+        $textarea = this.$textarea
+
+    if (mode === true) {
+      $editor.addClass('md-fullscreen-mode')
+      $('body').addClass('md-nooverflow')
+      this.$options.onFullscreen(this)
+    } else {
+      $editor.removeClass('md-fullscreen-mode')
+      $('body').removeClass('md-nooverflow')
+    }
+
+    this.$isFullscreen = mode;
+    $textarea.focus()
+  }
+
   , showEditor: function() {
       var instance = this,
           textarea,
@@ -238,6 +258,13 @@
         // Build the buttons
         if (allBtnGroups.length > 0) {
           editorHeader = this.__buildButtons([allBtnGroups], editorHeader)
+        }
+
+        if (options.fullscreen.enable) {
+          editorHeader.append('<div class="md-controls"><a class="md-control md-control-fullscreen" href="#"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOn)+'"></span></a></div>').on('click', '.md-control-fullscreen', function(e) {
+              e.preventDefault();
+              instance.setFullscreen(true)
+          })
         }
 
         editor.append(editorHeader)
@@ -343,6 +370,7 @@
         this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this))
 
         if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+          this.$editor.addClass('md-editor-disabled');
           this.disableButtons('all');
         }
 
@@ -359,6 +387,12 @@
           })
         }
 
+        if (options.initialstate === 'preview') {
+          this.showPreview();
+        } else if (options.initialstate === 'fullscreen' && options.fullscreen.enable) {
+          this.setFullscreen(true)
+        }
+
       } else {
         this.$editor.show()
       }
@@ -368,8 +402,22 @@
         this.$editor.addClass('active')
       }
 
-      if (options.initialstate === 'preview') {
-        this.showPreview();
+      if (options.fullscreen.enable && options.fullscreen !== false) {
+        this.$editor.append('\
+          <div class="md-fullscreen-controls">\
+            <a href="#" class="switch-theme" title="Switch themes"><span class="'+this.__getIcon(options.fullscreen.icons.switchTheme)+'"></span></a>\
+            <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOff)+'"></span></a>\
+          </div>')
+
+        this.$editor.on('click', '.exit-fullscreen', function(e) {
+          e.preventDefault()
+          instance.setFullscreen(false)
+        })
+
+        this.$editor.on('click', '.switch-theme', function(e) {
+          e.preventDefault()
+          instance.$editor.toggleClass('theme-dark')
+        })
       }
 
       // hide hidden buttons from options
@@ -446,6 +494,11 @@
 
       // Attach the editor instances
       replacementContainer.data('markdown',this)
+
+      if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+        this.$editor.addClass('md-editor-disabled');
+        this.disableButtons('all');
+      }
 
       return this
     }
@@ -718,7 +771,10 @@
           break
 
         case 13: // enter
+          blocked = false
+          break
         case 27: // escape
+          if (this.$isFullscreen) this.setFullscreen(false)
           blocked = false
           break
 
@@ -888,13 +944,13 @@
             }
 
             // transform selection and set the cursor into chunked text
-            if (content.substr(selected.start-1,1) == '*'
-                && content.substr(selected.end,1) == '*' ) {
+            if (content.substr(selected.start-1,1) == '_'
+                && content.substr(selected.end,1) == '_' ) {
               e.setSelection(selected.start-1,selected.end+1)
               e.replaceSelection(chunk)
               cursor = selected.start-1
             } else {
-              e.replaceSelection('*'+chunk+'*')
+              e.replaceSelection('_'+chunk+'_')
               cursor = selected.start+1
             }
 
@@ -956,9 +1012,11 @@
 
             link = prompt(e.__localize('Insert Hyperlink'),'http://')
 
-            if (link != null && link != '' && link != 'http://') {
+            if (link != null && link != '' && link != 'http://' && link.substr(0,4) == 'http') {
+              var sanitizedLink = $('<div>'+link+'</div>').text()
+
               // transform selection and set the cursor into chunked text
-              e.replaceSelection('['+chunk+']('+link+')')
+              e.replaceSelection('['+chunk+']('+sanitizedLink+')')
               cursor = selected.start+1
 
               // Set the cursor
@@ -983,9 +1041,11 @@
 
             link = prompt(e.__localize('Insert Image Hyperlink'),'http://')
 
-            if (link != null) {
+            if (link != null && link != '' && link != 'http://' && link.substr(0,4) == 'http') {
+              var sanitizedLink = $('<div>'+link+'</div>').text()
+              
               // transform selection and set the cursor into chunked text
-              e.replaceSelection('!['+chunk+']('+link+' "'+e.__localize('enter image title here')+'")')
+              e.replaceSelection('!['+chunk+']('+sanitizedLink+' "'+e.__localize('enter image title here')+'")')
               cursor = selected.start+2
 
               // Set the next tab
@@ -1199,6 +1259,26 @@
     hiddenButtons:[], // Default hidden buttons
     disabledButtons:[], // Default disabled buttons
     footer: '',
+    fullscreen: {
+      enable: true,
+      icons: {
+        fullscreenOn: {
+          fa: 'fa fa-expand',
+          glyph: 'glyphicon glyphicon-fullscreen',
+          'fa-3': 'icon-resize-full'
+        },
+        fullscreenOff: {
+          fa: 'fa fa-compress',
+          glyph: 'glyphicon glyphicon-fullscreen',
+          'fa-3': 'icon-resize-small'
+        },
+        switchTheme: {
+          fa: 'fa fa-adjust',
+          glyph: 'glyphicon glyphicon-adjust',
+          'fa-3': 'icon-adjust'
+        }
+      }
+    },
 
     /* Events hook */
     onShow: function (e) {},
@@ -1206,7 +1286,8 @@
     onSave: function (e) {},
     onBlur: function (e) {},
     onFocus: function (e) {},
-    onChange: function(e) {}
+    onChange: function(e) {},
+    onFullscreen: function(e) {}
   }
 
   $.fn.markdown.Constructor = Markdown
