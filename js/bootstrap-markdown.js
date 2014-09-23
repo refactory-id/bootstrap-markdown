@@ -158,7 +158,7 @@
           handler = this.$handler,
           callback = this.$callback,
           handlerName = target.attr('data-handler'),
-          callbackIndex = handler.indexOf(handlerName),
+          callbackIndex = $.inArray(handlerName,handler),
           callbackHandler = callback[callbackIndex]
 
       // Trigger the focusin
@@ -461,7 +461,7 @@
       this.disableButtons('all').enableButtons('cmdPreview')
 
       content = this.parseContent()
-
+      console.log("content: "+content);
       // Build preview element
       replacementContainer.html(content)
 
@@ -552,22 +552,51 @@
 
   , getSelection: function() {
 
-      var e = this.$textarea[0]
-
-      return (
-
+      var e = this.$textarea[0];
+		if (typeof(e.selectionStart) != "undefined") { 
+			return (
+				('selectionStart' in e && function() {
+		              var l = e.selectionEnd - e.selectionStart
+		              return { start: e.selectionStart, end: e.selectionEnd, length: l, text: e.value.substr(e.selectionStart, l) }
+		          })
+			)()
+		}
+		else if (typeof(document.selection) != "undefined") { /* browser not supported e.selectionStart and e.selectionEnd*/
+			e.focus(); 
+			
+			var r = document.selection.createRange(); 
+			if (r == null) { 
+				return 0; 
+			} 
+			
+			var re = e.createTextRange(), 
+				rc = re.duplicate(); 
+			re.moveToBookmark(r.getBookmark()); 
+			rc.setEndPoint('EndToEnd', re);
+			var selectionStart = rc.text.length - re.text.length;
+			var selectionEnd = selectionStart + re.text.length;
+			
+			var l = re.text.length;
+			return { start: selectionStart, end: selectionEnd, length: l, text: e.value.substr(selectionStart, l) };
+			
+		}
+			
+		
+      /*return (
+    		  
           ('selectionStart' in e && function() {
               var l = e.selectionEnd - e.selectionStart
+              console.log("l:"+l+", e.selectionStart:"+e.selectionStart)
               return { start: e.selectionStart, end: e.selectionEnd, length: l, text: e.value.substr(e.selectionStart, l) }
           }) ||
 
-          /* browser not supported */
+           browser not supported 
           function() {
             return null
           }
 
-      )()
-
+      )()*/
+	
     }
 
   , setSelection: function(start,end) {
@@ -576,6 +605,7 @@
 
       return (
 
+    	
           ('selectionStart' in e && function() {
               e.selectionStart = start
               e.selectionEnd = end
@@ -899,8 +929,8 @@
           callback: function(e){
             // Give/remove ** surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
-
             if (selected.length == 0) {
+            	
               // Give extra word
               chunk = e.__localize('strong text')
             } else {
