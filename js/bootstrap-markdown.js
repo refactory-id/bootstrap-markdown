@@ -1303,50 +1303,20 @@
     $this.markdown()
   }
 
-  var analyzeMarkdown = function(e) {
-    var blurred = false,
-        el,
-        $docEditor = $(e.currentTarget)
+  var blurNonFocused = function(e) {
+    var $activeElement = $(document.activeElement)
 
-    // Check whether it was editor childs or not
-    if ((e.type == 'focusin' || e.type == 'click') && $docEditor.length == 1 && typeof $docEditor[0] == 'object'){
-      el = $docEditor[0].activeElement
-      if ( ! $(el).data('markdown')) {
-        if (typeof $(el).parent().parent().parent().attr('class') == "undefined"
-              || $(el).parent().parent().parent().attr('class').indexOf('md-editor') < 0) {
-          if ( typeof $(el).parent().parent().attr('class') == "undefined"
-              || $(el).parent().parent().attr('class').indexOf('md-editor') < 0) {
+    // Blur event
+    $(document).find('.md-editor').each(function(){
+      var $this            = $(this),
+          focused          = $activeElement.closest('.md-editor')[0] === this,
+          attachedMarkdown = $this.find('textarea').data('markdown') ||
+                             $this.find('div[data-provider="markdown-preview"]').data('markdown')
 
-                blurred = true
-          }
-        } else {
-          blurred = false
-        }
+      if (attachedMarkdown && !focused) {
+        attachedMarkdown.blur()
       }
-
-
-      if (blurred) {
-        // Blur event
-        $(document).find('.md-editor').each(function(){
-          var parentMd = $(el).parent()
-
-          if ($(this).attr('id') != parentMd.attr('id')) {
-            var attachedMarkdown
-
-            if (attachedMarkdown = $(this).find('textarea').data('markdown'),
-                attachedMarkdown == null) {
-                attachedMarkdown = $(this).find('div[data-provider="markdown-preview"]').data('markdown')
-            }
-
-            if (attachedMarkdown) {
-              attachedMarkdown.blur()
-            }
-          }
-        })
-      }
-
-      e.stopPropagation()
-    }
+    })
   }
 
   $(document)
@@ -1354,11 +1324,8 @@
       initMarkdown($(this))
       e.preventDefault()
     })
-    .on('click', function (e) {
-      analyzeMarkdown(e)
-    })
-    .on('focusin', function (e) {
-      analyzeMarkdown(e)
+    .on('click focusin', function (e) {
+      blurNonFocused(e)
     })
     .ready(function(){
       $('textarea[data-provide="markdown"]').each(function(){
