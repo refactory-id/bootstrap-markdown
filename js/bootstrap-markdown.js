@@ -30,7 +30,7 @@
     this.$ns           = 'bootstrap-markdown'
     this.$element      = $(element)
     this.$editable     = {el:null, type:null,attrKeys:[], attrValues:[], content:null}
-    this.$options      = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data(), this.$element.data('options'))
+    this.$options      = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data('options'))
     this.$oldContent   = null
     this.$isPreview    = false
     this.$isFullscreen = false
