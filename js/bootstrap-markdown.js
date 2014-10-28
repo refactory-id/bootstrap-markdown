@@ -427,40 +427,39 @@
     }
 
   , parseContent: function() {
-      var content,
-        callbackContent = this.$options.onPreview(this) // Try to get the content from callback
-
-      if (typeof callbackContent == 'string') {
-        // Set the content based by callback content
-        content = callbackContent
+      // Set the content
+      var val = this.$textarea.val();
+      if (typeof markdown == 'object') {
+        content = markdown.toHTML(val);
+      } else if (typeof marked == 'function') {
+        content = marked(val);
       } else {
-        // Set the content
-        var val = this.$textarea.val();
-        if(typeof markdown == 'object') {
-          content = markdown.toHTML(val);
-        }else if(typeof marked == 'function') {
-          content = marked(val);
-        } else {
-          content = val;
-        }
+        content = val;
       }
 
       return content;
     }
 
   , showPreview: function() {
-      var options = this.$options,
-          container = this.$textarea,
-          afterContainer = container.next(),
-          replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'}),
-          content
-
       // Give flag that tell the editor enter preview mode
       this.$isPreview = true
       // Disable all buttons
       this.disableButtons('all').enableButtons('cmdPreview')
 
-      content = this.parseContent()
+      // Render the content asynchronously
+      var r = this.$options.onPreview(this, jQuery.proxy(this.showPreviewWithContent, this))
+
+      // Backward compatibility: if someone has an old callback, it will return
+      // something and we can just call the callback by ourselves
+      if (typeof r == 'string') {
+        this.showPreviewWithContent(r)
+      }
+  }
+
+  , showPreviewWithContent: function(content) {
+      var container = this.$textarea,
+          afterContainer = container.next(),
+          replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'})
 
       // Build preview element
       replacementContainer.html(content)
@@ -1271,7 +1270,10 @@
 
     /* Events hook */
     onShow: function (e) {},
-    onPreview: function (e) {},
+    onPreview: function (e, callback) {
+      // Default behaviour here is to parse the content and pass it to the callback.
+      callback(e.parseContent())
+    },
     onSave: function (e) {},
     onBlur: function (e) {},
     onFocus: function (e) {},
