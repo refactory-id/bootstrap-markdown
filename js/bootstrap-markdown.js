@@ -371,7 +371,7 @@
 
         if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
           this.$editor.addClass('md-editor-disabled');
-          this.disableButtons('all');
+          this.disableButtons('all').enableButtons('cmdPreview');
         }
 
         if (this.eventSupported('keydown') && typeof jQuery.hotkeys === 'object') {
@@ -491,7 +491,7 @@
 
       if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
         this.$editor.addClass('md-editor-disabled');
-        this.disableButtons('all');
+        this.disableButtons('all').enableButtons('cmdPreview');
       }
 
       return this
@@ -515,6 +515,11 @@
       // Back to the editor
       this.$textarea.show()
       this.__setListener()
+
+      if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
+        this.$editor.addClass('md-editor-disabled');
+        this.disableButtons('all').enableButtons('cmdPreview');
+      }
 
       return this
     }
