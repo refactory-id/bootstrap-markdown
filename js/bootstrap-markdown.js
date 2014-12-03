@@ -650,16 +650,10 @@
       return
     }
 
-  , __parseButtonNameParam: function(nameParam) {
-      var buttons = []
-
-      if (typeof nameParam == 'string') {
-        buttons.push(nameParam)
-      } else {
-        buttons = nameParam
-      }
-
-      return buttons
+  , __parseButtonNameParam: function (names) {
+      return typeof names == 'string' ?
+                      names.split(' ') :
+                      names;
     }
 
   , enableButtons: function(name) {
