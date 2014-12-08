@@ -7,7 +7,7 @@
     'Bold': "Жирный",
     'strong text': "выделенный текст",
     'Italic': "Курсив",
-    'emphasized text': "наклонный текст"
+    'emphasized text': "наклонный текст",
     'Heading': "Заголовок",
     'heading text': "текст заголовка",
     'URL/Link': "Вставьте ссылку",
