@@ -654,7 +654,7 @@
       var buttons = []
 
       if (typeof nameParam == 'string') {
-        buttons.push(nameParam)
+        buttons = nameParam.split(',')
       } else {
         buttons = nameParam
       }
