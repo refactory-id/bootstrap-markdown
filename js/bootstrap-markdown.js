@@ -428,7 +428,7 @@
 
   , parseContent: function() {
       var content,
-        callbackContent = this.$options.onPreview(this) // Try to get the content from callback
+          callbackContent = this.$options.onPreview(this) // Try to get the content from callback
 
       if (typeof callbackContent == 'string') {
         // Set the content based by callback content
@@ -436,10 +436,19 @@
       } else {
         // Set the content
         var val = this.$textarea.val();
+
         if(typeof markdown == 'object') {
           content = markdown.toHTML(val);
-        }else if(typeof marked == 'function') {
-          content = marked(val);
+        } else if(typeof marked == 'function') {
+          var renderer = new marked.Renderer;
+          renderer.table = function(header, body) {
+            return '<div class="table-responsive"><table class="table">' +
+                     '<thead>' + header + '</thead>' +
+                     '<tbody>' + body + '</tbody>' +
+                   '</table></div>';
+          };
+
+          content = marked(val, { renderer: renderer });
         } else {
           content = val;
         }
@@ -1037,7 +1046,7 @@
 
             if (link != null && link != '' && link != 'http://' && link.substr(0,4) == 'http') {
               var sanitizedLink = $('<div>'+link+'</div>').text()
-              
+
               // transform selection and set the cursor into chunked text
               e.replaceSelection('!['+chunk+']('+sanitizedLink+' "'+e.__localize('enter image title here')+'")')
               cursor = selected.start+2
