@@ -310,12 +310,18 @@
         if (options.savable) {
           createFooter = true;
           var saveHandler = 'cmdSave'
+          var saveButtonClass = "btn btn-success"
+          if (options.saveButtonClass) {
+              saveButtonClass = options.saveButtonClass;
+          }
 
           // Register handler and callback
           handler.push(saveHandler)
           callback.push(options.onSave)
 
-          editorFooter.append('<button class="btn btn-success" data-provider="'
+          editorFooter.append('<button class="'
+                              +saveButtonClass
+                              +'" data-provider="'
                               +ns
                               +'" data-handler="'
                               +saveHandler
