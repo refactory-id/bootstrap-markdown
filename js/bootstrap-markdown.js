@@ -425,23 +425,18 @@
       return this;
     }
 
-  , parseContent: function() {
-      var content,
-        callbackContent = this.$options.onPreview(this); // Try to get the content from callback
+  , parseContent: function(val) {
+      var content;
 
-      if (typeof callbackContent == 'string') {
-        // Set the content based by callback content
-        content = callbackContent;
+      // parse with supported markdown parser
+      var val = val || this.$textarea.val();
+
+      if (typeof markdown == 'object') {
+        content = markdown.toHTML(val);
+      } else if (typeof marked == 'function') {
+        content = marked(val);
       } else {
-        // Set the content
-        var val = this.$textarea.val();
-        if(typeof markdown == 'object') {
-          content = markdown.toHTML(val);
-        }else if(typeof marked == 'function') {
-          content = marked(val);
-        } else {
-          content = val;
-        }
+        content = val;
       }
 
       return content;
@@ -452,14 +447,18 @@
           container = this.$textarea,
           afterContainer = container.next(),
           replacementContainer = $('<div/>',{'class':'md-preview','data-provider':'markdown-preview'}),
-          content;
+          content,
+          callbackContent;
 
       // Give flag that tell the editor enter preview mode
       this.$isPreview = true;
       // Disable all buttons
       this.disableButtons('all').enableButtons('cmdPreview');
 
-      content = this.parseContent();
+      // Try to get the content from callback
+      callbackContent = options.onPreview(this);
+      // Set the content based from the callback content if string otherwise parse value from textarea
+      content = typeof callbackContent == 'string' ? callbackContent : this.parseContent();
 
       // Build preview element
       replacementContainer.html(content);
