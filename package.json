@@ -14,8 +14,8 @@
     "name": "Taufan Aditya",
     "web": "https://github.com/toopay"
   }],
-  "repositories": [{
+  "repository": {
     "type": "git",
     "url": "https://github.com/toopay/bootstrap-markdown.git"
-  }]
+  }
 }
