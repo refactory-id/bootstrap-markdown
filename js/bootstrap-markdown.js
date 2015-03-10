@@ -2,7 +2,7 @@
  * bootstrap-markdown.js v2.8.0
  * http://github.com/toopay/bootstrap-markdown
  * ===================================================
- * Copyright 2013-2014 Taufan Aditya
+ * Copyright 2013-2015 Taufan Aditya
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -155,7 +155,8 @@
         .on('focus',    $.proxy(this.focus, this))
         .on('keypress', $.proxy(this.keypress, this))
         .on('keyup',    $.proxy(this.keyup, this))
-        .on('change',   $.proxy(this.change, this));
+        .on('change',   $.proxy(this.change, this))
+        .on('select',   $.proxy(this.select, this));
 
       if (this.eventSupported('keydown')) {
         this.$textarea.on('keydown', $.proxy(this.keydown, this));
@@ -415,11 +416,10 @@
       }
 
       if (options.fullscreen.enable && options.fullscreen !== false) {
-        this.$editor.append('\
-          <div class="md-fullscreen-controls">\
-            <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="'+this.__getIcon(options.fullscreen.icons.fullscreenOff)+'"></span></a>\
-          </div>');
-
+        this.$editor.append('<div class="md-fullscreen-controls">'
+                        + '<a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="' + this.__getIcon(options.fullscreen.icons.fullscreenOff) + '">'
+                        + '</span></a>'
+                        + '</div>');
         this.$editor.on('click', '.exit-fullscreen', function(e) {
           e.preventDefault();
           instance.setFullscreen(false);
@@ -795,7 +795,10 @@
       this.$options.onChange(this);
       return this;
     }
-
+  , select: function (e) {
+      this.$options.onSelect(this);
+      return this;
+    }
   , focus: function (e) {
       var options = this.$options,
           isHideable = options.hideable,
@@ -1287,7 +1290,8 @@
     onBlur: function (e) {},
     onFocus: function (e) {},
     onChange: function(e) {},
-    onFullscreen: function(e) {}
+    onFullscreen: function(e) {},
+    onSelect: function (e) {}
   };
 
   $.fn.markdown.Constructor = Markdown;
