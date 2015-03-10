@@ -1,4 +1,4 @@
-+/**
+/**
  + * Korean translation for bootstrap-markdown
  + * WoongBi Kim <ssinss@gmail.com>
  + */
@@ -21,4 +21,4 @@
     'enter image title here': "여기에 이미지 제목을 적으세요",
     'list text here': "리스트 텍스트"
   };
-}(jQuery))
+}(jQuery));
