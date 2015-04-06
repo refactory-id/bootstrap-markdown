@@ -444,7 +444,9 @@
       // parse with supported markdown parser
       var val = val || this.$textarea.val();
 
-      if (typeof markdown == 'object') {
+      if (this.$options.parser) {
+        content = this.$options.parser(val);
+      } else if (typeof markdown == 'object') {
         content = markdown.toHTML(val);
       } else if (typeof marked == 'function') {
         content = marked(val);
@@ -843,7 +845,7 @@
             // Build the original element
             var oldElement = $('<'+editable.type+'/>'),
                 content = this.getContent(),
-                currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content;
+                currentContent = this.parseContent(content);
 
             $(editable.attrKeys).each(function(k,v) {
               oldElement.attr(editable.attrKeys[k],editable.attrValues[k]);
@@ -887,13 +889,14 @@
     /* Editor Properties */
     autofocus: false,
     hideable: false,
-    savable:false,
+    savable: false,
     width: 'inherit',
     height: 'inherit',
     resize: 'none',
     iconlibrary: 'glyph',
     language: 'en',
     initialstate: 'editor',
+    parser: null,
 
     /* Buttons Properties */
     buttons: [
