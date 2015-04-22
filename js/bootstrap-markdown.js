@@ -219,6 +219,8 @@
     } else {
       $editor.removeClass('md-fullscreen-mode');
       $('body').removeClass('md-nooverflow');
+
+      if (this.$isPreview == true) this.hidePreview().showPreview()
     }
 
     this.$isFullscreen = mode;
