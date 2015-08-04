@@ -687,16 +687,11 @@
       return;
     }
 
-  , __parseButtonNameParam: function(nameParam) {
-      var buttons = [];
+  , __parseButtonNameParam: function (names) {
+      return typeof names == 'string' ?
+                      names.split(' ') :
+                      names;
 
-      if (typeof nameParam == 'string') {
-        buttons = nameParam.split(',')
-      } else {
-        buttons = nameParam;
-      }
-
-      return buttons;
     }
 
   , enableButtons: function(name) {
