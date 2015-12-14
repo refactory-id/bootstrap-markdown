@@ -17,8 +17,18 @@
  * limitations under the License.
  * ========================================================== */
 
-!function ($) {
-
+(function(factory){
+    if (typeof define === "function" && define.amd) {
+        //RequireJS
+        define(["jquery"], factory);
+    } else if (typeof exports === 'object') {
+        //Backbone.js
+        factory(require('jquery'));
+    } else {
+        //Jquery plugin
+        factory(jQuery);
+    }
+}(function($){
   "use strict"; // jshint ;_;
 
   /* MARKDOWN CLASS DEFINITION
@@ -1371,4 +1381,4 @@
       })
     });
 
-}(window.jQuery);
+}));
