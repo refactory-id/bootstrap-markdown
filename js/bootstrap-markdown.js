@@ -461,6 +461,22 @@
       // disable disabled buttons from options
       this.disableButtons(options.disabledButtons);
 
+      // enable dropZone if available and configured
+      if (options.dropZoneOptions) {
+        if (this.$editor.dropzone) {
+          var dropZone = this.$editor.dropzone(options.dropZoneOptions);
+          this.$textarea.wrap('<div class="dropzone"></div>');
+          dropZone.on('addedfile', function(file) {
+            console.log('File added:', file);
+          });
+          dropZone.on('error', function(file, error, xhr) {
+            console.log('Error:', error);
+          });
+        } else {
+          console.log('dropZoneOptions was configured, but DropZone was not detected.');
+        }
+      }
+
       // Trigger the onShow hook
       options.onShow(this);
 
@@ -927,6 +943,7 @@
     language: 'en',
     initialstate: 'editor',
     parser: null,
+    dropZoneOptions: null,
 
     /* Buttons Properties */
     buttons: [
