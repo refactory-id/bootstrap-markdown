@@ -464,14 +464,21 @@
       // enable dropZone if available and configured
       if (options.dropZoneOptions) {
         if (this.$editor.dropzone) {
-          var dropZone = this.$editor.dropzone(options.dropZoneOptions);
-          this.$textarea.wrap('<div class="dropzone"></div>');
-          dropZone.on('addedfile', function(file) {
-            console.log('File added:', file);
-          });
-          dropZone.on('error', function(file, error, xhr) {
-            console.log('Error:', error);
-          });
+          options.dropZoneOptions.init = function() {
+            var caretPos = 0;
+            this.on('drop', function(e) {
+              caretPos = textarea.prop('selectionStart');
+            });
+            this.on('success', function(file, path) {
+              var text = textarea.val();
+              textarea.val(text.substring(0, caretPos) + '\n![description](' + path + ')\n' + text.substring(caretPos) );
+            });
+            this.on('error', function(file, error, xhr) {
+              console.log('Error:', error);
+            });
+          }
+          this.$textarea.addClass('dropzone');
+          this.$editor.dropzone(options.dropZoneOptions);
         } else {
           console.log('dropZoneOptions was configured, but DropZone was not detected.');
         }
