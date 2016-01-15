@@ -161,15 +161,19 @@
         this.$textarea.css('resize',this.$options.resize);
       }
 
-      this.$textarea
-        .on('focus',    $.proxy(this.focus, this))
-        .on('keypress', $.proxy(this.keypress, this))
-        .on('keyup',    $.proxy(this.keyup, this))
-        .on('change',   $.proxy(this.change, this))
-        .on('select',   $.proxy(this.select, this));
+      this.$textarea.on({
+          'focus' : $.proxy(this.focus, this),
+          'keyup' : $.proxy(this.keyup, this),
+          'change' : $.proxy(this.change, this),
+          'select' : $.proxy(this.select, this)
+      });
 
       if (this.eventSupported('keydown')) {
         this.$textarea.on('keydown', $.proxy(this.keydown, this));
+      }
+
+      if (this.eventSupported('keypress')) {
+        this.$textarea.on('keypress', $.proxy(this.keypress, this))
       }
 
       // Re-attach markdown data
