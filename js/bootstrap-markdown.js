@@ -1,8 +1,8 @@
 /* ===================================================
- * bootstrap-markdown.js v2.9.0
+ * bootstrap-markdown.js v2.10.0
  * http://github.com/toopay/bootstrap-markdown
  * ===================================================
- * Copyright 2013-2015 Taufan Aditya
+ * Copyright 2013-2016 Taufan Aditya
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-markdown",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "main": ["./js/bootstrap-markdown.js", "./css/bootstrap-markdown.min.css"],
   "license": "Apache-2.0",
   "dependencies": {
