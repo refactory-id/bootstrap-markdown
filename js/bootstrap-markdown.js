@@ -233,6 +233,7 @@
     } else {
       $editor.removeClass('md-fullscreen-mode');
       $('body').removeClass('md-nooverflow');
+      this.$options.onFullscreenExit(this);
 
       if (this.$isPreview == true) this.hidePreview().showPreview()
     }
@@ -1330,6 +1331,7 @@
     onFocus: function (e) {},
     onChange: function(e) {},
     onFullscreen: function(e) {},
+    onFullscreenExit: function(e) {},
     onSelect: function (e) {}
   };
 
