@@ -3,7 +3,7 @@
  * Michele Virgilio <michele.virgilio@gmail.com>
  */
 ;(function($){
-  $.fn.markdown.messages['fr'] = {
+  $.fn.markdown.messages['it'] = {
     'Bold': "Grassetto",
     'Italic': "Corsivo",
     'Heading': "Titolo",
