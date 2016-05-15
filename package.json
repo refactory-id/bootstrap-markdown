@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-markdown",
-  "filename": "js/bootstrap-markdown.js",
+  "main": "js/bootstrap-markdown.js",
   "version": "2.10.0",
   "description": "A bootstrap plugin for markdown editing",
   "license" : "Apache-2.0",
