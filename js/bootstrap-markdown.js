@@ -489,6 +489,25 @@
         }
       }
 
+      // enable data-uris via drag and drop
+      if (options.enableDropDataUri === true) {
+        this.$editor.on('drop', function(e) {
+          var caretPos = textarea.prop('selectionStart');
+          e.stopPropagation();
+          e.preventDefault();
+          $.each(e.originalEvent.dataTransfer.files, function(index, file){
+            var fileReader = new FileReader();
+              fileReader.onload = (function(file) {
+                 return function(e) {
+                    var text = textarea.val();
+                    textarea.val(text.substring(0, caretPos) + '\n<img src="'+ e.target.result  +'" />\n' + text.substring(caretPos) );
+                 };
+              })(file);
+            fileReader.readAsDataURL(file);
+          });
+        });
+      }
+
       // Trigger the onShow hook
       options.onShow(this);
 
@@ -956,6 +975,7 @@
     initialstate: 'editor',
     parser: null,
     dropZoneOptions: null,
+    enableDropDataUri: false,
 
     /* Buttons Properties */
     buttons: [
