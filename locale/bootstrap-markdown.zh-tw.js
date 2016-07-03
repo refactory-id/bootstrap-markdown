@@ -26,7 +26,5 @@
     'list text here': "在這裡輸入列表文字",
     'code text here': "在這裡輸入程式碼",
     'quote here': "在這裡輸入引用"
-
-
   };
 }(jQuery));

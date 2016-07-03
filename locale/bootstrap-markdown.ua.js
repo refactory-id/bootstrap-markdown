@@ -2,8 +2,8 @@
  * Ukrainian translation for bootstrap-markdown
  * by Oleg Vivtash <o@vivtash.net>
  */
-;(function($){
-  $.fn.markdown.messages['ua'] = {
+(function ($) {
+  $.fn.markdown.messages.ua = {
     'Bold': "Жирний",
     'Italic': "Курсів",
     'Heading': "Заголовок",
@@ -21,4 +21,4 @@
     'enter image title here': "Введіть назву зображення",
     'list text here': "текст списку"
   };
-}(jQuery))
+}(jQuery));

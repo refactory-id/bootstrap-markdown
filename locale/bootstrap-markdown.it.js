@@ -2,8 +2,8 @@
  * Italian translation for bootstrap-markdown
  * Michele Virgilio <michele.virgilio@gmail.com>
  */
-;(function($){
-  $.fn.markdown.messages['it'] = {
+(function ($) {
+  $.fn.markdown.messages.it = {
     'Bold': "Grassetto",
     'Italic': "Corsivo",
     'Heading': "Titolo",
@@ -21,4 +21,4 @@
     'enter image title here': "Inserisci il titolo dell'immagine",
     'list text here': "Testo della lista"
   };
-}(jQuery))
+}(jQuery));
