@@ -3,7 +3,7 @@
  * Dan Storm <storm@catalystcode.net>
  */
 (function ($) {
-  $.fn.markdown.messages.nb = {
+  $.fn.markdown.messages.da = {
     'Bold': 'Fed',
     'Italic': 'Kursiv',
     'Heading': 'Overskrift',
