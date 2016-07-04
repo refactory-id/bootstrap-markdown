@@ -1256,7 +1256,7 @@
           hotkey: 'Ctrl+K',
           title: 'Code',
           icon: {
-            glyph: 'glyphicon glyphicon-asterisk',
+            glyph: 'glyphicon glyphicon-console',
             fa: 'fa fa-code',
             'fa-3': 'icon-code',
             octicons: 'octicon octicon-code'
