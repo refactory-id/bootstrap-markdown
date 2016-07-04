@@ -26,7 +26,5 @@
     'list text here': "这里是列表文本",
     'code text here': "这里输入代码",
     'quote here': "这里输入引用文本"
-
-
   };
 }(jQuery));

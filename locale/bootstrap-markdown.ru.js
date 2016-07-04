@@ -2,8 +2,8 @@
  * Russian translation for bootstrap-markdown
  * by Oleg Vivtash <o@vivtash.net>
  */
-;(function($){
-  $.fn.markdown.messages['ru'] = {
+(function ($) {
+  $.fn.markdown.messages.ru = {
     'Bold': "Жирный",
     'strong text': "выделенный текст",
     'Italic': "Курсив",
@@ -28,4 +28,4 @@
     'Save': "Сохранить",
     'Preview': "Предпросмотр"
   };
-}(jQuery))
+}(jQuery));
