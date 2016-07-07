@@ -471,19 +471,21 @@
       // enable dropZone if available and configured
       if (options.dropZoneOptions) {
         if (this.$editor.dropzone) {
-          options.dropZoneOptions.init = function() {
-            var caretPos = 0;
-            this.on('drop', function(e) {
-              caretPos = textarea.prop('selectionStart');
-            });
-            this.on('success', function(file, path) {
-              var text = textarea.val();
-              textarea.val(text.substring(0, caretPos) + '\n![description](' + path + ')\n' + text.substring(caretPos));
-            });
-            this.on('error', function(file, error, xhr) {
-              console.log('Error:', error);
-            });
-          };
+          if(!options.dropZoneOptions.init) {
+            options.dropZoneOptions.init = function() {
+              var caretPos = 0;
+              this.on('drop', function(e) {
+                  caretPos = textarea.prop('selectionStart');
+                  });
+              this.on('success', function(file, path) {
+                  var text = textarea.val();
+                  textarea.val(text.substring(0, caretPos) + '\n![description](' + path + ')\n' + text.substring(caretPos));
+                  });
+              this.on('error', function(file, error, xhr) {
+                  console.log('Error:', error);
+                  });
+            };
+          }
           this.$textarea.addClass('dropzone');
           this.$editor.dropzone(options.dropZoneOptions);
         } else {
