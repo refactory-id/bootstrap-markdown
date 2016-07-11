@@ -102,20 +102,20 @@
         if( typeof buttonSize !== 'undefined') {
           switch(buttonSize){
             case 'large':
-              buttonSize = ' btn-lg';
+              buttonSize = ' btn-group-lg';
             break;
             case 'normal':
               buttonSize = '';
             break;
             case 'small':
-              buttonSize = ' btn-sm';
+              buttonSize = ' btn-group-sm';
             break;
             default:
-              buttonSize = ' btn-sm';
+              buttonSize = ' btn-group-sm';
             break;
           }
         }else{
-          buttonSize = ' btn-sm';
+          buttonSize = ' btn-group-sm';
         }
 
       for (i = 0; i < buttonsArray.length; i++) {
@@ -126,7 +126,7 @@
           var z,
             buttons = btnGroups[y].data,
             btnGroupContainer = $('<div/>', {
-              'class': 'btn-group'
+              'class': 'btn-group' + buttonSize
             });
 
           for (z = 0; z < buttons.length; z++) {
@@ -142,7 +142,7 @@
 
             // Construct the button object
             buttonContainer = $('<button></button>');
-            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default' + buttonSize).addClass(btnClass);
+            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default').addClass(btnClass);
             if (btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)) {
               buttonContainer.removeClass('btn-default');
             }
