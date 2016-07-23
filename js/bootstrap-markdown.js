@@ -1254,13 +1254,15 @@
                 // Set the cursor
                 cursor = selected.start + 3;
               } else {
+                var i = 1;
                 var list = [];
 
                 list = selected.text.split('\n');
                 chunk = list[0];
 
                 $.each(list, function(k, v) {
-                  list[k] = '1. ' + v;
+                  list[k] = i + '. ' + v;
+                  i++;
                 });
 
                 e.replaceSelection('\n\n' + list.join('\n'));
