@@ -113,7 +113,7 @@
             var button = buttons[z],
               buttonContainer, buttonIconContainer,
               buttonHandler = ns + '-' + button.name,
-              buttonIcon = this.__getIcon(button.icon),
+              buttonIcon = this.__getIcon(button),
               btnText = button.btnText ? button.btnText : '',
               btnClass = button.btnClass ? button.btnClass : 'btn',
               tabIndex = button.tabIndex ? button.tabIndex : '-1',
@@ -222,7 +222,12 @@
       return string;
     },
     __getIcon: function(src) {
-      return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
+      if(typeof src == 'object'){
+        var customIcon = this.$options.customIcons[src.name];
+        return typeof customIcon == 'undefined' ? src.icon[this.$options.iconlibrary] : customIcon;
+      } else {
+        return src;
+      }
     },
     setFullscreen: function(mode) {
       var $editor = this.$editor,
@@ -1402,6 +1407,7 @@
         }]
       }]
     ],
+    customIcons: {},
     additionalButtons: [], // Place to hook more buttons by code
     reorderButtonGroups: [],
     hiddenButtons: [], // Default hidden buttons
@@ -1411,16 +1417,22 @@
       enable: true,
       icons: {
         fullscreenOn: {
-          fa: 'fa fa-expand',
-          glyph: 'glyphicon glyphicon-fullscreen',
-          'fa-3': 'icon-resize-full',
-          octicons: 'octicon octicon-link-external'
+          name: "fullscreenOn",
+          icon: {
+            fa: 'fa fa-expand',
+            glyph: 'glyphicon glyphicon-fullscreen',
+            'fa-3': 'icon-resize-full',
+            octicons: 'octicon octicon-link-external'
+          }
         },
         fullscreenOff: {
-          fa: 'fa fa-compress',
-          glyph: 'glyphicon glyphicon-fullscreen',
-          'fa-3': 'icon-resize-small',
-          octicons: 'octicon octicon-browser'
+          name: "fullscreenOff",
+          icon: {
+            fa: 'fa fa-compress',
+            glyph: 'glyphicon glyphicon-fullscreen',
+            'fa-3': 'icon-resize-small',
+            octicons: 'octicon octicon-browser'
+          }
         }
       }
     },
