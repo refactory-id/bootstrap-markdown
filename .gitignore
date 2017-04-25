@@ -2,3 +2,4 @@ bower_components
 .DS_Store
 node_modules/*
 .idea
+yuicompressor-2.4.8.jar
