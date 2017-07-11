@@ -856,7 +856,29 @@
 
         case 13: // enter
           blocked = false;
+          var chars = this.getContent().split('');
+          var enterIndex = this.getSelection().start;
+          var priorNewlineIndex = -1; // initial line break at before 0 index
+
+          // traverse backwards through chars to find last prior line break to check if was num/bullet item
+          for (var i = enterIndex - 2; i >= 0; i--) {
+            if (chars[i] === '\n') {
+              priorNewlineIndex = i;
+              break;
+            }
+          }
+
+          var charFollowingLastLineBreak = chars[priorNewlineIndex + 1];
+          if (charFollowingLastLineBreak === '-') {
+            this.addBullet(enterIndex);
+          } else if ($.isNumeric(charFollowingLastLineBreak)) {
+              var numBullet = this.getBulletNumber(priorNewlineIndex + 1);
+              if (numBullet) {
+                this.addNumberedBullet(enterIndex, numBullet);
+              }
+          }
           break;
+
         case 27: // escape
           if (this.$isFullscreen) this.setFullscreen(false);
           blocked = false;
@@ -872,6 +894,26 @@
       }
 
       this.$options.onChange(this);
+    },
+    insertContent: function(index, content) {
+      var firstHalf = this.getContent().slice(0, index);
+      var secondHalf = this.getContent().slice(index + 1);
+      this.setContent(firstHalf.concat(content).concat(secondHalf));
+    },
+    addBullet: function(index) {
+      this.insertContent(index, '- \n');
+      this.setSelection(index + 2, index + 2); // Put the cursor after the bullet
+    },
+    addNumberedBullet: function(index, num) {
+      var numBullet = (num + 1) + '. \n';
+      this.insertContent(index, numBullet);
+
+      var prefixLength = num.toString().length + 2;
+      this.setSelection(index + prefixLength, index + prefixLength); // Put the cursor after the number
+    },
+    getBulletNumber: function(startIndex) {
+      var bulletNum = this.getContent().slice(startIndex).split('.')[0];
+      return $.isNumeric(bulletNum) ? parseInt(bulletNum) : null;
     },
     change: function(e) {
       this.$options.onChange(this);
