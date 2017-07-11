@@ -167,6 +167,10 @@
         this.$textarea.css('resize', this.$options.resize);
       }
 
+      // Re-attach markdown data
+      this.$textarea.data('markdown', this);
+    },
+    __setEventListeners: function() {
       this.$textarea.on({
         'focus': $.proxy(this.focus, this),
         'keyup': $.proxy(this.keyup, this),
@@ -181,9 +185,6 @@
       if (this.eventSupported('keypress')) {
         this.$textarea.on('keypress', $.proxy(this.keypress, this));
       }
-
-      // Re-attach markdown data
-      this.$textarea.data('markdown', this);
     },
     __handle: function(e) {
       var target = $(e.currentTarget),
@@ -418,6 +419,7 @@
         this.$oldContent = this.getContent();
 
         this.__setListener();
+        this.__setEventListeners();
 
         // Set editor attributes, data short-hand API and listener
         this.$editor.attr('id', (new Date()).getTime());
