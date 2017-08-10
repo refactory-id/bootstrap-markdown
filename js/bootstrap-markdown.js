@@ -167,6 +167,10 @@
         this.$textarea.css('resize', this.$options.resize);
       }
 
+      // Re-attach markdown data
+      this.$textarea.data('markdown', this);
+    },
+    __setEventListeners: function() {
       this.$textarea.on({
         'focus': $.proxy(this.focus, this),
         'keyup': $.proxy(this.keyup, this),
@@ -181,9 +185,6 @@
       if (this.eventSupported('keypress')) {
         this.$textarea.on('keypress', $.proxy(this.keypress, this));
       }
-
-      // Re-attach markdown data
-      this.$textarea.data('markdown', this);
     },
     __handle: function(e) {
       var target = $(e.currentTarget),
@@ -418,6 +419,7 @@
         this.$oldContent = this.getContent();
 
         this.__setListener();
+        this.__setEventListeners();
 
         // Set editor attributes, data short-hand API and listener
         this.$editor.attr('id', (new Date()).getTime());
@@ -856,7 +858,29 @@
 
         case 13: // enter
           blocked = false;
+          var chars = this.getContent().split('');
+          var enterIndex = this.getSelection().start;
+          var priorNewlineIndex = -1; // initial line break at before 0 index
+
+          // traverse backwards through chars to find last prior line break to check if was num/bullet item
+          for (var i = enterIndex - 2; i >= 0; i--) {
+            if (chars[i] === '\n') {
+              priorNewlineIndex = i;
+              break;
+            }
+          }
+
+          var charFollowingLastLineBreak = chars[priorNewlineIndex + 1];
+          if (charFollowingLastLineBreak === '-') {
+            this.addBullet(enterIndex);
+          } else if ($.isNumeric(charFollowingLastLineBreak)) {
+              var numBullet = this.getBulletNumber(priorNewlineIndex + 1);
+              if (numBullet) {
+                this.addNumberedBullet(enterIndex, numBullet);
+              }
+          }
           break;
+
         case 27: // escape
           if (this.$isFullscreen) this.setFullscreen(false);
           blocked = false;
@@ -872,6 +896,26 @@
       }
 
       this.$options.onChange(this);
+    },
+    insertContent: function(index, content) {
+      var firstHalf = this.getContent().slice(0, index);
+      var secondHalf = this.getContent().slice(index + 1);
+      this.setContent(firstHalf.concat(content).concat(secondHalf));
+    },
+    addBullet: function(index) {
+      this.insertContent(index, '- \n');
+      this.setSelection(index + 2, index + 2); // Put the cursor after the bullet
+    },
+    addNumberedBullet: function(index, num) {
+      var numBullet = (num + 1) + '. \n';
+      this.insertContent(index, numBullet);
+
+      var prefixLength = num.toString().length + 2;
+      this.setSelection(index + prefixLength, index + prefixLength); // Put the cursor after the number
+    },
+    getBulletNumber: function(startIndex) {
+      var bulletNum = this.getContent().slice(startIndex).split('.')[0];
+      return $.isNumeric(bulletNum) ? parseInt(bulletNum) : null;
     },
     change: function(e) {
       this.$options.onChange(this);
