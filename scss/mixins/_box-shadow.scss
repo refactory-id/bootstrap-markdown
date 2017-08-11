@@ -1,0 +1,8 @@
+//
+// box-shadow
+//
+
+@mixin box-shadow($param1,$param2) {
+    -webkit-box-shadow: $param1,$param2; // iOS <4.3 & Android <4.1
+    box-shadow: $param1,$param2;
+}

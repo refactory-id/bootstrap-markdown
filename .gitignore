@@ -2,3 +2,5 @@ bower_components
 .DS_Store
 node_modules/*
 .idea
+scss/bootstrap-markdown.css
+scss/bootstrap-markdown.css.map
