@@ -565,7 +565,7 @@
       this.disableButtons('all').enableButtons('cmdPreview');
 
       // Try to get the content from callback
-      callbackContent = options.onPreview(this);
+      callbackContent = options.onPreview(this, replacementContainer);
       // Set the content based from the callback content if string otherwise parse value from textarea
       content = typeof callbackContent == 'string' ? callbackContent : this.parseContent();
 
