@@ -493,7 +493,7 @@
                   });
             };
           }
-          this.$textarea.addClass('dropzone');
+          this.$editor.addClass('dropzone');
           this.$editor.dropzone(options.dropZoneOptions);
         } else {
           console.log('dropZoneOptions was configured, but DropZone was not detected.');
