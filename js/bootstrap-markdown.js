@@ -509,9 +509,13 @@
           $.each(e.originalEvent.dataTransfer.files, function(index, file){
             var fileReader = new FileReader();
               fileReader.onload = (function(file) {
+                 var type = file.type.split('/')[0];
                  return function(e) {
                     var text = textarea.val();
-                    textarea.val(text.substring(0, caretPos) + '\n<img src="'+ e.target.result  +'" />\n' + text.substring(caretPos) );
+                    if (type === 'image')
+                      textarea.val(text.substring(0, caretPos) + '\n<img src="'+ e.target.result  +'" />\n' + text.substring(caretPos) );
+                    else
+                      textarea.val(text.substring(0, caretPos) + '\n<a href="'+ e.target.result  +'">Download ' + file.name + '</a>\n' + text.substring(caretPos) );
                  };
               })(file);
             fileReader.readAsDataURL(file);
