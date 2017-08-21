@@ -628,6 +628,11 @@
 
       return this;
     },
+    setPreview: function(content) {
+      var container = this.$editor.find('div[data-provider="markdown-preview"]');
+      container.html(content);
+      return this;
+    },
     isDirty: function() {
       return this.$oldContent != this.getContent();
     },
