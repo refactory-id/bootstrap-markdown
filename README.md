@@ -1,13 +1,15 @@
 ## Bootstrap Markdown
 
-Markdown editing meet Bootstrap.
+Markdown editing meets Bootstrap.
 
-| Version | Compatibility with Bootstrap |
+Demo and documentation available at [http://toopay.github.io/bootstrap-markdown/](http://toopay.github.io/bootstrap-markdown/)
+
+### Compatibility
+
+| Version | Compatibility |
 | :---: | :---: |
-| Bootstrap Markdown v2.x | **only** compatible with Bootstrap 3.x |
-| Bootstrap Markdown v1.x | **only** compatible with Bootstrap 2.x |
-
-Demo and documentation on [http://toopay.github.io/bootstrap-markdown/](http://toopay.github.io/bootstrap-markdown/)
+| v2.x | **only** Bootstrap 3.x |
+| v1.x | **only** Bootstrap 2.x |
 
 ### LICENSE
 
