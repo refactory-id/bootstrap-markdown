@@ -18,13 +18,13 @@
  * ========================================================== */
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-    //RequireJS
+    // RequireJS
     define(["jquery"], factory);
   } else if (typeof exports === 'object') {
-    //Backbone.js
+    // Backbone.js
     factory(require('jquery'));
   } else {
-    //Jquery plugin
+    // jQuery plugin
     factory(jQuery);
   }
 }(function($) {
@@ -149,7 +149,7 @@
             callback.push(button.callback);
           }
 
-          // Attach the button group into container dom
+          // Attach the button group into container DOM
           container.append(btnGroupContainer);
         }
       }
@@ -282,12 +282,12 @@
           // iterate the additional button groups
           $.each(options.additionalButtons[0], function(idx, buttonGroup) {
 
-            // see if the group name of the addional group matches an existing group
+            // see if the group name of the additional group matches an existing group
             var matchingGroups = $.grep(allBtnGroups, function(allButtonGroup, allIdx) {
               return allButtonGroup.name === buttonGroup.name;
             });
 
-            // if it matches add the addional buttons to that group, if not just add it to the all buttons group
+            // if it matches add the additional buttons to that group, if not just add it to the all buttons group
             if (matchingGroups.length > 0) {
               matchingGroups[0].data = matchingGroups[0].data.concat(buttonGroup.data);
             } else {
@@ -352,7 +352,7 @@
             editable.attrValues.push(this.nodeValue);
           });
 
-          // Set editor to blocked the original container
+          // Set editor to block the original container
           container.replaceWith(editor);
         }
 
@@ -558,19 +558,19 @@
         callbackContent;
 
       if (this.$isPreview === true) {
-        // Avoid sequenced element creation on missused scenario
+        // Avoid sequenced element creation on misused scenario
         // @see https://github.com/toopay/bootstrap-markdown/issues/170
         return this;
       }
 
-      // Give flag that tell the editor enter preview mode
+      // Give flag that tells the editor to enter preview mode
       this.$isPreview = true;
       // Disable all buttons
       this.disableButtons('all').enableButtons('cmdPreview');
 
       // Try to get the content from callback
       callbackContent = options.onPreview(this, replacementContainer);
-      // Set the content based from the callback content if string otherwise parse value from textarea
+      // Set the content based on the callback content if string, otherwise parse value from textarea
       content = typeof callbackContent == 'string' ? callbackContent : this.parseContent();
 
       // Build preview element
@@ -609,7 +609,7 @@
       return this;
     },
     hidePreview: function() {
-      // Give flag that tell the editor quit preview mode
+      // Give flag that tells the editor to quit preview mode
       this.$isPreview = false;
 
       // Obtain the preview container
@@ -623,7 +623,7 @@
       // Disable configured disabled buttons
       this.disableButtons(this.$options.disabledButtons);
 
-      // Perform any callback
+      // Perform any callbacks
       this.$options.onPreviewEnd(this);
 
       // Back to the editor
@@ -843,12 +843,12 @@
 
             blocked = true;
           } else {
-            // The next tab memory contains nothing...
+            // The next tab's memory contains nothing...
             // check the cursor position to determine tab action
             var cursor = this.getSelection();
 
             if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
-              // The cursor already reach the end of the content
+              // The cursor has reached the end of the content
               blocked = false;
             } else {
               // Put the cursor to the end
@@ -864,9 +864,9 @@
           blocked = false;
           var chars = this.getContent().split('');
           var enterIndex = this.getSelection().start;
-          var priorNewlineIndex = -1; // initial line break at before 0 index
+          var priorNewlineIndex = -1; // initial line break at before index 0
 
-          // traverse backwards through chars to find last prior line break to check if was num/bullet item
+          // traverse backwards through chars to check if last line break was num/bullet item
           for (var i = enterIndex - 2; i >= 0; i--) {
             if (chars[i] === '\n') {
               priorNewlineIndex = i;
@@ -1450,7 +1450,7 @@
               content;
 
             if (isPreview === false) {
-              // Give flag that tell the editor enter preview mode
+              // Give flag that tells the editor to enter preview mode
               e.showPreview();
             } else {
               e.hidePreview();
