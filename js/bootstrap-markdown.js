@@ -1040,6 +1040,7 @@
             glyph: 'glyphicon glyphicon-bold',
             fa: 'fa fa-bold',
             'fa-3': 'icon-bold',
+            'fa-5': 'fas fa-bold',
             octicons: 'octicon octicon-bold'
           },
           callback: function(e) {
@@ -1076,6 +1077,7 @@
             glyph: 'glyphicon glyphicon-italic',
             fa: 'fa fa-italic',
             'fa-3': 'icon-italic',
+            'fa-5': 'fas fa-italic',
             octicons: 'octicon octicon-italic'
           },
           callback: function(e) {
@@ -1112,6 +1114,7 @@
             glyph: 'glyphicon glyphicon-header',
             fa: 'fa fa-header',
             'fa-3': 'icon-font',
+            'fa-5': 'fas fa-heading',
             octicons: 'octicon octicon-text-size'
           },
           callback: function(e) {
@@ -1156,6 +1159,7 @@
             glyph: 'glyphicon glyphicon-link',
             fa: 'fa fa-link',
             'fa-3': 'icon-link',
+            'fa-5': 'fas fa-link',
             octicons: 'octicon octicon-link'
           },
           callback: function(e) {
@@ -1193,6 +1197,7 @@
             glyph: 'glyphicon glyphicon-picture',
             fa: 'fa fa-picture-o',
             'fa-3': 'icon-picture',
+            'fa-5': 'far fa-image',
             octicons: 'octicon octicon-file-media'
           },
           callback: function(e) {
@@ -1236,6 +1241,7 @@
             glyph: 'glyphicon glyphicon-list',
             fa: 'fa fa-list',
             'fa-3': 'icon-list-ul',
+            'fa-5': 'fas fa-list-ul',
             octicons: 'octicon octicon-list-unordered'
           },
           callback: function(e) {
@@ -1287,6 +1293,7 @@
             glyph: 'glyphicon glyphicon-th-list',
             fa: 'fa fa-list-ol',
             'fa-3': 'icon-list-ol',
+            'fa-5': 'fas fa-list-ol',
             octicons: 'octicon octicon-list-ordered'
           },
           callback: function(e) {
@@ -1340,6 +1347,7 @@
             glyph: 'glyphicon glyphicon-console',
             fa: 'fa fa-code',
             'fa-3': 'icon-code',
+            'fa-5': 'fas fa-code',
             octicons: 'octicon octicon-code'
           },
           callback: function(e) {
@@ -1384,6 +1392,7 @@
             glyph: 'glyphicon glyphicon-comment',
             fa: 'fa fa-quote-left',
             'fa-3': 'icon-quote-left',
+            'fa-5': 'fas fa-quote-left',
             octicons: 'octicon octicon-quote'
           },
           callback: function(e) {
@@ -1442,6 +1451,7 @@
             glyph: 'glyphicon glyphicon-search',
             fa: 'fa fa-search',
             'fa-3': 'icon-search',
+            'fa-5': 'fas fa-search',
             octicons: 'octicon octicon-search'
           },
           callback: function(e) {
@@ -1474,6 +1484,7 @@
             fa: 'fa fa-expand',
             glyph: 'glyphicon glyphicon-fullscreen',
             'fa-3': 'icon-resize-full',
+            'fa-5': 'fas fa-expand-arrows-alt',
             octicons: 'octicon octicon-link-external'
           }
         },
@@ -1483,6 +1494,7 @@
             fa: 'fa fa-compress',
             glyph: 'glyphicon glyphicon-fullscreen',
             'fa-3': 'icon-resize-small',
+            'fa-5': 'fas fa-compress',
             octicons: 'octicon octicon-browser'
           }
         }
