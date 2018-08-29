@@ -874,6 +874,10 @@
             }
           }
 
+          if (chars.slice(priorNewlineIndex + 1, priorNewlineIndex + 4).join('') == '---') {
+            break;
+          }
+
           var charFollowingLastLineBreak = chars[priorNewlineIndex + 1];
           if (charFollowingLastLineBreak === '-') {
             this.addBullet(enterIndex);
