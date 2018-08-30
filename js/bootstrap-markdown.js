@@ -106,7 +106,7 @@
           var z,
             buttons = btnGroups[y].data,
             btnGroupContainer = $('<div/>', {
-              'class': 'btn-group'
+              'class': 'btn-group mr-2'
             });
 
           for (z = 0; z < buttons.length; z++) {
@@ -122,9 +122,9 @@
 
             // Construct the button object
             buttonContainer = $('<button></button>');
-            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
+            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-secondary btn-sm').addClass(btnClass);
             if (btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)) {
-              buttonContainer.removeClass('btn-default');
+              buttonContainer.removeClass('btn-default btn-secondary');
             }
             buttonContainer.attr({
               'type': 'button',
@@ -1025,7 +1025,7 @@
     width: 'inherit',
     height: 'inherit',
     resize: 'none',
-    iconlibrary: 'glyph',
+    iconlibrary: 'fa',
     language: 'en',
     initialstate: 'editor',
     parser: null,
@@ -1041,7 +1041,6 @@
           hotkey: 'Ctrl+B',
           title: 'Bold',
           icon: {
-            glyph: 'glyphicon glyphicon-bold',
             fa: 'fa fa-bold',
             'fa-3': 'icon-bold',
             'fa-5': 'fas fa-bold',
@@ -1078,7 +1077,6 @@
           title: 'Italic',
           hotkey: 'Ctrl+I',
           icon: {
-            glyph: 'glyphicon glyphicon-italic',
             fa: 'fa fa-italic',
             'fa-3': 'icon-italic',
             'fa-5': 'fas fa-italic',
@@ -1115,7 +1113,6 @@
           title: 'Heading',
           hotkey: 'Ctrl+H',
           icon: {
-            glyph: 'glyphicon glyphicon-header',
             fa: 'fa fa-header',
             'fa-3': 'icon-font',
             'fa-5': 'fas fa-heading',
@@ -1160,7 +1157,6 @@
           title: 'URL/Link',
           hotkey: 'Ctrl+L',
           icon: {
-            glyph: 'glyphicon glyphicon-link',
             fa: 'fa fa-link',
             'fa-3': 'icon-link',
             'fa-5': 'fas fa-link',
@@ -1198,7 +1194,6 @@
           title: 'Image',
           hotkey: 'Ctrl+G',
           icon: {
-            glyph: 'glyphicon glyphicon-picture',
             fa: 'fa fa-picture-o',
             'fa-3': 'icon-picture',
             'fa-5': 'far fa-image',
@@ -1242,7 +1237,6 @@
           hotkey: 'Ctrl+U',
           title: 'Unordered List',
           icon: {
-            glyph: 'glyphicon glyphicon-list',
             fa: 'fa fa-list',
             'fa-3': 'icon-list-ul',
             'fa-5': 'fas fa-list-ul',
@@ -1294,7 +1288,6 @@
           hotkey: 'Ctrl+O',
           title: 'Ordered List',
           icon: {
-            glyph: 'glyphicon glyphicon-th-list',
             fa: 'fa fa-list-ol',
             'fa-3': 'icon-list-ol',
             'fa-5': 'fas fa-list-ol',
@@ -1348,7 +1341,6 @@
           hotkey: 'Ctrl+K',
           title: 'Code',
           icon: {
-            glyph: 'glyphicon glyphicon-console',
             fa: 'fa fa-code',
             'fa-3': 'icon-code',
             'fa-5': 'fas fa-code',
@@ -1393,7 +1385,6 @@
           hotkey: 'Ctrl+Q',
           title: 'Quote',
           icon: {
-            glyph: 'glyphicon glyphicon-comment',
             fa: 'fa fa-quote-left',
             'fa-3': 'icon-quote-left',
             'fa-5': 'fas fa-quote-left',
@@ -1452,7 +1443,6 @@
           btnText: 'Preview',
           btnClass: 'btn btn-primary btn-sm',
           icon: {
-            glyph: 'glyphicon glyphicon-search',
             fa: 'fa fa-search',
             'fa-3': 'icon-search',
             'fa-5': 'fas fa-search',
@@ -1486,7 +1476,6 @@
           name: "fullscreenOn",
           icon: {
             fa: 'fa fa-expand',
-            glyph: 'glyphicon glyphicon-fullscreen',
             'fa-3': 'icon-resize-full',
             'fa-5': 'fas fa-expand-arrows-alt',
             octicons: 'octicon octicon-link-external'
@@ -1496,7 +1485,6 @@
           name: "fullscreenOff",
           icon: {
             fa: 'fa fa-compress',
-            glyph: 'glyphicon glyphicon-fullscreen',
             'fa-3': 'icon-resize-small',
             'fa-5': 'fas fa-compress',
             octicons: 'octicon octicon-browser'
