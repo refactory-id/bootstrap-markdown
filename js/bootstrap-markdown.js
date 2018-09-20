@@ -486,7 +486,7 @@
                   });
               this.on('success', function(file, path) {
                   var text = textarea.val();
-                  textarea.val(text.substring(0, caretPos) + '\n![description](' + path + ')\n' + text.substring(caretPos));
+                  textarea.val(text.substring(0, caretPos) + '\n![description](' + path.url + ')\n' + text.substring(caretPos));
                   });
               this.on('error', function(file, error, xhr) {
                   console.log('Error:', error);
