@@ -95,8 +95,28 @@
     __buildButtons: function(buttonsArray, container) {
       var i,
         ns = this.$ns,
+        buttonSize = this.$options.buttonSize,
         handler = this.$handler,
         callback = this.$callback;
+
+        if( typeof buttonSize !== 'undefined') {
+          switch(buttonSize){
+            case 'large':
+              buttonSize = ' btn-group-lg';
+            break;
+            case 'normal':
+              buttonSize = '';
+            break;
+            case 'small':
+              buttonSize = ' btn-group-sm';
+            break;
+            default:
+              buttonSize = ' btn-group-sm';
+            break;
+          }
+        }else{
+          buttonSize = ' btn-group-sm';
+        }
 
       for (i = 0; i < buttonsArray.length; i++) {
         // Build each group container
@@ -106,7 +126,7 @@
           var z,
             buttons = btnGroups[y].data,
             btnGroupContainer = $('<div/>', {
-              'class': 'btn-group'
+              'class': 'btn-group' + buttonSize
             });
 
           for (z = 0; z < buttons.length; z++) {
@@ -122,7 +142,7 @@
 
             // Construct the button object
             buttonContainer = $('<button></button>');
-            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
+            buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default').addClass(btnClass);
             if (btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)) {
               buttonContainer.removeClass('btn-default');
             }
@@ -1450,7 +1470,7 @@
           hotkey: 'Ctrl+P',
           title: 'Preview',
           btnText: 'Preview',
-          btnClass: 'btn btn-primary btn-sm',
+          btnClass: 'btn btn-primary',
           icon: {
             glyph: 'glyphicon glyphicon-search',
             fa: 'fa fa-search',
