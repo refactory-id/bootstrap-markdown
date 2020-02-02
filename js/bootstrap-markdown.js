@@ -880,12 +880,32 @@
 
           var charFollowingLastLineBreak = chars[priorNewlineIndex + 1];
           if (charFollowingLastLineBreak === '-') {
-            this.addBullet(enterIndex);
+            var line = chars.slice(priorNewlineIndex + 2, enterIndex).join('');
+            var allWhitespace = /^[\W]*$/.test(line);
+            if (allWhitespace) {
+              // If we hit enter on a empty line, we probably want to close the bullet list
+              var linesDeleted = line.length + 2;
+              this.setSelection(priorNewlineIndex, enterIndex);
+              this.replaceSelection("\n\n");
+              this.setSelection(enterIndex + 2 - linesDeleted, enterIndex + 2 - linesDeleted); // Put the cursor into new line
+            } else {
+              this.addBullet(enterIndex);
+            }
           } else if ($.isNumeric(charFollowingLastLineBreak)) {
-              var numBullet = this.getBulletNumber(priorNewlineIndex + 1);
-              if (numBullet) {
+            var numBullet = this.getBulletNumber(priorNewlineIndex + 1);
+            if (numBullet) {
+              var line = chars.slice(priorNewlineIndex + 1, enterIndex).join('');
+              var allWhitespace = (new RegExp('^' + numBullet + '\\.[\\W]*$')).test(line);
+              if (allWhitespace) {
+                // If we hit enter on a empty line, we probably want to close the numbered bullet list
+                var linesDeleted = line.length;
+                this.setSelection(priorNewlineIndex, enterIndex);
+                this.replaceSelection("\n\n");
+                this.setSelection(enterIndex + 1 - linesDeleted, enterIndex + 1 - linesDeleted); // Put the cursor into new line
+              } else {
                 this.addNumberedBullet(enterIndex, numBullet);
               }
+            }
           }
           break;
 
@@ -918,7 +938,7 @@
       var numBullet = (num + 1) + '. \n';
       this.insertContent(index, numBullet);
 
-      var prefixLength = num.toString().length + 2;
+      var prefixLength = (num + 1).toString().length + 2;
       this.setSelection(index + prefixLength, index + prefixLength); // Put the cursor after the number
     },
     getBulletNumber: function(startIndex) {
