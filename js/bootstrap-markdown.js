@@ -938,7 +938,7 @@
       var numBullet = (num + 1) + '. \n';
       this.insertContent(index, numBullet);
 
-      var prefixLength = num.toString().length + 2;
+      var prefixLength = (num + 1).toString().length + 2;
       this.setSelection(index + prefixLength, index + prefixLength); // Put the cursor after the number
     },
     getBulletNumber: function(startIndex) {
