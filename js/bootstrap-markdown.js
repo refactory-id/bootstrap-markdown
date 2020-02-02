@@ -892,10 +892,20 @@
               this.addBullet(enterIndex);
             }
           } else if ($.isNumeric(charFollowingLastLineBreak)) {
-              var numBullet = this.getBulletNumber(priorNewlineIndex + 1);
-              if (numBullet) {
+            var numBullet = this.getBulletNumber(priorNewlineIndex + 1);
+            if (numBullet) {
+              var line = chars.slice(priorNewlineIndex + 1, enterIndex).join('');
+              var allWhitespace = (new RegExp('^' + numBullet + '\\.[\\W]*$')).test(line);
+              if (allWhitespace) {
+                // If we hit enter on a empty line, we probably want to close the numbered bullet list
+                var linesDeleted = line.length;
+                this.setSelection(priorNewlineIndex, enterIndex);
+                this.replaceSelection("\n\n");
+                this.setSelection(enterIndex + 1 - linesDeleted, enterIndex + 1 - linesDeleted); // Put the cursor into new line
+              } else {
                 this.addNumberedBullet(enterIndex, numBullet);
               }
+            }
           }
           break;
 
