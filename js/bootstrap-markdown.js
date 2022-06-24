@@ -540,6 +540,8 @@
         content = markdown.toHTML(val);
       } else if (typeof marked == 'function') {
         content = marked(val);
+      } else if (typeof marked == 'object') {
+        content = marked.parse(val);
       } else {
         content = val;
       }
